@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/widgets/legaue_tile.dart';
 
 class FixtureScreen extends StatelessWidget {
   const FixtureScreen({super.key});
@@ -9,7 +10,9 @@ class FixtureScreen extends StatelessWidget {
       length: 7,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           toolbarHeight: 40,
+          centerTitle: true,
           leading: const Icon(Icons.calendar_month),
           title: const Text(
             'Fixtures',
@@ -34,10 +37,15 @@ class FixtureScreen extends StatelessWidget {
             height: 1500,
             child: TabBarView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 13, right: 13, bottom: 13, top: 25),
-                  child: Column(),
+                Column(
+                  children: const [
+                    LeagueTile(),
+                    LeagueTile(),
+                    LeagueTile(),
+                    LeagueTile(),
+                    LeagueTile(),
+                    LeagueTile(),
+                  ],
                 ),
               ],
             ),
