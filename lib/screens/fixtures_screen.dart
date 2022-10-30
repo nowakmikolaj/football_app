@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/widgets/legaue_tile.dart';
+import 'package:football_app/providers/leagues_provider.dart';
+import 'package:football_app/widgets/league_tile.dart';
 
-class FixtureScreen extends StatelessWidget {
+import '../models/league.dart';
+
+class FixtureScreen extends StatefulWidget {
   const FixtureScreen({super.key});
+
+  @override
+  State<FixtureScreen> createState() => _FixtureScreenState();
+}
+
+class _FixtureScreenState extends State<FixtureScreen> {
+  final LeaguesProvider _leaguesProvider = LeaguesProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +42,51 @@ class FixtureScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: 1500,
-            child: TabBarView(
-              children: [
-                Column(
-                  children: const [
-                    LeagueTile(),
-                    LeagueTile(),
-                    LeagueTile(),
-                    LeagueTile(),
-                    LeagueTile(),
-                    LeagueTile(),
-                  ],
-                ),
-              ],
-            ),
-          ),
+        body: FutureBuilder(
+          future: _leaguesProvider.fetchLeagues(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              print((snapshot.data)?.length);
+              return LeagueListBuilder(leagues: snapshot.data);
+            } else {
+              return const Center();
+            }
+          }),
         ),
       ),
+    );
+  }
+}
+
+class LeagueListBuilder extends StatelessWidget {
+  const LeagueListBuilder({
+    Key? key,
+    required this.leagues,
+  }) : super(key: key);
+
+  final List<League>? leagues;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: ListView.builder(
+        itemCount: leagues?.length,
+        itemBuilder: (context, i) => LeagueTile(
+          key: ValueKey(leagues![i].leagueId),
+          league: leagues![i],
+        ),
+      ),
+
+      // SizedBox(
+      //   height: 1500,
+      //   child: TabBarView(
+      //     children: [
+      //       Column(
+
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

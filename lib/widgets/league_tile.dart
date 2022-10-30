@@ -5,7 +5,7 @@ import '../models/league.dart';
 class LeagueTile extends StatelessWidget {
   const LeagueTile({
     super.key,
-    this.league,
+    required this.league,
   });
 
   final League? league;
@@ -20,16 +20,16 @@ class LeagueTile extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Text(
-              'Premier League',
-              style: TextStyle(
+              league!.name,
+              style: const TextStyle(
                 color: Colors.amber,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               color: Colors.amber,
               size: 15,
