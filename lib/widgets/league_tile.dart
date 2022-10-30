@@ -21,10 +21,11 @@ class LeagueTile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            league!.logo,
             Text(
               league!.name,
               style: const TextStyle(
-                color: Colors.amber,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),

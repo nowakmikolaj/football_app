@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:football_app/providers/leagues_provider.dart';
 import 'package:football_app/widgets/league_tile.dart';
@@ -12,7 +14,18 @@ class FixtureScreen extends StatefulWidget {
 }
 
 class _FixtureScreenState extends State<FixtureScreen> {
-  final LeaguesProvider _leaguesProvider = LeaguesProvider();
+  List<League> _leagues = [];
+
+  Future<void> _fetchLeagues() async {
+    final leagues = await LeaguesProvider.fetchLeagues();
+    setState(() => _leagues = leagues);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    LeaguesProvider.fetchLeagues();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +55,26 @@ class _FixtureScreenState extends State<FixtureScreen> {
             ],
           ),
         ),
-        body: FutureBuilder(
-          future: _leaguesProvider.fetchLeagues(),
-          builder: ((context, snapshot) {
-            if (snapshot.hasData) {
-              print((snapshot.data)?.length);
-              return LeagueListBuilder(leagues: snapshot.data);
-            } else {
-              return const Center();
-            }
+        body: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.trackpad,
+            PointerDeviceKind.stylus,
           }),
+          child: RefreshIndicator(
+            onRefresh: _fetchLeagues,
+            child: ListView.builder(
+              itemCount: _leagues.length,
+              itemBuilder: (context, index) {
+                final league = _leagues[index];
+                return LeagueTile(
+                  league: league,
+                  key: ValueKey(league.leagueId),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -68,25 +91,12 @@ class LeagueListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView.builder(
-        itemCount: leagues?.length,
-        itemBuilder: (context, i) => LeagueTile(
-          key: ValueKey(leagues![i].leagueId),
-          league: leagues![i],
+    return ListView(
+      children: [
+        ...leagues!.map(
+          (e) => LeagueTile(league: e),
         ),
-      ),
-
-      // SizedBox(
-      //   height: 1500,
-      //   child: TabBarView(
-      //     children: [
-      //       Column(
-
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      ],
     );
   }
 }
