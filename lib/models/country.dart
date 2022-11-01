@@ -1,5 +1,5 @@
 class Country {
-  String? name;
+  String name;
   String? code;
   String flag;
 

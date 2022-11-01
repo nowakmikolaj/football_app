@@ -37,6 +37,8 @@ class LeaguesProvider extends InheritedWidget {
           leagues[i]['league'], Country.fromJson(leagues[i]['country'])));
     }
 
+    fetchedLeagues.sort((a, b) => a.compareTo(b));
+
     leagues = fetchedLeagues;
     return fetchedLeagues;
   }

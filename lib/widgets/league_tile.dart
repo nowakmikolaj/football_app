@@ -13,21 +13,51 @@ class LeagueTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey)),
+      margin: const EdgeInsets.only(left: 20, right: 20),
+      decoration: BoxDecoration(
+        // border: const Border(bottom: BorderSide(color: Colors.grey)),
+        color: Colors.black45,
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 15,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            league!.logo,
-            Text(
-              league!.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: league!.logo,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      league!.country!.name,
+                      style: const TextStyle(
+                        overflow: TextOverflow.fade,
+                        color: Colors.grey,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      league!.name,
+                      softWrap: false,
+                      style: const TextStyle(
+                        overflow: TextOverflow.fade,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const Icon(

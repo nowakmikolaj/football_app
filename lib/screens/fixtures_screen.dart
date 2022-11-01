@@ -34,25 +34,16 @@ class _FixtureScreenState extends State<FixtureScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          toolbarHeight: 40,
+          // toolbarHeight: 40,
           centerTitle: true,
           leading: const Icon(Icons.calendar_month),
           title: const Text(
             'Fixtures',
-          ),
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.white,
-            unselectedLabelColor: Colors.white.withOpacity(0.3),
-            tabs: const <BarTab>[
-              BarTab(date: "27.10"),
-              BarTab(date: "28.10"),
-              BarTab(date: "29.10"),
-              BarTab(date: "today"),
-              BarTab(date: "31.10"),
-              BarTab(date: "01.11"),
-              BarTab(date: "02.11"),
-            ],
+            style: TextStyle(
+              fontFamily: 'Baloo',
+              fontWeight: FontWeight.w700,
+              fontSize: 22,
+            ),
           ),
         ),
         body: ScrollConfiguration(
@@ -68,9 +59,12 @@ class _FixtureScreenState extends State<FixtureScreen> {
               itemCount: _leagues.length,
               itemBuilder: (context, index) {
                 final league = _leagues[index];
-                return LeagueTile(
-                  league: league,
-                  key: ValueKey(league.leagueId),
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: LeagueTile(
+                    league: league,
+                    key: ValueKey(league.leagueId),
+                  ),
                 );
               },
             ),

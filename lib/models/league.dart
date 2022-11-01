@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_app/models/country.dart';
 
-class League {
+class League implements Comparable<League> {
   int leagueId;
   String name;
   String type;
@@ -19,14 +19,21 @@ class League {
         country.flag == ''
             ? Image.network(
                 json['logo'],
-                width: 32,
-                height: 32,
               )
             : SvgPicture.network(
                 country.flag,
-                width: 32,
-                height: 32,
               ),
         country);
+  }
+
+  @override
+  int compareTo(other) {
+    final res = country!.name.compareTo(other.country!.name);
+
+    if (res == 0) {
+      return leagueId.compareTo(other.leagueId);
+    } else {
+      return res;
+    }
   }
 }
