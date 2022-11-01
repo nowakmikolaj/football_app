@@ -10,4 +10,5 @@ class FootballApi {
   };
 
   static final leaguesUrl = Uri.parse('${apiUrl}leagues');
+  static final countriesUrl = Uri.parse('${apiUrl}countries');
 }

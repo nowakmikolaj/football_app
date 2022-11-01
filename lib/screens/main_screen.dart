@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/screens/fixtures_screen.dart';
+import 'package:football_app/screens/countries_screen.dart';
 import 'package:football_app/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> widgets = <Widget>[
-    const FixtureScreen(),
+    const CountriesScreen(),
     const ProfileScreen(),
   ];
 

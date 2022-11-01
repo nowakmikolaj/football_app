@@ -1,29 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_app/models/country.dart';
 
 class League implements Comparable<League> {
   int leagueId;
   String name;
   String type;
-  Widget logo;
+  String logo;
   Country? country;
 
-  League(this.leagueId, this.name, this.type, this.logo, this.country);
+  League(
+    this.leagueId,
+    this.name,
+    this.type,
+    this.logo,
+    this.country,
+  );
 
-  factory League.fromJson(Map<String, dynamic> json, Country country) {
+  factory League.fromJson(
+    Map<String, dynamic> json,
+    Country country,
+  ) {
     return League(
-        json['id'],
-        json['name'],
-        json['type'],
-        country.flag == ''
-            ? Image.network(
-                json['logo'],
-              )
-            : SvgPicture.network(
-                country.flag,
-              ),
-        country);
+      json['id'],
+      json['name'],
+      json['type'],
+      json['logo'],
+      country,
+    );
   }
 
   @override

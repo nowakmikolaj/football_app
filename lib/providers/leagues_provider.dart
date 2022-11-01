@@ -7,11 +7,11 @@ import '../models/country.dart';
 import '../models/league.dart';
 
 class LeaguesProvider extends InheritedWidget {
-  const LeaguesProvider(
+  const LeaguesProvider({
     Key? key,
-    Widget child,
-    this.leagues,
-  ) : super(
+    required Widget child,
+    required this.leagues,
+  }) : super(
           key: key,
           child: child,
         );

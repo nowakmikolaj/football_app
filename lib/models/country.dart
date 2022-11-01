@@ -1,4 +1,4 @@
-class Country {
+class Country implements Comparable<Country> {
   String name;
   String? code;
   String flag;
@@ -15,5 +15,10 @@ class Country {
       json['code'],
       json['flag'] ?? '',
     );
+  }
+
+  @override
+  int compareTo(Country other) {
+    return name.compareTo(other.name);
   }
 }

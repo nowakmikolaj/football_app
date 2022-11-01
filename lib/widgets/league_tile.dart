@@ -30,7 +30,7 @@ class LeagueTile extends StatelessWidget {
             SizedBox(
               width: 32,
               height: 32,
-              child: league!.logo,
+              child: Image.network(league!.logo),
             ),
             Expanded(
               child: Padding(
