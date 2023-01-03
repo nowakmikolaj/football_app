@@ -5,18 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/country.dart';
 
-class CountriesProvider extends InheritedWidget {
-  const CountriesProvider({
-    Key? key,
-    required Widget child,
-    required this.countries,
-  }) : super(
-          key: key,
-          child: child,
-        );
-
-  final List<Country> countries;
-
+class CountriesProvider {
   static Future<List<Country>> fetchCountries() async {
     http.Response response = await http.get(
       FootballApi.countriesUrl,
@@ -29,7 +18,7 @@ class CountriesProvider extends InheritedWidget {
     var countries = res['response'];
     List<Country> fetchedCountries = [];
 
-    print('Remaining requests: ${requestsLeft}');
+    print('[countries] Remaining requests: ${requestsLeft}');
 
     for (int i = 0; i < countries.length; i++) {
       fetchedCountries.add(Country.fromJson(countries[i]));
@@ -42,12 +31,4 @@ class CountriesProvider extends InheritedWidget {
     countries = fetchedCountries;
     return fetchedCountries;
   }
-
-  @override
-  bool updateShouldNotify(CountriesProvider oldWidget) =>
-      oldWidget.countries != countries;
-
-  static List<Country> of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<CountriesProvider>()!
-      .countries;
 }

@@ -3,28 +3,34 @@ import 'package:football_app/models/country.dart';
 class League implements Comparable<League> {
   int leagueId;
   String name;
-  String type;
+  String? type;
   String logo;
   Country? country;
+  int? season;
+  String? round;
 
   League(
     this.leagueId,
     this.name,
+    this.logo, {
     this.type,
-    this.logo,
     this.country,
-  );
+    this.season = 0,
+    this.round = '',
+  });
 
   factory League.fromJson(
-    Map<String, dynamic> json,
-    Country country,
-  ) {
+    Map<String, dynamic> json, {
+    Country? country,
+  }) {
     return League(
       json['id'],
       json['name'],
-      json['type'],
       json['logo'],
-      country,
+      type: json['type'],
+      round: json['round'],
+      season: json['season'],
+      country: country,
     );
   }
 

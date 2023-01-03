@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class BarTab extends StatelessWidget {
-  const BarTab({
+class CustomTabBar extends StatelessWidget {
+  const CustomTabBar({
     Key? key,
-    required this.date,
+    required this.name,
   }) : super(key: key);
 
-  final String date;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Text(date),
+      child: Text(name),
     );
   }
 }
