@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:football_app/providers/FootballApi.dart';
-import 'package:http/http.dart' as http;
+import 'package:football_app/api/football_client.dart';
 
+import '../api/endpoints.dart';
 import '../models/country.dart';
 import '../models/fixture.dart';
 import '../models/league.dart';
@@ -10,22 +10,21 @@ import '../models/match_result.dart';
 import '../models/score.dart';
 import '../models/team.dart';
 
-class LeaguesProvider {
+class LeagueDataSource {
+  static final instance = LeagueDataSource._();
+  LeagueDataSource._();
 
-  static Future<List<League>> fetchLeagues(String country) async {
-    http.Response response = await http.get(
-      Uri.parse('${FootballApi.leaguesByCountryUrl}$country'),
-      headers: FootballApi.headers,
+  Future<List<League>> getLeaguesByCountry(String country) async {
+    final response = await FootballClient.get(
+      url: '${Endpoints.leaguesByCountryUrl}$country',
+      headers: FootballClient.headers,
     );
-
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
+    print('[leagues] Remaining requests: ${requestsLeft}');
 
     Map<String, dynamic> res = json.decode(response.body);
     var leagues = res['response'];
     List<League> fetchedLeagues = [];
-
-    print('[leagues] Remaining requests: ${requestsLeft}');
-
     for (int i = 0; i < leagues.length; i++) {
       fetchedLeagues.add(
         League.fromJson(
@@ -37,24 +36,25 @@ class LeaguesProvider {
 
     fetchedLeagues.sort((a, b) => a.compareTo(b));
 
-    leagues = fetchedLeagues;
     return fetchedLeagues;
   }
 
-  static Future<List<Fixture>> getFixtures(int leagueId,
-      {int season = 2022}) async {
-    http.Response response = await http.get(
-      FootballApi.getFixturesUrl(leagueId, season),
-      headers: FootballApi.headers,
+  Future<List<Fixture>> getFixturesByLeague({
+    required int leagueId,
+    int season = 2022,
+  }) async {
+    final response = await FootballClient.get(
+      url: Endpoints.getFixturesUrl(leagueId, season),
+      headers: FootballClient.headers,
     );
-
-    Map<String, dynamic> res = json.decode(response.body);
-    var fixtures = res['response'];
-    List<Fixture> fetchedFixtures = [];
 
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
     print('[fixtures] Remaining requests: $requestsLeft');
 
+    Map<String, dynamic> res = json.decode(response.body);
+    var fixtures = res['response'];
+
+    List<Fixture> fetchedFixtures = [];
     for (int i = 0; i < fixtures.length; i++) {
       fetchedFixtures.add(
         Fixture.fromJson(
@@ -73,8 +73,6 @@ class LeaguesProvider {
     }
 
     fetchedFixtures.sort((a, b) => a.compareTo(b));
-
-    fixtures = fetchedFixtures;
     return fetchedFixtures;
   }
 }
