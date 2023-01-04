@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/utils/fixture_status.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
 
@@ -37,13 +38,15 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           bottom: const TabBar(
             tabs: [
               CustomTabBar(name: "Standings"),
-              CustomTabBar(name: "Fixtures"),
+              CustomTabBar(name: "Finished"),
+              CustomTabBar(name: "Live"),
+              CustomTabBar(name: "Upcoming"),
             ],
           ),
           elevation: 0.0,
@@ -64,11 +67,37 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
           future: _fixtures,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              final data = List<Fixture>.from(snapshot.data ?? []);
+              data.sort(((a, b) => b.date.compareTo(a.date)));
+
+              final finishedFixtures =
+                  data.where((element) => isFinished(element)).toList();
+              // element.date.isBefore(
+              //  DateTime.now().subtract(const Duration(days: 1))))
+
+              final upcomingFixtures = List<Fixture>.from(data.reversed)
+                  .where((element) =>
+                      element.date.isAfter(
+                          DateTime.now().subtract(const Duration(days: 1))) &&
+                      isUpcoming(element))
+                  .toList();
+
+              final liveFixtures =
+                  data.where((element) => isLive(element)).toList();
               return TabBarView(
                 children: [
                   // TODO: Standings
                   Container(),
-                  FixtureList(fixtures: snapshot.data ?? []),
+                  FixtureList(
+                    fixtures: finishedFixtures,
+                    descending: true,
+                  ),
+                  FixtureList(
+                    fixtures: liveFixtures,
+                  ),
+                  FixtureList(
+                    fixtures: upcomingFixtures,
+                  ),
                 ],
               );
             } else {

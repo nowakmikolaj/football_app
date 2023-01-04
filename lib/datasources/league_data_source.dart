@@ -68,6 +68,7 @@ class LeagueDataSource {
             extraTime: Score.fromJson(fixtures[i]['score']['extratime']),
             penalty: Score.fromJson(fixtures[i]['score']['penalty']),
           ),
+          Score.fromJson(fixtures[i]['goals']),
         ),
       );
     }
