@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
-import 'package:football_app/providers/leagues_provider.dart';
+import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
 
 import '../widgets/fixture_list.dart';
@@ -22,8 +23,8 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   late Future<List<Fixture>> _fixtures;
 
   Future<void> _getFixtures() async {
-    _fixtures = LeaguesProvider.getFixtures(
-      widget.league.leagueId,
+    _fixtures = LeagueDataSource.instance.getFixturesByLeague(
+      leagueId: widget.league.leagueId,
     );
   }
 
@@ -71,9 +72,7 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
                 ],
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const CenterIndicator();
             }
           },
         ),

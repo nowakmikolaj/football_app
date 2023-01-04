@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/country.dart';
-import 'package:football_app/providers/leagues_provider.dart';
+import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/widgets/center_indicator.dart';
 import '../models/league.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/league_list.dart';
@@ -21,7 +22,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   late Future<List<League>> _leagues;
 
   Future<void> _fetchLeagues() async {
-    _leagues = LeaguesProvider.fetchLeagues(widget.country.name.toLowerCase());
+    _leagues = LeagueDataSource.instance
+        .getLeaguesByCountry(widget.country.name.toLowerCase());
     // setState(() => _leagues = leagues);
   }
 
@@ -45,9 +47,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
           if (snapshot.hasData) {
             return LeagueList(leagues: snapshot.data ?? []);
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const CenterIndicator();
           }
         },
       ),
