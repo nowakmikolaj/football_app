@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/utils/app_size.dart';
 import 'package:grouped_list/grouped_list.dart';
 import '../models/fixture.dart';
+import '../utils/assets.dart';
+import '../utils/resources.dart';
 import 'fixture_tile.dart';
 
 // TODO: zrobić pobieranie rund dla ligi i zmiana groupcomparera na podstawie indeksów w liście rund
@@ -28,23 +31,30 @@ class FixtureList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GroupedListView(
-      elements: _fixtures,
-      groupBy: (fixture) => fixture.league.round!,
-      order: descending ? GroupedListOrder.DESC : GroupedListOrder.ASC,
-      groupComparator: comparator,
-      groupSeparatorBuilder: (round) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          round,
-          textAlign: TextAlign.center,
-        ),
-      ),
-      itemBuilder: (context, fixture) => FixtureTile(
-        fixture: fixture,
-        key: ValueKey(fixture.fixtureId),
-      ),
-    );
+    return _fixtures.isNotEmpty
+        ? GroupedListView(
+            elements: _fixtures,
+            groupBy: (fixture) => fixture.league.round!,
+            order: descending ? GroupedListOrder.DESC : GroupedListOrder.ASC,
+            groupComparator: comparator,
+            itemComparator: (element1, element2) =>
+                element1.compareTo(element2),
+            groupSeparatorBuilder: (round) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                round,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            itemBuilder: (context, fixture) => FixtureTile(
+              fixture: fixture,
+              key: ValueKey(fixture.fixtureId),
+            ),
+          )
+        : const EmptyList(
+            assetImage: Assets.fixturesNotFound,
+            message: Resources.fixturesNotFound,
+          );
 
     // ListView.builder(
     //   itemCount: _fixtures.length,
@@ -59,5 +69,38 @@ class FixtureList extends StatelessWidget {
     //     );
     //   },
     // );
+  }
+}
+
+class EmptyList extends StatelessWidget {
+  const EmptyList({
+    Key? key,
+    required this.assetImage,
+    required this.message,
+  }) : super(key: key);
+
+  final String assetImage;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image(
+          image: AssetImage(assetImage),
+          width: AppSize.s200,
+          height: AppSize.s200,
+        ),
+        const SizedBox(
+          height: AppSize.s20,
+        ),
+        Text(
+          message,
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.center,
+        )
+      ],
+    );
   }
 }

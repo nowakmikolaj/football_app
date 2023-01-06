@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:football_app/api/football_client.dart';
 
 import '../api/endpoints.dart';
@@ -8,7 +7,9 @@ import '../models/fixture.dart';
 import '../models/league.dart';
 import '../models/match_result.dart';
 import '../models/score.dart';
+import '../models/standings.dart';
 import '../models/team.dart';
+import '../models/team_rank.dart';
 
 class LeagueDataSource {
   static final instance = LeagueDataSource._();
@@ -33,8 +34,6 @@ class LeagueDataSource {
         ),
       );
     }
-
-    fetchedLeagues.sort((a, b) => a.compareTo(b));
 
     return fetchedLeagues;
   }
@@ -75,5 +74,39 @@ class LeagueDataSource {
 
     fetchedFixtures.sort((a, b) => a.compareTo(b));
     return fetchedFixtures;
+  }
+
+  Future<Standings> getStandings({
+    required int leagueId,
+    int season = 2022,
+  }) async {
+    final response = await FootballClient.get(
+      url: Endpoints.getStandingsUrl(leagueId, season),
+      headers: FootballClient.headers,
+    );
+    var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
+    print('[standings] Remaining requests: ${requestsLeft}');
+
+    Map<String, dynamic> res = json.decode(response.body);
+    if (res['response'].length == 0) return const Standings(standings: []);
+
+    var league = res['response'][0]['league'];
+    var standings = league['standings'];
+
+    List<List<TeamRank>> data = [];
+    for (int j = 0; j < standings.length; j++) {
+      List<TeamRank> fetchedStandings = [];
+      for (int i = 0; i < standings[j].length; i++) {
+        fetchedStandings.add(
+          TeamRank.fromJson(standings[j][i],
+              team: Team.fromJson(
+                standings[j][i]['team'],
+              )),
+        );
+      }
+
+      data.add(fetchedStandings);
+    }
+    return Standings(standings: data);
   }
 }

@@ -17,8 +17,27 @@ class Country implements Comparable<Country> {
     );
   }
 
+  // TODO: wywalić
+  static List<String> topCountries = [
+    'England',
+    'Spain',
+    'Germany',
+    'Italy',
+    'France',
+    'Poland',
+  ];
+
   @override
   int compareTo(Country other) {
+    if (topCountries.contains(name)) {
+      if (topCountries.contains(other.name)) {
+        return name.compareTo(other.name);
+      }
+      return -1;
+    }
+
+    if (topCountries.contains(other.name)) return 1;
+
     return name.compareTo(other.name);
   }
 }

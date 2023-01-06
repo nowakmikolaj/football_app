@@ -78,7 +78,7 @@ class Fixture implements Comparable<Fixture> {
 
   @override
   int compareTo(other) {
-    final res = fixtureId.compareTo(other.fixtureId);
+    final res = date.compareTo(other.date);
     return res;
   }
 }

@@ -41,10 +41,10 @@ class _LeagueTileState extends State<LeagueTile> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
+              Image(
                 width: 32,
                 height: 32,
-                child: Container(), //Image.network(widget.league!.logo),
+                image: NetworkImage(widget.league.logo),
               ),
               Expanded(
                 child: Padding(

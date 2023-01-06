@@ -1,19 +1,16 @@
 class Endpoints {
-  
   static const leaguesByCountryUrl = 'leagues?country=';
   static const countriesUrl = 'countries';
-  static const fixturesByLeagueCurrentRoundUrl =
-      'fixtures?';
+  static const fixturesByLeagueCurrentRoundUrl = 'fixtures?';
+  static const standings = 'standings';
 
   static String getFixturesUrl(
     int leagueId,
     int season, {
     bool currentRound = false,
-  }) {
-    StringBuffer sb = StringBuffer();
-    sb.write(
-        '${fixturesByLeagueCurrentRoundUrl}league=$leagueId&season=$season');
+  }) =>
+      '${fixturesByLeagueCurrentRoundUrl}league=$leagueId&season=$season';
 
-    return sb.toString();
-  }
+  static String getStandingsUrl(int leagueId, int season) =>
+      '$standings?league=$leagueId&season=$season';
 }

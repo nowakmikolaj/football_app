@@ -44,6 +44,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
         future: _leagues,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            final data = snapshot.data ?? [];
+            data.sort(((a, b) => a.compareTo(b)));
             return LeagueList(leagues: snapshot.data ?? []);
           } else {
             return const CenterIndicator();

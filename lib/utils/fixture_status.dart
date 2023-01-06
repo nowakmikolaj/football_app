@@ -4,7 +4,6 @@ import 'package:football_app/models/fixture.dart';
 
 enum FixtureStatus {
   CANC, // Match Cancelled
-  TBD, // Time To Be Defined
   AWD, // Technical Loss
   WO, // WalkOver
   AET, // Match Finished After Extra Time
@@ -22,6 +21,7 @@ enum FixtureStatus {
   NS, // Not Started
   PST, // Match Postponed
   ABD, // Match Abandoned
+  TBD, // Time To Be Defined
 }
 
 const statusDictionary = <String, FixtureStatus>{

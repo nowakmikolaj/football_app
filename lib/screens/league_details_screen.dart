@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/fixture_status.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
+import 'package:football_app/widgets/standings_list.dart';
 
+import '../models/standings.dart';
 import '../widgets/fixture_list.dart';
 
 class LeagueDetailsScreen extends StatefulWidget {
@@ -22,9 +25,16 @@ class LeagueDetailsScreen extends StatefulWidget {
 
 class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   late Future<List<Fixture>> _fixtures;
+  late Future<Standings> _standings;
 
   Future<void> _getFixtures() async {
     _fixtures = LeagueDataSource.instance.getFixturesByLeague(
+      leagueId: widget.league.leagueId,
+    );
+  }
+
+  Future<void> _getStandings() async {
+    _standings = LeagueDataSource.instance.getStandings(
       leagueId: widget.league.leagueId,
     );
   }
@@ -33,6 +43,7 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   void initState() {
     super.initState();
     _getFixtures();
+    _getStandings();
   }
 
   @override
@@ -55,39 +66,51 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
             onTap: () => Navigator.pop(context),
             child: const Icon(Icons.arrow_back_ios),
           ),
-          title: Text(
-            widget.league.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 22,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Image(
+                  fit: BoxFit.contain,
+                  height: AppSize.s30,
+                  width: AppSize.s30,
+                  image: NetworkImage(widget.league.logo),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.league.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         body: FutureBuilder(
-          future: _fixtures,
-          builder: (context, snapshot) {
+          future: Future.wait([_fixtures, _standings]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.hasData) {
-              final data = List<Fixture>.from(snapshot.data ?? []);
+              final data = List<Fixture>.from(snapshot.data![0] ?? []);
               data.sort(((a, b) => b.date.compareTo(a.date)));
 
               final finishedFixtures =
                   data.where((element) => isFinished(element)).toList();
-              // element.date.isBefore(
-              //  DateTime.now().subtract(const Duration(days: 1))))
 
               final upcomingFixtures = List<Fixture>.from(data.reversed)
-                  .where((element) =>
-                      element.date.isAfter(
-                          DateTime.now().subtract(const Duration(days: 1))) &&
-                      isUpcoming(element))
+                  .where((element) => isUpcoming(element))
                   .toList();
 
               final liveFixtures =
                   data.where((element) => isLive(element)).toList();
               return TabBarView(
                 children: [
-                  // TODO: Standings
-                  Container(),
+                  StandingsList(standings: snapshot.data![1]),
                   FixtureList(
                     fixtures: finishedFixtures,
                     descending: true,

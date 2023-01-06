@@ -40,7 +40,9 @@ class _CountriesScreenState extends State<CountriesScreen> {
           future: _countries,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return CountryList(countries: snapshot.data ?? []);
+              final data = snapshot.data ?? [];
+              data.sort(((a, b) => a.compareTo(b)));
+              return CountryList(countries: data);
             } else {
               return const CenterIndicator();
             }

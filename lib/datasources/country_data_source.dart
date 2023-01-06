@@ -27,7 +27,6 @@ class CountryDataSource {
       // countries[i]['league'], Country.fromJson(countries[i]['country'])));
     }
 
-    fetchedCountries.sort((a, b) => a.compareTo(b));
     return fetchedCountries;
   }
 }

@@ -45,10 +45,9 @@ class _CountryTileState extends State<CountryTile> {
                 SizedBox(
                   width: 32,
                   height: 32,
-                  child: Container(),
-                  // widget.country.flag.isNotEmpty
-                  //     ? SvgPicture.network(widget.country.flag)
-                  //     : Container(),
+                  child: widget.country.flag.isNotEmpty
+                      ? SvgPicture.network(widget.country.flag)
+                      : Container(),
                 ),
                 Expanded(
                   child: Padding(
