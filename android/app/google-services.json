@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "115803564064",
+    "project_id": "fluttscore",
+    "storage_bucket": "fluttscore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115803564064:android:efcaeeeb66c6c059ee7445",
+        "android_client_info": {
+          "package_name": "com.example.football_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115803564064-iv8e30a7vb7v8kclemopcbujs22tublp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm5-JxgSQcGDnQ9Mqf9Lq_Oh_Ia8E4F6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115803564064-iv8e30a7vb7v8kclemopcbujs22tublp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

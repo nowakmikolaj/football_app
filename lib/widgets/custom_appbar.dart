@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/widgets/custom_tabbar.dart';
+import 'package:football_app/utils/app_size.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -7,16 +7,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.data,
     required this.icon,
     required this.backOnTap,
+    this.actions,
   }) : super(key: key);
 
   final IconData icon;
   final String data;
   final bool backOnTap;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0.0,
+      actions: actions,
       centerTitle: true,
       leading: GestureDetector(
         onTap: backOnTap ? () => Navigator.pop(context) : () => {},
@@ -33,5 +36,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(60.0);
+  Size get preferredSize => const Size.fromHeight(AppSize.s50);
 }
