@@ -64,7 +64,7 @@ class _LeagueTileState extends State<LeagueTile> {
                         ),
                       ),
                       Text(
-                        widget.league!.name,
+                        widget.league.name,
                         softWrap: false,
                         style: const TextStyle(
                           overflow: TextOverflow.fade,

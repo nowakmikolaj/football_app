@@ -13,7 +13,7 @@ class CustomTabBar extends StatelessWidget {
     return Tab(
       child: Text(
         name,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
         ),
       ),

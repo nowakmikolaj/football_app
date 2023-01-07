@@ -1,6 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:football_app/models/fixture.dart';
 
 enum FixtureStatus {
   CANC, // Match Cancelled

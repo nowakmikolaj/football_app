@@ -10,13 +10,14 @@ class CountryDataSource {
   CountryDataSource._();
 
   Future<List<Country>> getCountries() async {
+    return [];
     final response = await FootballClient.get(
       url: Endpoints.countriesUrl,
       headers: FootballClient.headers,
     );
 
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-    print('[countries] Remaining requests: ${requestsLeft}');
+    print('[countries] Remaining requests: $requestsLeft');
 
     Map<String, dynamic> res = json.decode(response.body);
     var countries = res['response'];

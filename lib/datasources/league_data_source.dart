@@ -21,7 +21,7 @@ class LeagueDataSource {
       headers: FootballClient.headers,
     );
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-    print('[leagues] Remaining requests: ${requestsLeft}');
+    print('[leagues] Remaining requests: $requestsLeft');
 
     Map<String, dynamic> res = json.decode(response.body);
     var leagues = res['response'];
@@ -85,7 +85,7 @@ class LeagueDataSource {
       headers: FootballClient.headers,
     );
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-    print('[standings] Remaining requests: ${requestsLeft}');
+    print('[standings] Remaining requests: $requestsLeft');
 
     Map<String, dynamic> res = json.decode(response.body);
     if (res['response'].length == 0) return const Standings(standings: []);

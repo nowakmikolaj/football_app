@@ -3,33 +3,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/my_app.dart';
-import 'package:football_app/screens/password_reset_screen.dart';
+import 'package:football_app/screens/login_screen.dart';
 import 'package:football_app/screens/profile_screen.dart';
-import 'package:football_app/screens/sign_up_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/messenger_manager.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/utils/validation.dart';
 import 'package:football_app/widgets/center_indicator.dart';
+import 'package:football_app/widgets/error_dialog.dart';
 import 'package:football_app/widgets/login_text_field.dart';
 import 'package:provider/provider.dart';
-import 'package:football_app/utils/themes.dart';
-import 'package:football_app/utils/extensions.dart';
+import '../utils/themes.dart';
+import '../utils/extensions.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({
     super.key,
   });
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: AppSize.s30,
                   ),
                   const Text(
-                    Resources.loginScreenTitle,
+                    Resources.signUpScreenTitle,
                     style: TextStyle(
                       fontSize: FontSize.mainTitle,
                       fontWeight: FontWeights.bold,
                     ),
                   ),
                   const Text(
-                    Resources.loginScreenSubTitle,
+                    Resources.signUpScreenSubTitle,
                     style: TextStyle(
                       fontSize: FontSize.title,
                       fontWeight: FontWeights.semiBold,
@@ -91,46 +92,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     hint: Resources.passwordHint,
                     icon: Icons.password,
                     controller: passwordController,
-                    validate: Validation.validatePassword,
                     isPassword: true,
+                    validate: Validation.validatePassword,
                   ),
                   const SizedBox(
                     height: AppSize.s20,
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const PasswordResetScreen(),
-                          ),
-                        ),
-                        child: const Text(
-                          Resources.loginScreenForgotPassword,
-                          style: TextStyle(
-                            fontSize: FontSize.subTitle,
-                            fontWeight: FontWeights.light,
-                          ),
-                        ),
-                      ),
-                    ],
+                  LoginTextField(
+                    hint: Resources.repeatPasswordHint,
+                    icon: Icons.password,
+                    controller: passwordController2,
+                    isPassword: true,
+                    validate: (password) => password != passwordController.text
+                        ? Resources.passwordRepeatValidationError
+                        : null,
                   ),
                   const SizedBox(
                     height: AppSize.s50,
                   ),
                   Button(
-                    text: Resources.loginScreenSignInButton,
-                    onPressed: signIn,
+                    text: Resources.signUpScreenButton,
+                    onPressed: signUp,
                   ),
                   SizedBox(
                     height: context.height / 15,
                   ),
                   RichText(
                     text: TextSpan(
-                      text: Resources.loginScreenNoAccount,
+                      text: Resources.signUpScreenHaveAccount,
                       style: TextStyle(
                         fontSize: FontSize.details,
                         color: Colors.grey[500],
@@ -138,12 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         TextSpan(
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const SignUpScreen(),
-                                  ),
-                                ),
-                          text: Resources.loginScreenCreateAccount,
+                            ..onTap = () => Navigator.of(context).pop(),
+                          text: Resources.signUpScreenSignIn,
                           style: TextStyle(
                             color: Colors.blue[400],
                             fontSize: FontSize.details,
@@ -168,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future signIn() async {
+  Future signUp() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
@@ -179,12 +164,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
 
-      navigatorKey.currentState!.pop();
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       MessengerManager.showMessageBarError(e.message);
       navigatorKey.currentState!.pop();

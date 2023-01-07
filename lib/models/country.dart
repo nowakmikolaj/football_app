@@ -25,6 +25,7 @@ class Country implements Comparable<Country> {
     'Italy',
     'France',
     'Poland',
+    'World',
   ];
 
   @override
