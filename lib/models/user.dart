@@ -9,3 +9,7 @@
 //     this.name,
 //   });
 // }
+
+class UserPreferences {
+  static const darkModeEnabled = true;
+}

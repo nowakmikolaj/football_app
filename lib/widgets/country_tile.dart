@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_app/screens/leagues_screen.dart';
+import 'package:football_app/utils/app_size.dart';
 
 import '../models/country.dart';
 
@@ -20,19 +22,22 @@ class _CountryTileState extends State<CountryTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Container(
-        margin: const EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-          color: Colors.black45,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: GestureDetector(
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => LeaguesScreen(
-                country: widget.country,
-              ),
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => LeaguesScreen(
+              country: widget.country,
             ),
+          ),
+        ),
+        child: Container(
+          height: AppSize.s50,
+          margin: const EdgeInsets.only(left: 20, right: 20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black26
+                : Colors.grey[200],
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
             padding: const EdgeInsets.only(
@@ -53,16 +58,15 @@ class _CountryTileState extends State<CountryTile> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
                           widget.country.name.toUpperCase(),
                           softWrap: false,
                           style: const TextStyle(
                             overflow: TextOverflow.fade,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
+                            fontWeight: FontWeights.semiBold,
+                            fontSize: FontSize.subTitle,
                           ),
                         ),
                       ],
@@ -71,7 +75,6 @@ class _CountryTileState extends State<CountryTile> {
                 ),
                 const Icon(
                   Icons.arrow_forward_ios,
-                  color: Colors.amber,
                   size: 15,
                 ),
               ],

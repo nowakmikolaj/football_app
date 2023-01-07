@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/app_size.dart';
-import 'package:football_app/utils/fixture_status.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
 import 'package:football_app/widgets/standings_list.dart';
@@ -91,6 +91,9 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
               ),
             ],
           ),
+          actions: [
+            getThemeModeAction(context),
+          ],
         ),
         body: FutureBuilder(
           future: Future.wait([_fixtures, _standings]),
@@ -100,17 +103,19 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
               data.sort(((a, b) => b.date.compareTo(a.date)));
 
               final finishedFixtures =
-                  data.where((element) => isFinished(element)).toList();
+                  data.where((element) => element.isFinished()).toList();
 
               final upcomingFixtures = List<Fixture>.from(data.reversed)
-                  .where((element) => isUpcoming(element))
+                  .where((element) => element.isUpcoming())
                   .toList();
 
               final liveFixtures =
-                  data.where((element) => isLive(element)).toList();
+                  data.where((element) => element.isLive()).toList();
               return TabBarView(
                 children: [
-                  StandingsList(standings: snapshot.data![1]),
+                  StandingsList(
+                    standings: snapshot.data![1],
+                  ),
                   FixtureList(
                     fixtures: finishedFixtures,
                     descending: true,

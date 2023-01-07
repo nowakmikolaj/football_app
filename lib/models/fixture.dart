@@ -2,6 +2,7 @@ import 'package:football_app/models/league.dart';
 import 'package:football_app/models/match_result.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/team.dart';
+import 'package:football_app/utils/fixture_status.dart';
 
 class Fixture implements Comparable<Fixture> {
   int fixtureId;
@@ -74,6 +75,24 @@ class Fixture implements Comparable<Fixture> {
     sb.write('.');
     sb.write(date.year);
     return sb.toString();
+  }
+
+  FixtureStatus? getStatus() => statusDictionary[status];
+
+  bool isLive() {
+    final status = getStatus();
+    return status!.index > FixtureStatus.FT.index &&
+        status.index <= FixtureStatus.LIVE.index;
+  }
+
+  bool isUpcoming() {
+    final status = getStatus();
+
+    return status!.index > FixtureStatus.LIVE.index;
+  }
+
+  bool isFinished() {
+    return getStatus()!.index <= FixtureStatus.FT.index;
   }
 
   @override

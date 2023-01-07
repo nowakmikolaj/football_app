@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/screens/profile_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
-import '/utils/media_query.dart';
+import 'package:provider/provider.dart';
+import '../utils/themes.dart';
+import '../utils/extensions.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,9 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themechanger = Provider.of<ThemeChanger>(context);
     return Scaffold(
-      backgroundColor: Colors.grey[900],
-      // backgroundColor: Colors.grey.withOpacity(0.6),
       body: Column(
         children: [
           SizedBox(
@@ -55,12 +57,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeights.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   Resources.loginScreenSubTitle,
                   style: TextStyle(
                     fontSize: FontSize.title,
                     fontWeight: FontWeights.semiBold,
-                    color: Colors.grey[500],
                   ),
                 ),
                 const SizedBox(
@@ -78,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hint: Resources.passwordHint,
                   icon: Icons.password,
                   controller: passwordController,
+                  isPassword: true,
                 ),
                 const SizedBox(
                   height: AppSize.s20,
@@ -87,12 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: Container(),
                     ),
-                    Text(
+                    const Text(
                       Resources.loginScreenForgotPassword,
                       style: TextStyle(
                         fontSize: FontSize.subTitle,
                         fontWeight: FontWeights.light,
-                        color: Colors.grey[500],
                       ),
                     ),
                   ],
@@ -126,6 +127,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: AppSize.s30),
+                IconButton(
+                  icon: const Icon(CupertinoIcons.moon_stars),
+                  onPressed: () => themechanger.enableDarkMode(
+                      Theme.of(context).brightness == Brightness.dark),
+                ),
               ],
             ),
           ),
@@ -151,45 +158,77 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class LoginTextField extends StatelessWidget {
+class LoginTextField extends StatefulWidget {
   const LoginTextField({
     Key? key,
     required this.hint,
     required this.icon,
     required this.controller,
+    this.isPassword = false,
   }) : super(key: key);
 
   final String hint;
   final IconData icon;
   final TextEditingController controller;
+  final bool isPassword;
+
+  @override
+  State<LoginTextField> createState() => _LoginTextFieldState();
+}
+
+class _LoginTextFieldState extends State<LoginTextField> {
+  late bool _passwordVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = !widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0),
         borderRadius: BorderRadius.circular(AppSize.s30),
         boxShadow: [
           BoxShadow(
-            blurRadius: 10,
+            blurRadius: 20,
             spreadRadius: 5,
             offset: const Offset(1, 1),
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(
+                Theme.of(context).brightness == Brightness.dark ? 0.1 : 0.3),
           ),
         ],
       ),
       child: TextField(
-        controller: controller,
+        controller: widget.controller,
+        obscureText: !_passwordVisible,
         decoration: InputDecoration(
-            hintText: hint,
+            hintText: widget.hint,
             prefixIcon: Icon(
-              icon,
-              color: Colors.grey,
+              widget.icon,
             ),
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    splashRadius: 20,
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  )
+                : const Icon(Icons.abc),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: const BorderSide(
-                color: Colors.white,
+              borderSide: BorderSide(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
             enabledBorder: OutlineInputBorder(

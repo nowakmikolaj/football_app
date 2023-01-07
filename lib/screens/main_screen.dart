@@ -28,7 +28,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: widgets.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[900],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_soccer),
@@ -40,7 +39,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.amberAccent,
         onTap: onItemSelected,
       ),
     );

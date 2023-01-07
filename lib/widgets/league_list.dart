@@ -13,18 +13,23 @@ class LeagueList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _leagues.length,
-      itemBuilder: (context, index) {
-        final league = _leagues[index];
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: LeagueTile(
-            league: league,
-            key: ValueKey(league.leagueId),
-          ),
-        );
-      },
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: [
+        ...List.generate(
+          _leagues.length,
+          (index) {
+            final league = _leagues[index];
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: LeagueTile(
+                league: league,
+                key: ValueKey(league.leagueId),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

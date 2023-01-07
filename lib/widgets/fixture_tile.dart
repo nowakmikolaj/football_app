@@ -33,17 +33,13 @@ class _FixtureTileState extends State<FixtureTile> {
             TeamInfo(
               team: widget.fixture.homeTeam,
             ),
-            (getStatus(widget.fixture.status) == FixtureStatus.NS)
+            (widget.fixture.getStatus() == FixtureStatus.NS)
                 ? Expanded(
                     child: Column(
                       children: [
                         Text(
                           widget.fixture.Datetime,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.white),
                         ),
                       ],
                     ),
@@ -51,16 +47,12 @@ class _FixtureTileState extends State<FixtureTile> {
                 : Expanded(
                     child: Column(
                       children: [
-                        !isLive(widget.fixture)
+                        !widget.fixture.isLive()
                             ? Column(
                                 children: [
                                   Text(
                                     widget.fixture.Date,
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(color: Colors.white),
                                   ),
                                 ],
                               )
@@ -72,26 +64,19 @@ class _FixtureTileState extends State<FixtureTile> {
                               widget.fixture.goals.home != null
                                   ? widget.fixture.goals.home.toString()
                                   : '',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(color: Colors.white),
+                              style: const TextStyle(fontSize: FontSize.title),
                             ),
-                            Text(
-                              ":",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(color: Colors.white),
-                            ),
+                            !widget.fixture.isUpcoming()
+                                ? const Text(
+                                    ":",
+                                    style: TextStyle(fontSize: FontSize.title),
+                                  )
+                                : Container(),
                             Text(
                               widget.fixture.goals.away != null
                                   ? widget.fixture.goals.away.toString()
                                   : '',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(color: Colors.white),
+                              style: const TextStyle(fontSize: FontSize.title),
                             )
                           ],
                         ),
@@ -102,10 +87,10 @@ class _FixtureTileState extends State<FixtureTile> {
                             vertical: AppPadding.p2,
                           ),
                           decoration: BoxDecoration(
-                            color: getStatus(widget.fixture.status) !=
-                                    FixtureStatus.FT
-                                ? Colors.red
-                                : Colors.blue,
+                            color:
+                                widget.fixture.getStatus() != FixtureStatus.FT
+                                    ? Colors.red
+                                    : Colors.blue,
                             borderRadius: BorderRadius.circular(AppSize.s20),
                           ),
                           child: Text(

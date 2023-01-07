@@ -6,7 +6,7 @@ import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 
 import '../widgets/custom_appbar.dart';
-import '/utils/media_query.dart';
+import '../utils/extensions.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -21,16 +21,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         data: 'My account',
         icon: Icons.account_circle_outlined,
         backOnTap: false,
-        actions: [
-          IconButton(
-            icon: const Icon(CupertinoIcons.moon_stars),
-            onPressed: () {},
-          ),
-        ],
+        
       ),
       body: Center(
         child: Column(
@@ -94,7 +89,6 @@ class Button extends StatelessWidget {
           horizontal: 32,
           vertical: 12,
         ),
-        backgroundColor: Colors.black.withOpacity(0.5),
       ),
       onPressed: onPressed,
       child: Text(

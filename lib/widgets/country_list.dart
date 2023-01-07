@@ -13,18 +13,23 @@ class CountryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _countries.length,
-      itemBuilder: (context, index) {
-        final country = _countries[index];
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: CountryTile(
-            country: country,
-            key: ValueKey(country.name),
-          ),
-        );
-      },
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: [
+        ...List.generate(
+          _countries.length,
+          (index) {
+            final country = _countries[index];
+            return Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: CountryTile(
+                country: country,
+                key: ValueKey(country.name),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

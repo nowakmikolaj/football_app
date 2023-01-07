@@ -33,6 +33,7 @@ class FixtureList extends StatelessWidget {
   Widget build(BuildContext context) {
     return _fixtures.isNotEmpty
         ? GroupedListView(
+            physics: const BouncingScrollPhysics(),
             elements: _fixtures,
             groupBy: (fixture) => fixture.league.round!,
             order: descending ? GroupedListOrder.DESC : GroupedListOrder.ASC,

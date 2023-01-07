@@ -19,7 +19,6 @@ class _CountriesScreenState extends State<CountriesScreen> {
 
   Future<void> _fetchCountries() async {
     _countries = CountryDataSource.instance.getCountries();
-    // setState(() => _countries = countries);
   }
 
   @override

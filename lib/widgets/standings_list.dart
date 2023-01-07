@@ -20,42 +20,36 @@ class StandingsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return standings.standings.isNotEmpty
         ? ListView(
-            scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
             children: [
               ...List.generate(
                 standings.standings.length,
-                (index) => SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (standings.standings.length > 1)
-                        StandingsHeaders(
-                          displayGroupName: standings.standings[index][0].group,
-                        )
-                      else
-                        const StandingsHeaders(),
-                      ...List.generate(
-                        standings.standings[index].length,
-                        (teamIndex) {
-                          final teamRank =
-                              standings.standings[index][teamIndex];
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: TeamRankTile(
-                              teamRank: teamRank,
-                              key: ValueKey(teamRank.team.teamId),
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: AppSize.s20,
-                      ),
-                    ],
-                  ),
+                (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (standings.standings.length > 1)
+                      StandingsHeaders(
+                        displayGroupName: standings.standings[index][0].group,
+                      )
+                    else
+                      const StandingsHeaders(),
+                    ...List.generate(
+                      standings.standings[index].length,
+                      (teamIndex) {
+                        final teamRank = standings.standings[index][teamIndex];
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: TeamRankTile(
+                            teamRank: teamRank,
+                            key: ValueKey(teamRank.team.teamId),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: AppSize.s20,
+                    ),
+                  ],
                 ),
               )
             ],

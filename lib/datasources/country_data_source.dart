@@ -23,8 +23,6 @@ class CountryDataSource {
     List<Country> fetchedCountries = [];
     for (int i = 0; i < countries.length; i++) {
       fetchedCountries.add(Country.fromJson(countries[i]));
-      // fetchedCountries.add(League.fromJson(
-      // countries[i]['league'], Country.fromJson(countries[i]['country'])));
     }
 
     return fetchedCountries;

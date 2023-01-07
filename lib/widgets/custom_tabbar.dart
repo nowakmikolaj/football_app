@@ -11,7 +11,12 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Text(name),
+      child: Text(
+        name,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

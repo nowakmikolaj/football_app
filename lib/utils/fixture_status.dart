@@ -45,22 +45,3 @@ const statusDictionary = <String, FixtureStatus>{
   'WO': FixtureStatus.WO,
   'LIVE': FixtureStatus.LIVE,
 };
-
-FixtureStatus? getStatus(String statusName) => statusDictionary[statusName];
-
-bool isLive(Fixture fixture) {
-  final status = getStatus(fixture.status);
-
-  return status!.index > FixtureStatus.FT.index &&
-      status.index <= FixtureStatus.LIVE.index;
-}
-
-bool isUpcoming(Fixture fixture) {
-  final status = getStatus(fixture.status);
-
-  return status!.index > FixtureStatus.LIVE.index;
-}
-
-bool isFinished(Fixture fixture) {
-  return getStatus(fixture.status)!.index <= FixtureStatus.FT.index;
-}
