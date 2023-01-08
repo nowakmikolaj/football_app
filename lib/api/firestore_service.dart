@@ -7,16 +7,35 @@ class FirestoreService {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
-  static Future<List> getFavouriteLeagues() async {
-    final docRef = FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.email);
+  static Future<List> getFavouriteLeagueIds() async {
+    final data = (await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .get())
+        .data();
 
-    final snapshot = await docRef.get();
-    final data = snapshot.data();
-    List leagueIds = data?['favourite_leagues'];
+    List favLeagueIds = data?['favourite_leagues'];
+    return favLeagueIds;
+  }
 
-    return leagueIds;
+  static Future<List<League>> getFavouriteLeagues() async {
+    final favLeagueIds = await getFavouriteLeagueIds();
+
+    final leagues = (await FirebaseFirestore.instance
+            .collection("leagues")
+            .where("id", whereIn: favLeagueIds)
+            .get())
+        .docs
+        .map((e) => e.data())
+        .toList();
+
+    List<League> result = [];
+    for (final league in leagues) {
+      result.add(
+          League.fromJson(league, country: Country(league['country'], '', '')));
+    }
+
+    return result;
   }
 
   static Future<List<League>> getLeaguesByCountry(String country) async {
@@ -59,5 +78,29 @@ class FirestoreService {
           .set(item.toFirestore())
           .onError((error, stackTrace) => print("error writing league $error"));
     }
+  }
+
+  static Future<bool> isFavourite(League league) async {
+    final fav = await getFavouriteLeagueIds();
+
+    return fav.contains(league.leagueId);
+  }
+
+  static Future addToFavourites(League league) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .update({
+      "favourite_leagues": FieldValue.arrayUnion([league.leagueId]),
+    });
+  }
+
+  static Future removeFromFavourites(League league) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .update({
+      "favourite_leagues": FieldValue.arrayRemove([league.leagueId]),
+    });
   }
 }

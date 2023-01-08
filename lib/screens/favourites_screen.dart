@@ -17,22 +17,16 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
-  late Future<List> _fav_leagues;
-  late Future<List<League>> _leagues;
-
-  Future<void> _fetchLeagues() async {
-    _leagues = LeagueDataSource.instance.migrateLeagues();
-  }
+  late Future<List<League>> _favLeagues;
 
   Future<void> _getFavouriteLeagues() async {
-    _fav_leagues = FirestoreService.getFavouriteLeagues();
+    _favLeagues = FirestoreService.getFavouriteLeagues();
   }
 
   @override
   void initState() {
     super.initState();
     _getFavouriteLeagues();
-    _fetchLeagues();
   }
 
   @override
@@ -81,20 +75,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           ],
         ),
         body: FutureBuilder(
-          future: Future.wait([_fav_leagues, _leagues]),
+          future: _favLeagues,
           builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.hasData) {
-              final favouriteLeagues = List.from(snapshot.data![0] ?? []);
-              final leagues = List<League>.from(snapshot.data![1] ?? [])
-                  .where(
-                      (element) => favouriteLeagues.contains(element.leagueId))
-                  .toList();
-
-              leagues.sort((a, b) => a.compareTo(b));
+              List<League> favouriteLeagues = snapshot.data as List<League>;
+              favouriteLeagues.sort((a, b) => a.compareTo(b));
 
               return TabBarView(
                 children: [
-                  LeagueList(leagues: leagues),
+                  LeagueList(leagues: favouriteLeagues),
                   const EmptyList(
                       assetImage: Assets.supporter, message: "halo"),
                 ],

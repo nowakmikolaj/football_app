@@ -1,14 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/screens/league_details_screen.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/utils/messenger_manager.dart';
 
 class LeagueTile extends StatefulWidget {
-  const LeagueTile({
+  LeagueTile({
     super.key,
     required this.league,
+    required this.isFav,
   });
 
+  bool isFav;
   final League league;
 
   @override
@@ -19,13 +24,15 @@ class _LeagueTileState extends State<LeagueTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LeagueDetailsScreen(
-            league: widget.league,
-          ),
-        ),
-      ),
+      onTap: () => {},
+      //TODO: odkomentować
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (_) => LeagueDetailsScreen(
+      //       league: widget.league,
+      //     ),
+      //   ),
+      // ),
       child: Container(
         height: AppSize.s50,
         margin: const EdgeInsets.only(left: 20, right: 20),
@@ -75,14 +82,37 @@ class _LeagueTileState extends State<LeagueTile> {
                   ),
                 ),
               ),
-              const Icon(
-                Icons.arrow_forward_ios,
-                size: 15,
-              ),
+              favouritesAction(widget.isFav),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  IconButton favouritesAction(bool isFav) {
+    if (isFav) {
+      return IconButton(
+        onPressed: () {
+          FirestoreService.removeFromFavourites(widget.league);
+          setState(() {
+            widget.isFav = !widget.isFav;
+          });
+        },
+        icon: const Icon(CupertinoIcons.star_fill),
+        iconSize: AppSize.s20,
+      );
+    }
+
+    return IconButton(
+      onPressed: () {
+        FirestoreService.addToFavourites(widget.league);
+        setState(() {
+          widget.isFav = !widget.isFav;
+        });
+      },
+      icon: const Icon(CupertinoIcons.star),
+      iconSize: AppSize.s20,
     );
   }
 }
