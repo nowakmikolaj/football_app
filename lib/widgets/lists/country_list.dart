@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/country.dart';
-import 'country_tile.dart';
+import 'package:football_app/models/country.dart';
+import 'package:football_app/widgets/tiles/country_tile.dart';
 
 class CountryList extends StatelessWidget {
   const CountryList({

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/models/league.dart';
 import 'package:football_app/widgets/center_indicator.dart';
-import '../models/league.dart';
-import '../widgets/custom_appbar.dart';
-import '../widgets/league_list.dart';
+import 'package:football_app/widgets/custom_appbar.dart';
+import 'package:football_app/widgets/lists/league_list.dart';
 
 class LeaguesScreen extends StatefulWidget {
   const LeaguesScreen({

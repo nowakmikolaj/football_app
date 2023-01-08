@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/models/league.dart';
+import 'package:football_app/screens/league_details_screen.dart';
 import 'package:football_app/utils/app_size.dart';
-
-import '../models/league.dart';
-import '../screens/league_details_screen.dart';
 
 class LeagueTile extends StatefulWidget {
   const LeagueTile({
@@ -19,22 +18,22 @@ class LeagueTile extends StatefulWidget {
 class _LeagueTileState extends State<LeagueTile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: AppSize.s50,
-      margin: const EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.black26
-            : Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => LeagueDetailsScreen(
-              league: widget.league,
-            ),
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => LeagueDetailsScreen(
+            league: widget.league,
           ),
+        ),
+      ),
+      child: Container(
+        height: AppSize.s50,
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black26
+              : Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: const EdgeInsets.only(

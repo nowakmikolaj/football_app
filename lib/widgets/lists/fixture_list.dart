@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/models/fixture.dart';
+import 'package:football_app/utils/assets.dart';
+import 'package:football_app/utils/resources.dart';
+import 'package:football_app/widgets/lists/empty_list.dart';
+import 'package:football_app/widgets/tiles/fixture_tile.dart';
 import 'package:grouped_list/grouped_list.dart';
-import '../models/fixture.dart';
-import '../utils/assets.dart';
-import '../utils/resources.dart';
-import 'fixture_tile.dart';
 
 // TODO: zrobić pobieranie rund dla ligi i zmiana groupcomparera na podstawie indeksów w liście rund
 class FixtureList extends StatelessWidget {
@@ -56,52 +56,5 @@ class FixtureList extends StatelessWidget {
             assetImage: Assets.fixturesNotFound,
             message: Resources.fixturesNotFound,
           );
-
-    // ListView.builder(
-    //   itemCount: _fixtures.length,
-    //   itemBuilder: (context, index) {
-    //     final fixture = _fixtures[index];
-    //     return Padding(
-    //       padding: const EdgeInsets.only(top: 8.0),
-    //       child: FixtureTile(
-    //         fixture: fixture,
-    //         key: ValueKey(fixture.fixtureId),
-    //       ),
-    //     );
-    //   },
-    // );
-  }
-}
-
-class EmptyList extends StatelessWidget {
-  const EmptyList({
-    Key? key,
-    required this.assetImage,
-    required this.message,
-  }) : super(key: key);
-
-  final String assetImage;
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image(
-          image: AssetImage(assetImage),
-          width: AppSize.s200,
-          height: AppSize.s200,
-        ),
-        const SizedBox(
-          height: AppSize.s20,
-        ),
-        Text(
-          message,
-          style: Theme.of(context).textTheme.titleLarge,
-          textAlign: TextAlign.center,
-        )
-      ],
-    );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/country_data_source.dart';
-import '../models/country.dart';
-import '../widgets/center_indicator.dart';
-import '../widgets/country_list.dart';
-import '../widgets/custom_appbar.dart';
+import 'package:football_app/models/country.dart';
+import 'package:football_app/widgets/center_indicator.dart';
+import 'package:football_app/widgets/custom_appbar.dart';
+import 'package:football_app/widgets/lists/country_list.dart';
 
 class CountriesScreen extends StatefulWidget {
   const CountriesScreen({

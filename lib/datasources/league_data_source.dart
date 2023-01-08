@@ -1,15 +1,14 @@
 import 'dart:convert';
+import 'package:football_app/api/endpoints.dart';
 import 'package:football_app/api/football_client.dart';
-
-import '../api/endpoints.dart';
-import '../models/country.dart';
-import '../models/fixture.dart';
-import '../models/league.dart';
-import '../models/match_result.dart';
-import '../models/score.dart';
-import '../models/standings.dart';
-import '../models/team.dart';
-import '../models/team_rank.dart';
+import 'package:football_app/models/country.dart';
+import 'package:football_app/models/fixture.dart';
+import 'package:football_app/models/league.dart';
+import 'package:football_app/models/match_result.dart';
+import 'package:football_app/models/score.dart';
+import 'package:football_app/models/standings.dart';
+import 'package:football_app/models/team.dart';
+import 'package:football_app/models/team_rank.dart';
 
 class LeagueDataSource {
   static final instance = LeagueDataSource._();

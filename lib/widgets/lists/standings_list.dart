@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/models/standings.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
-import 'package:football_app/widgets/fixture_list.dart';
+import 'package:football_app/widgets/lists/empty_list.dart';
 import 'package:football_app/widgets/standings_headers.dart';
-import 'package:football_app/widgets/team_rank_tile.dart';
+import 'package:football_app/widgets/tiles/team_rank_tile.dart';
 
-import '../models/standings.dart';
 
 class StandingsList extends StatelessWidget {
   const StandingsList({

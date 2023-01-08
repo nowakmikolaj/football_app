@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:football_app/models/country.dart';
 import 'package:football_app/screens/leagues_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 
-import '../models/country.dart';
 
 class CountryTile extends StatefulWidget {
   const CountryTile({

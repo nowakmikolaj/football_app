@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/app_padding.dart';
-import '../utils/app_size.dart';
+import 'package:football_app/utils/app_padding.dart';
+import 'package:football_app/utils/app_size.dart';
 
 class StandingsHeaders extends StatelessWidget {
   const StandingsHeaders({

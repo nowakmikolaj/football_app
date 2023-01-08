@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/team_rank.dart';
-import '../utils/app_padding.dart';
-import '../utils/app_size.dart';
+import 'package:football_app/models/team_rank.dart';
+import 'package:football_app/utils/app_padding.dart';
+import 'package:football_app/utils/app_size.dart';
 
 class TeamRankTile extends StatelessWidget {
   final TeamRank teamRank;

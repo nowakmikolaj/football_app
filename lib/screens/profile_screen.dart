@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
+import 'package:football_app/utils/extensions.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/button.dart';
+import 'package:football_app/widgets/custom_appbar.dart';
 
-import '../widgets/custom_appbar.dart';
-import '../utils/extensions.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

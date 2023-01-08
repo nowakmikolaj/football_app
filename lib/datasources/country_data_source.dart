@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:football_app/api/endpoints.dart';
 import 'package:football_app/api/football_client.dart';
+import 'package:football_app/models/country.dart';
 
-import '../models/country.dart';
 
 class CountryDataSource {
   static final instance = CountryDataSource._();

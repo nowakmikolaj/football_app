@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/my_app.dart';
 import 'package:football_app/screens/password_reset_screen.dart';
-import 'package:football_app/screens/profile_screen.dart';
 import 'package:football_app/screens/sign_up_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';

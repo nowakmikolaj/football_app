@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/models/standings.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
-import 'package:football_app/widgets/standings_list.dart';
+import 'package:football_app/widgets/lists/fixture_list.dart';
+import 'package:football_app/widgets/lists/standings_list.dart';
 
-import '../models/standings.dart';
-import '../widgets/fixture_list.dart';
 
 class LeagueDetailsScreen extends StatefulWidget {
   const LeagueDetailsScreen({
