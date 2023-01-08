@@ -34,6 +34,16 @@ class League implements Comparable<League> {
     );
   }
 
+  Map<String, dynamic> toFirestore() {
+    return <String, dynamic>{
+      "id": leagueId,
+      "name": name,
+      "country": country!.name,
+      "type": type,
+      "logo": logo,
+    };
+  }
+
   @override
   int compareTo(other) {
     final res = country!.name.compareTo(other.country!.name);

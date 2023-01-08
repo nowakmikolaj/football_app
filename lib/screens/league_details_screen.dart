@@ -10,7 +10,6 @@ import 'package:football_app/widgets/custom_tabbar.dart';
 import 'package:football_app/widgets/lists/fixture_list.dart';
 import 'package:football_app/widgets/lists/standings_list.dart';
 
-
 class LeagueDetailsScreen extends StatefulWidget {
   const LeagueDetailsScreen({
     super.key,
@@ -52,13 +51,16 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            tabs: const [
               CustomTabBar(name: "Standings"),
               CustomTabBar(name: "Finished"),
               CustomTabBar(name: "Live"),
               CustomTabBar(name: "Upcoming"),
             ],
+            indicatorColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
           ),
           elevation: 0.0,
           centerTitle: true,

@@ -7,7 +7,6 @@ import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/button.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -25,7 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         data: 'My account',
         icon: Icons.account_circle_outlined,
         backOnTap: false,
-        
       ),
       body: Center(
         child: Column(
@@ -34,11 +32,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: AppSize.s40,
             ),
-            SizedBox(
-              width: context.width / 3,
-              height: context.width / 3,
-              child: const Image(
-                image: AssetImage(Assets.loginUser),
+            CircleAvatar(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey[600]
+                  : Colors.white,
+              radius: AppSize.s70,
+              child: SizedBox(
+                width: context.width / 3,
+                height: context.width / 3,
+                child: const Image(
+                  image: AssetImage(Assets.loginUser),
+                ),
               ),
             ),
             const SizedBox(

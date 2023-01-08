@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/screens/countries_screen.dart';
+import 'package:football_app/screens/favourites_screen.dart';
 import 'package:football_app/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> widgets = <Widget>[
     const CountriesScreen(),
+    const FavouritesScreen(),
     const ProfileScreen(),
   ];
 
@@ -31,7 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.sports_soccer),
-            label: 'Fixtures',
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star_outline_rounded),
+            label: 'Favourites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

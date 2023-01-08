@@ -1,8 +1,9 @@
-class Endpoints {
+class FootballApiEndpoints {
   static const leaguesByCountryUrl = 'leagues?country=';
   static const countriesUrl = 'countries';
   static const fixturesByLeagueCurrentRoundUrl = 'fixtures?';
   static const standings = 'standings';
+  static const leagues = 'leagues';
 
   static String getFixturesUrl(
     int leagueId,

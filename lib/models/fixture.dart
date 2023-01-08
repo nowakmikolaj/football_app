@@ -2,7 +2,7 @@ import 'package:football_app/models/league.dart';
 import 'package:football_app/models/match_result.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/team.dart';
-import 'package:football_app/utils/fixture_status.dart';
+import 'package:football_app/models/fixture_status.dart';
 
 class Fixture implements Comparable<Fixture> {
   int fixtureId;

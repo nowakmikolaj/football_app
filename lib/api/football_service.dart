@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-class FootballClient {
+class FootballService {
   static const apiUrl = "https://api-football-v1.p.rapidapi.com/v3/";
 
   static const headers = {

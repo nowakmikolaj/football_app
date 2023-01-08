@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:football_app/api/endpoints.dart';
-import 'package:football_app/api/football_client.dart';
+import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/api/football_service.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
@@ -15,9 +16,16 @@ class LeagueDataSource {
   LeagueDataSource._();
 
   Future<List<League>> getLeaguesByCountry(String country) async {
-    final response = await FootballClient.get(
-      url: '${Endpoints.leaguesByCountryUrl}$country',
-      headers: FootballClient.headers,
+    final leagues = FirestoreService.getLeaguesByCountry(country);
+
+    return leagues;
+  }
+
+  Future<List<League>> migrateLeagues() async {
+    return [];
+    final response = await FootballService.get(
+      url: FootballApiEndpoints.leagues,
+      headers: FootballService.headers,
     );
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
     print('[leagues] Remaining requests: $requestsLeft');
@@ -34,6 +42,8 @@ class LeagueDataSource {
       );
     }
 
+    FirestoreService.migrateLeagues(fetchedLeagues);
+
     return fetchedLeagues;
   }
 
@@ -41,9 +51,9 @@ class LeagueDataSource {
     required int leagueId,
     int season = 2022,
   }) async {
-    final response = await FootballClient.get(
-      url: Endpoints.getFixturesUrl(leagueId, season),
-      headers: FootballClient.headers,
+    final response = await FootballService.get(
+      url: FootballApiEndpoints.getFixturesUrl(leagueId, season),
+      headers: FootballService.headers,
     );
 
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
@@ -79,9 +89,9 @@ class LeagueDataSource {
     required int leagueId,
     int season = 2022,
   }) async {
-    final response = await FootballClient.get(
-      url: Endpoints.getStandingsUrl(leagueId, season),
-      headers: FootballClient.headers,
+    final response = await FootballService.get(
+      url: FootballApiEndpoints.getStandingsUrl(leagueId, season),
+      headers: FootballService.headers,
     );
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
     print('[standings] Remaining requests: $requestsLeft');

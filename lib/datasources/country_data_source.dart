@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:football_app/api/endpoints.dart';
-import 'package:football_app/api/football_client.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/models/country.dart';
-
 
 class CountryDataSource {
   static final instance = CountryDataSource._();
@@ -10,21 +8,17 @@ class CountryDataSource {
   CountryDataSource._();
 
   Future<List<Country>> getCountries() async {
-    final response = await FootballClient.get(
-      url: Endpoints.countriesUrl,
-      headers: FootballClient.headers,
-    );
+    return FirestoreService.getCountries();
+  }
 
-    var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-    print('[countries] Remaining requests: $requestsLeft');
-
-    Map<String, dynamic> res = json.decode(response.body);
-    var countries = res['response'];
-    List<Country> fetchedCountries = [];
-    for (int i = 0; i < countries.length; i++) {
-      fetchedCountries.add(Country.fromJson(countries[i]));
+  void migrateCountries(List<Country> countries) {
+    for (final country in countries) {
+      FirebaseFirestore.instance
+          .collection("countries")
+          .doc(country.name)
+          .set(country.toFirestore())
+          .onError(
+              (error, stackTrace) => print("error writing country $error"));
     }
-
-    return fetchedCountries;
   }
 }

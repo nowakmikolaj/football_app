@@ -16,7 +16,9 @@ class Themes {
     textTheme: TextTheme(
       bodyText1: TextStyle(color: Colors.grey[500]),
     ),
-    appBarTheme: AppBarTheme(backgroundColor: Colors.grey[900]),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey[900],
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
@@ -40,6 +42,10 @@ class Themes {
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.grey[700],
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: Colors.black,
+      unselectedItemColor: Colors.grey,
     ),
   );
 }

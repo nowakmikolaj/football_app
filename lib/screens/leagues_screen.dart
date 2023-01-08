@@ -23,7 +23,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
 
   Future<void> _fetchLeagues() async {
     _leagues = LeagueDataSource.instance
-        .getLeaguesByCountry(widget.country.name.toLowerCase());
+        .getLeaguesByCountry(widget.country.name);
   }
 
   @override

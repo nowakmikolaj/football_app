@@ -3,7 +3,7 @@ import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/team.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
-import 'package:football_app/utils/fixture_status.dart';
+import 'package:football_app/models/fixture_status.dart';
 
 class FixtureTile extends StatefulWidget {
   const FixtureTile({

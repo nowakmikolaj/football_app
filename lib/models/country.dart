@@ -28,6 +28,14 @@ class Country implements Comparable<Country> {
     'World',
   ];
 
+  Map<String, String?> toFirestore() {
+    return <String, String?>{
+      "name": name,
+      "flag": flag,
+      "code": code,
+    };
+  }
+
   @override
   int compareTo(Country other) {
     if (topCountries.contains(name)) {
