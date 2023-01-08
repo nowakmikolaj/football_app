@@ -10,6 +10,7 @@ import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/messenger_manager.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/utils/validation.dart';
+import 'package:football_app/widgets/button.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/error_dialog.dart';
 import 'package:football_app/widgets/login_text_field.dart';
@@ -45,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  Assets.loginUser,
+                  Assets.supporter,
                 ),
               ),
             ),

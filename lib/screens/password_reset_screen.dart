@@ -1,15 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/my_app.dart';
-import 'package:football_app/screens/profile_screen.dart';
-import 'package:football_app/screens/sign_up_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/messenger_manager.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/utils/validation.dart';
+import 'package:football_app/widgets/button.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/login_text_field.dart';
 import 'package:provider/provider.dart';

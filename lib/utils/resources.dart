@@ -30,4 +30,12 @@ class Resources {
       "Enter your email.\nYou will receive a link to reset your password";
   static const passwordResetButton = "Reset";
   static const passwordResetSuccess = "Password reset email sent";
+
+  static const verifyEmailTitle = "Almost there!";
+  static const verifyEmailMessage =
+      "Check your email box and verify your email address before you can access FluttScore.";
+  static const verifiedEmailButton = "Go to login page";
+  static const sendVerificationEmailButton = "Resend email";
+  static const emailSent = "Email sent";
+  static const emailCannotBeSent = "Email has already been sent";
 }

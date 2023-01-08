@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:football_app/screens/countries_screen.dart';
 import 'package:football_app/screens/profile_screen.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
   void onItemSelected(int index) {

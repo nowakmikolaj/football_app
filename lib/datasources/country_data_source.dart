@@ -10,7 +10,6 @@ class CountryDataSource {
   CountryDataSource._();
 
   Future<List<Country>> getCountries() async {
-    return [];
     final response = await FootballClient.get(
       url: Endpoints.countriesUrl,
       headers: FootballClient.headers,

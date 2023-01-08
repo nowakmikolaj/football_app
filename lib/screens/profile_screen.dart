@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
+import 'package:football_app/widgets/button.dart';
 
 import '../widgets/custom_appbar.dart';
 import '../utils/extensions.dart';
@@ -67,36 +68,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void signOut() {
     FirebaseAuth.instance.signOut();
-  }
-}
-
-class Button extends StatelessWidget {
-  const Button({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
-
-  final String text;
-  final VoidCallback onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 32,
-          vertical: 12,
-        ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: FontSize.subTitle,
-          fontWeight: FontWeights.bold,
-        ),
-      ),
-    );
   }
 }

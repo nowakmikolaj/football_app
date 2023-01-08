@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/screens/login_screen.dart';
-import 'package:football_app/screens/main_screen.dart';
+import 'package:football_app/screens/home_screen.dart';
+import 'package:football_app/screens/verify_email_screen.dart';
 import 'package:football_app/utils/messenger_manager.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/utils/themes.dart';
@@ -63,7 +64,7 @@ class MainPage extends StatelessWidget {
           }
 
           if (snapshot.hasData) {
-            return const MainScreen();
+            return const VerifyEmailScreen();
           } else {
             return const LoginScreen();
           }
