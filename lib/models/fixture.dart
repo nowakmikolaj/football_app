@@ -1,10 +1,16 @@
+import 'package:flutter/material.dart';
+import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/models/match_result.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/team.dart';
 import 'package:football_app/models/fixture_status.dart';
+import 'package:football_app/screens/fixture_details_screen.dart';
+import 'package:football_app/utils/app_padding.dart';
+import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/widgets/team_info.dart';
 
-class Fixture implements Comparable<Fixture> {
+class Fixture extends TileElement implements Comparable<Fixture> {
   int fixtureId;
   String? referee;
   DateTime date;
@@ -99,5 +105,89 @@ class Fixture implements Comparable<Fixture> {
   int compareTo(other) {
     final res = date.compareTo(other.date);
     return res;
+  }
+
+  @override
+  List<Widget> buildElements() {
+    return [
+      TeamInfo(
+        team: homeTeam,
+      ),
+      (getStatus() == FixtureStatus.NS)
+          ? Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    Datetime,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+          : Expanded(
+              child: Column(
+                children: [
+                  !isLive()
+                      ? Column(
+                          children: [
+                            Text(
+                              Date,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        goals.home != null ? goals.home.toString() : '',
+                        style: const TextStyle(fontSize: FontSize.title),
+                      ),
+                      !isUpcoming()
+                          ? const Text(
+                              ":",
+                              style: TextStyle(fontSize: FontSize.title),
+                            )
+                          : Container(),
+                      Text(
+                        goals.away != null ? goals.away.toString() : '',
+                        style: const TextStyle(fontSize: FontSize.title),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: AppSize.s2),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppPadding.p15,
+                      vertical: AppPadding.p2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: getStatus() != FixtureStatus.FT
+                          ? Colors.red
+                          : Colors.blue,
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                    child: Text(
+                      status,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: FontSize.paragraph,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ),
+      TeamInfo(
+        team: awayTeam,
+      ),
+    ];
+  }
+
+  @override
+  Widget nextScreen() {
+    return FixtureDetailsScreen(fixture: this);
   }
 }

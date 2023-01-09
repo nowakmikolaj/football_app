@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/country.dart';
-import 'package:football_app/widgets/tiles/country_tile.dart';
+import 'package:football_app/widgets/tiles/tile.dart';
 
 class CountryList extends StatelessWidget {
   const CountryList({
@@ -22,8 +22,8 @@ class CountryList extends StatelessWidget {
             final country = _countries[index];
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: CountryTile(
-                country: country,
+              child: Tile<Country>(
+                tileData: country,
                 key: ValueKey(country.name),
               ),
             );

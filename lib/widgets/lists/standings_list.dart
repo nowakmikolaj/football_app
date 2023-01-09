@@ -5,8 +5,7 @@ import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
 import 'package:football_app/widgets/standings_headers.dart';
-import 'package:football_app/widgets/tiles/team_rank_tile.dart';
-
+import 'package:football_app/widgets/team_rank.dart';
 
 class StandingsList extends StatelessWidget {
   const StandingsList({
@@ -39,8 +38,8 @@ class StandingsList extends StatelessWidget {
                         final teamRank = standings.standings[index][teamIndex];
                         return Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: TeamRankTile(
-                            teamRank: teamRank,
+                          child: TeamRank(
+                            teamRankData: teamRank,
                             key: ValueKey(teamRank.team.teamId),
                           ),
                         );

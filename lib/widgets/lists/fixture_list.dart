@@ -3,7 +3,7 @@ import 'package:football_app/models/fixture.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
-import 'package:football_app/widgets/tiles/fixture_tile.dart';
+import 'package:football_app/widgets/tiles/tile.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 // TODO: zrobić pobieranie rund dla ligi i zmiana groupcomparera na podstawie indeksów w liście rund
@@ -47,8 +47,12 @@ class FixtureList extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            itemBuilder: (context, fixture) => FixtureTile(
-              fixture: fixture,
+            // itemBuilder: (context, fixture) => FixtureTile(
+            //   fixture: fixture,
+            //   key: ValueKey(fixture.fixtureId),
+            // ),
+            itemBuilder: (context, fixture) => Tile<Fixture>(
+              tileData: fixture,
               key: ValueKey(fixture.fixtureId),
             ),
           )

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/models/team_rank.dart';
+import 'package:football_app/models/team_rank_data.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
 
-class TeamRankTile extends StatelessWidget {
-  final TeamRank teamRank;
-  const TeamRankTile({
+class TeamRank extends StatelessWidget {
+  final TeamRankData teamRankData;
+  const TeamRank({
     super.key,
-    required this.teamRank,
+    required this.teamRankData,
   });
 
   @override
   Widget build(BuildContext context) {
     List<String> teamData = [
-      '${teamRank.played}',
-      '${teamRank.goalsFor}:${teamRank.goalsAgainst}',
-      '${teamRank.points}',
+      '${teamRankData.played}',
+      '${teamRankData.goalsFor}:${teamRankData.goalsAgainst}',
+      '${teamRankData.points}',
     ];
 
     return Padding(
@@ -31,7 +31,7 @@ class TeamRankTile extends StatelessWidget {
               width: AppSize.s30,
               height: AppSize.s20,
               child: Text(
-                '${teamRank.rank.toString()}.',
+                '${teamRankData.rank.toString()}.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16),
               ),
@@ -39,13 +39,13 @@ class TeamRankTile extends StatelessWidget {
             Image(
               width: AppSize.s20,
               height: AppSize.s20,
-              image: NetworkImage(teamRank.team.logo),
+              image: NetworkImage(teamRankData.team.logo),
             ),
             const SizedBox(
               width: AppSize.s10,
             ),
             Text(
-              teamRank.team.name,
+              teamRankData.team.name,
               style: const TextStyle(fontSize: 16),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/models/abstract/tile_fav_element.dart';
 import 'package:football_app/models/country.dart';
+import 'package:football_app/screens/league_details_screen.dart';
 
-class League implements Comparable<League> {
+class League extends TileFavElement implements Comparable<League> {
   int leagueId;
   String name;
   String? type;
@@ -53,5 +57,58 @@ class League implements Comparable<League> {
     } else {
       return res;
     }
+  }
+
+  @override
+  Widget nextScreen() {
+    return LeagueDetailsScreen(league: this);
+  }
+
+  @override
+  Future addToFavourites() async {
+    FirestoreService.addToFavourites(this);
+  }
+
+  @override
+  Future removeFromFavourites() async {
+    FirestoreService.removeFromFavourites(this);
+  }
+
+  @override
+  List<Widget> buildElements() {
+    return [
+      Image(
+        width: 32,
+        height: 32,
+        image: NetworkImage(logo),
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                country!.name,
+                style: const TextStyle(
+                  overflow: TextOverflow.fade,
+                  color: Colors.grey,
+                  fontSize: 15,
+                ),
+              ),
+              Text(
+                name,
+                softWrap: false,
+                style: const TextStyle(
+                  overflow: TextOverflow.fade,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 }

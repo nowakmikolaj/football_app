@@ -1,6 +1,6 @@
 import 'package:football_app/models/team.dart';
 
-class TeamRank implements Comparable<TeamRank> {
+class TeamRankData implements Comparable<TeamRankData> {
   final int rank;
   final Team team;
   final int points;
@@ -16,7 +16,7 @@ class TeamRank implements Comparable<TeamRank> {
   final String? status;
   final String? description;
 
-  TeamRank({
+  TeamRankData({
     required this.rank,
     required this.team,
     required this.points,
@@ -33,11 +33,11 @@ class TeamRank implements Comparable<TeamRank> {
     this.description,
   });
 
-  factory TeamRank.fromJson(
+  factory TeamRankData.fromJson(
     Map<String, dynamic> json, {
     required Team team,
   }) {
-    return TeamRank(
+    return TeamRankData(
       rank: json['rank'],
       team: team,
       points: json['points'],
@@ -56,7 +56,7 @@ class TeamRank implements Comparable<TeamRank> {
   }
 
   @override
-  int compareTo(TeamRank other) {
+  int compareTo(TeamRankData other) {
     return rank.compareTo(other.rank);
   }
 }

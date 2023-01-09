@@ -9,7 +9,7 @@ import 'package:football_app/models/match_result.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/standings.dart';
 import 'package:football_app/models/team.dart';
-import 'package:football_app/models/team_rank.dart';
+import 'package:football_app/models/team_rank_data.dart';
 
 class LeagueDataSource {
   static final instance = LeagueDataSource._();
@@ -101,12 +101,12 @@ class LeagueDataSource {
     var league = res['response'][0]['league'];
     var standings = league['standings'];
 
-    List<List<TeamRank>> data = [];
+    List<List<TeamRankData>> data = [];
     for (int j = 0; j < standings.length; j++) {
-      List<TeamRank> fetchedStandings = [];
+      List<TeamRankData> fetchedStandings = [];
       for (int i = 0; i < standings[j].length; i++) {
         fetchedStandings.add(
-          TeamRank.fromJson(standings[j][i],
+          TeamRankData.fromJson(standings[j][i],
               team: Team.fromJson(
                 standings[j][i]['team'],
               )),
