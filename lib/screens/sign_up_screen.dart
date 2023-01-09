@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/my_app.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
@@ -167,9 +168,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: passwordController.text.trim(),
       );
 
+      FirestoreService.addUser(emailController.text);
+
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
       MessengerManager.showMessageBarError(e.message);
+      navigatorKey.currentState!.pop();
+    } catch (e) {
+      MessengerManager.showMessageBarError(e.toString());
       navigatorKey.currentState!.pop();
     }
   }

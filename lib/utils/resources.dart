@@ -38,4 +38,7 @@ class Resources {
   static const sendVerificationEmailButton = "Resend email";
   static const emailSent = "Email sent";
   static const emailCannotBeSent = "Email has already been sent";
+
+  static const noFavouritesLeaguesMessage =
+      "When you add leagues to favourites, they will appear here.";
 }

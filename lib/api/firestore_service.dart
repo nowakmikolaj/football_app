@@ -20,6 +20,9 @@ class FirestoreService {
 
   static Future<List<League>> getFavouriteLeagues() async {
     final favLeagueIds = await getFavouriteLeagueIds();
+    if (favLeagueIds.isEmpty) {
+      return [];
+    }
 
     final leagues = (await FirebaseFirestore.instance
             .collection("leagues")
@@ -102,5 +105,13 @@ class FirestoreService {
         .update({
       "favourite_leagues": FieldValue.arrayRemove([league.leagueId]),
     });
+  }
+
+  static Future addUser(String email) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(email)
+        .set({"favourite_leagues": []}).onError(
+            (error, stackTrace) => print("error writing user $error"));
   }
 }

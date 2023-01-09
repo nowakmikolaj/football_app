@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/api/firestore_service.dart';
-import 'package:football_app/datasources/league_data_source.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/assets.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
@@ -83,7 +83,11 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
               return TabBarView(
                 children: [
-                  LeagueList(leagues: favouriteLeagues),
+                  favouriteLeagues.isEmpty
+                      ? const EmptyList(
+                          assetImage: Assets.noFavourites,
+                          message: Resources.noFavouritesLeaguesMessage)
+                      : LeagueList(leagues: favouriteLeagues),
                   const EmptyList(
                       assetImage: Assets.supporter, message: "halo"),
                 ],

@@ -75,10 +75,12 @@ flutter:
   assets:
     - assets/images/fixturesNotFound.png
     - assets/images/standingsNotFound.png
+    - assets/images/leaguesNotFound.png
     - assets/images/login_user.png
     - assets/images/forgot.png
     - assets/images/password.png
     - assets/images/supporter.png
+    - assets/images/noFavourites.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

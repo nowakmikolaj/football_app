@@ -24,15 +24,15 @@ class _LeagueTileState extends State<LeagueTile> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {},
-      //TODO: odkomentować
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (_) => LeagueDetailsScreen(
-      //       league: widget.league,
-      //     ),
-      //   ),
-      // ),
+      onTap: () =>
+          //TODO: odkomentować
+          Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => LeagueDetailsScreen(
+            league: widget.league,
+          ),
+        ),
+      ),
       child: Container(
         height: AppSize.s50,
         margin: const EdgeInsets.only(left: 20, right: 20),
@@ -100,6 +100,7 @@ class _LeagueTileState extends State<LeagueTile> {
           });
         },
         icon: const Icon(CupertinoIcons.star_fill),
+        splashRadius: AppSize.s15,
         iconSize: AppSize.s20,
       );
     }
@@ -112,6 +113,7 @@ class _LeagueTileState extends State<LeagueTile> {
         });
       },
       icon: const Icon(CupertinoIcons.star),
+      splashRadius: AppSize.s15,
       iconSize: AppSize.s20,
     );
   }
