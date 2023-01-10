@@ -71,8 +71,10 @@ class FixtureHeader extends StatefulWidget {
     super.key,
     required this.fixture,
     required this.bet,
+    this.isHeader = true,
   });
 
+  final bool isHeader;
   final Fixture fixture;
   List<Bet> bet;
 
@@ -84,106 +86,128 @@ class _FixtureHeaderState extends State<FixtureHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.black.withOpacity(0.3)
-            : Colors.grey[400],
-      ),
-      padding: const EdgeInsets.only(
-        top: AppPadding.p20,
-        bottom: AppPadding.p20,
-      ),
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              fit: BoxFit.cover,
-              width: AppSize.s20,
-              height: AppSize.s20,
-              image: NetworkImage(widget.fixture.league.logo),
-            ),
-            const SizedBox(
-              width: AppSize.s5,
-            ),
-            Text(
-              widget.fixture.league.name,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: AppSize.s10,
-        ),
-        Row(
-          children: [
-            ...widget.fixture.buildElements(),
-          ],
-        ),
-        widget.bet.isEmpty && widget.fixture.isUpcoming()
-            ? Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade700,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+      decoration: widget.isHeader
+          ? BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.grey[400],
+            )
+          : const BoxDecoration(),
+      padding: widget.isHeader
+          ? const EdgeInsets.only(
+              top: AppPadding.p20,
+              bottom: AppPadding.p20,
+            )
+          : const EdgeInsets.all(0.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                fit: BoxFit.cover,
+                width: AppSize.s20,
+                height: AppSize.s20,
+                image: NetworkImage(widget.fixture.league.logo),
+              ),
+              const SizedBox(
+                width: AppSize.s5,
+              ),
+              Text(
+                widget.fixture.league.name,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: AppSize.s10,
+          ),
+          Row(
+            children: [
+              ...widget.fixture.buildElements(),
+            ],
+          ),
+          widget.bet.isEmpty && widget.fixture.isUpcoming()
+              ? Column(
+                  children: [
+                    const SizedBox(
+                      height: AppSize.s20,
                     ),
-                    onPressed: () async {
-                      var result = await showDialog<Map<String, int>>(
-                        context: context,
-                        builder: (context) => Center(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: AlertDialog(
-                              insetPadding: EdgeInsets.zero,
-                              scrollable: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              contentPadding: EdgeInsets.zero,
-                              content: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: AppSize.s20,
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey.shade700,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () async {
+                        var result = await showDialog<Map<String, int>>(
+                          context: context,
+                          builder: (context) => Center(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: AlertDialog(
+                                insetPadding: EdgeInsets.zero,
+                                scrollable: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
                                 ),
-                                child: BetDialogContent(
-                                  bet: Bet(
-                                    fixture: widget.fixture,
+                                contentPadding: EdgeInsets.zero,
+                                content: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: AppSize.s20,
+                                  ),
+                                  child: BetDialogContent(
+                                    bet: Bet(
+                                      fixture: widget.fixture,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                      if (result != null) {
-                        final bet = Bet(
-                          fixture: widget.fixture,
-                          goals: Score.fromJson(result),
-                          userId: FirebaseAuth.instance.currentUser!.email,
                         );
+                        if (result != null) {
+                          final bet = Bet(
+                            fixture: widget.fixture,
+                            goals: Score.fromJson(result),
+                            userId: FirebaseAuth.instance.currentUser!.email,
+                          );
 
-                        bet.placeBet();
-                        setState(() {
-                          widget.bet = [bet];
-                        });
-                      }
-                    },
-                    child: const Text("Place a bet"),
-                  ),
-                ],
-              )
-            : BetInfo(bet: widget.bet.first),
-      ]),
+                          bet.placeBet();
+                          setState(() {
+                            widget.bet = [bet];
+                          });
+                        }
+                      },
+                      child: const Text("Place a bet"),
+                    ),
+                  ],
+                )
+              : widget.bet.isNotEmpty
+                  ? BetInfo(
+                      bet: widget.bet.first,
+                      fixture: widget.fixture,
+                      isHeader: widget.isHeader,
+                    )
+                  : Container(),
+        ],
+      ),
     );
   }
 }
 
 class BetInfo extends StatelessWidget {
-  const BetInfo({Key? key, required this.bet}) : super(key: key);
+  const BetInfo({
+    Key? key,
+    required this.bet,
+    required this.fixture,
+    required this.isHeader,
+  }) : super(key: key);
 
   final Bet bet;
+  final Fixture fixture;
+  final bool isHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +221,11 @@ class BetInfo extends StatelessWidget {
             vertical: AppPadding.p2,
           ),
           decoration: BoxDecoration(
-            color: Colors.grey[800],
+            color: isHeader
+                ? Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[800]
+                    : Colors.grey
+                : Colors.black38,
             borderRadius: BorderRadius.circular(AppSize.s20),
           ),
           child: Column(
@@ -208,7 +236,7 @@ class BetInfo extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: FontSize.subTitle),
               ),
-              bet.fixture != null && bet.fixture!.isFinished()
+              fixture.isFinished()
                   ? Text(
                       "Points earned: ${bet.points ?? '?'}",
                       style: const TextStyle(

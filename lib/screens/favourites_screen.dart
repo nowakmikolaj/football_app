@@ -89,7 +89,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                           message: Resources.noFavouritesLeaguesMessage)
                       : LeagueList(leagues: favouriteLeagues),
                   const EmptyList(
-                      assetImage: Assets.supporter, message: "halo"),
+                      assetImage: Assets.supporter, message: "Coming soon..."),
                 ],
               );
             } else {

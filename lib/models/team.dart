@@ -22,6 +22,15 @@ class Team implements Comparable<Team> {
     );
   }
 
+  Map<String, dynamic> toFirestore() {
+    return <String, dynamic>{
+      "id": teamId,
+      "name": name,
+      "logo": logo,
+      "winner": winner,
+    };
+  }
+
   @override
   int compareTo(Team other) {
     return name.compareTo(other.name);

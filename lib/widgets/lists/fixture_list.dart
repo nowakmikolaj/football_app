@@ -47,10 +47,6 @@ class FixtureList extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            // itemBuilder: (context, fixture) => FixtureTile(
-            //   fixture: fixture,
-            //   key: ValueKey(fixture.fixtureId),
-            // ),
             itemBuilder: (context, fixture) => Tile<Fixture>(
               tileData: fixture,
               key: ValueKey(fixture.fixtureId),

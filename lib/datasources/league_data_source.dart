@@ -88,6 +88,7 @@ class LeagueDataSource {
     required int leagueId,
     int season = 2022,
   }) async {
+    return Standings(standings: []);
     final response = await FootballService.get(
       url: FootballApiEndpoints.getStandingsUrl(leagueId, season),
       headers: FootballService.headers,

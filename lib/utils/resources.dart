@@ -43,4 +43,8 @@ class Resources {
       "When you add leagues to favourites, they will appear here.";
 
   static const betValidationError = "Fields cannot be empty";
+
+  static const profileSceenTitle = "My account";
+  static const betsHistory = "History of your bets";
 }
+

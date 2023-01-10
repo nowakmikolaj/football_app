@@ -21,8 +21,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0.0,
       actions: [
-          getThemeModeAction(context),
-        ],
+        getThemeModeAction(context),
+        ...actions ?? [],
+      ],
       centerTitle: true,
       leading: GestureDetector(
         onTap: backOnTap ? () => Navigator.pop(context) : () => {},
@@ -37,8 +38,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  
 
   @override
   Size get preferredSize => const Size.fromHeight(AppSize.s50);

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/models/league.dart';
@@ -18,7 +19,7 @@ class Fixture extends TileElement implements Comparable<Fixture> {
   Team homeTeam;
   Team awayTeam;
   League league;
-  MatchResult matchResult;
+  MatchResult? matchResult;
   Score goals;
 
   Fixture(
@@ -28,8 +29,8 @@ class Fixture extends TileElement implements Comparable<Fixture> {
     this.homeTeam,
     this.awayTeam,
     this.league,
-    this.matchResult,
     this.goals, {
+    this.matchResult,
     this.referee,
   });
 
@@ -48,9 +49,40 @@ class Fixture extends TileElement implements Comparable<Fixture> {
       homeTeam,
       awayTeam,
       league,
-      matchResult,
+      goals,
+      matchResult: matchResult,
+    );
+  }
+
+  factory Fixture.fromFirebase({
+    required Map<String, dynamic> json,
+    required League league,
+    required Team homeTeam,
+    required Team awayTeam,
+    required Score goals,
+  }) {
+    return Fixture(
+      json['id'],
+      DateTime.parse(json['date'].toDate().toString()),
+      json['status'],
+      homeTeam,
+      awayTeam,
+      league,
       goals,
     );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return <String, dynamic>{
+      "id": fixtureId,
+      "date": date,
+      "status": status,
+      "homeTeamId": FirebaseFirestore.instance.doc("teams/${homeTeam.teamId}"),
+      "awayTeamId": FirebaseFirestore.instance.doc("teams/${awayTeam.teamId}"),
+      "league": FirebaseFirestore.instance.doc("leagues/${league.leagueId}"),
+      "home": goals.home,
+      "away": goals.away,
+    };
   }
 
   // ignore: non_constant_identifier_names
