@@ -41,4 +41,6 @@ class Resources {
 
   static const noFavouritesLeaguesMessage =
       "When you add leagues to favourites, they will appear here.";
+
+  static const betValidationError = "Fields cannot be empty";
 }

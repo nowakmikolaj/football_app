@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/league.dart';
 
@@ -113,5 +114,27 @@ class FirestoreService {
         .doc(email)
         .set({"favourite_leagues": []}).onError(
             (error, stackTrace) => print("error writing user $error"));
+  }
+
+  static Future placeBet(Bet bet) async {
+    await FirebaseFirestore.instance
+        .collection("bets")
+        .doc()
+        .set(bet.toFirestore());
+  }
+
+  static Future<List<Bet>?> getBet(int fixtureId) async {
+    final data = (await FirebaseFirestore.instance
+            .collection("bets")
+            .where("userId",
+                isEqualTo: FirebaseAuth.instance.currentUser!.email)
+            .where("id", isEqualTo: fixtureId)
+            .get())
+        .docs
+        .map((e) => e.data());
+
+    if (data.isEmpty) return [];
+
+    return [Bet.fromJson(json: data.first)];
   }
 }

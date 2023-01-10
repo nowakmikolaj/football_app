@@ -13,4 +13,8 @@ class Validation {
         ? Resources.passwordValidationError
         : null;
   }
+
+  static String? validateBet(String? text) {
+    return text != null && text.isEmpty ? "" : null;
+  }
 }
