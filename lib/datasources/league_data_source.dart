@@ -50,8 +50,17 @@ class LeagueDataSource {
     required int leagueId,
     int season = 2022,
   }) async {
+    final fixtures = await getFixtures(
+      FootballApiEndpoints.getFixturesByCountryUrl(leagueId, season),
+    );
+
+    fixtures.sort((a, b) => a.compareTo(b));
+    return fixtures;
+  }
+
+  Future<List<Fixture>> getFixtures(String url) async {
     final response = await FootballService.get(
-      url: FootballApiEndpoints.getFixturesUrl(leagueId, season),
+      url: url,
       headers: FootballService.headers,
     );
 
@@ -80,7 +89,6 @@ class LeagueDataSource {
       );
     }
 
-    fetchedFixtures.sort((a, b) => a.compareTo(b));
     return fetchedFixtures;
   }
 

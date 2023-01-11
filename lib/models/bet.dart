@@ -36,9 +36,25 @@ class Bet implements Comparable<Bet> {
       "away": goals!.away!,
       "userId": userId,
       "timestamp": DateTime.now(),
+      "points": points,
       "fixture":
           FirebaseFirestore.instance.doc("fixtures/${fixture!.fixtureId}"),
     };
+  }
+
+  bool settle() {
+    if (goals == null ||
+        goals!.home == null ||
+        goals!.away == null ||
+        fixture == null ||
+        fixture!.goals.home == null ||
+        fixture!.goals.away == null) {
+      return false;
+    }
+
+    points = goals!.compareTo(fixture!.goals);
+
+    return points != null;
   }
 
   @override
@@ -46,6 +62,6 @@ class Bet implements Comparable<Bet> {
     if (timestamp == null || other.timestamp == null) {
       return -1;
     }
-    return timestamp!.compareTo(other.timestamp!);
+    return other.timestamp!.compareTo(timestamp!);
   }
 }

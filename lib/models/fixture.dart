@@ -54,7 +54,7 @@ class Fixture extends TileElement implements Comparable<Fixture> {
     );
   }
 
-  factory Fixture.fromFirebase({
+  factory Fixture.fromFirestore({
     required Map<String, dynamic> json,
     required League league,
     required Team homeTeam,
@@ -77,8 +77,18 @@ class Fixture extends TileElement implements Comparable<Fixture> {
       "id": fixtureId,
       "date": date,
       "status": status,
-      "homeTeamId": FirebaseFirestore.instance.doc("teams/${homeTeam.teamId}"),
-      "awayTeamId": FirebaseFirestore.instance.doc("teams/${awayTeam.teamId}"),
+      "homeTeam": {
+        "id": homeTeam.teamId,
+        "name": homeTeam.name,
+        "logo": homeTeam.logo,
+        "winner": homeTeam.winner,
+      },
+      "awayTeam": {
+        "id": awayTeam.teamId,
+        "name": awayTeam.name,
+        "logo": awayTeam.logo,
+        "winner": awayTeam.winner,
+      },
       "league": FirebaseFirestore.instance.doc("leagues/${league.leagueId}"),
       "home": goals.home,
       "away": goals.away,
@@ -131,6 +141,12 @@ class Fixture extends TileElement implements Comparable<Fixture> {
 
   bool isFinished() {
     return getStatus()!.index <= FixtureStatus.FT.index;
+  }
+
+  bool shouldSettleBet() {
+    final now = DateTime.now();
+    return now.isAfter(date.add(const Duration(hours: 2))) &&
+        getStatus()! != FixtureStatus.PST;
   }
 
   @override

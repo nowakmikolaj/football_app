@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:football_app/api/endpoints.dart';
+import 'package:football_app/datasources/league_data_source.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/fixture.dart';
@@ -139,14 +142,15 @@ class FirestoreService {
   static Future addBet(Bet bet) async {
     await FirebaseFirestore.instance
         .collection("bets")
-        .doc()
+        .doc(
+            "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}")
         .set(bet.toFirestore())
         .onError((error, stackTrace) => print("${error.toString()}"));
   }
 
   static Future placeBet(Bet bet) async {
-    addTeam(bet.fixture!.homeTeam);
-    addTeam(bet.fixture!.awayTeam);
+    // addTeam(bet.fixture!.homeTeam);
+    // addTeam(bet.fixture!.awayTeam);
     addFixture(bet.fixture!);
     addBet(bet);
   }
@@ -189,28 +193,102 @@ class FirestoreService {
         .map((e) => e.data());
 
     List<Bet> bets = [];
+    List<Bet> betsToSettle = [];
+    List<Bet> betsToSettleWithFixtureUpdate = [];
+    if (data.isNotEmpty) {
+      for (final item in data) {
+        final fixtureDoc = await getItem(item['fixture'].path);
+        final leagueDoc = await getItem(fixtureDoc!['league'].path);
+        final goals = Score.fromJson(fixtureDoc);
 
-    for (final item in data) {
-      final fixtureDoc = await getItem(item['fixture'].path);
-      final leagueDoc = await getItem(fixtureDoc!['league'].path);
-      final homeTeamDoc = await getItem(fixtureDoc['homeTeamId'].path);
-      final awayTeamDoc = await getItem(fixtureDoc['awayTeamId'].path);
-      final goals = Score.fromJson(fixtureDoc);
+        final fixture = Fixture.fromFirestore(
+          json: fixtureDoc,
+          league: League.fromJson(leagueDoc!),
+          homeTeam: Team.fromJson(fixtureDoc['homeTeam']),
+          awayTeam: Team.fromJson(fixtureDoc['awayTeam']),
+          goals: goals,
+        );
 
-      final fixture = Fixture.fromFirebase(
-        json: fixtureDoc,
-        league: League.fromJson(leagueDoc!),
-        homeTeam: Team.fromJson(homeTeamDoc!),
-        awayTeam: Team.fromJson(awayTeamDoc!),
-        goals: goals,
-      );
+        final bet = Bet.fromJson(json: item, fixture: fixture);
 
-      bets.add(Bet.fromJson(json: item, fixture: fixture));
+        if (bet.points == null) {
+          if (bet.fixture!.isFinished()) {
+            // zwykłe naliczenie punktów
+            betsToSettle.add(bet);
+          } else if (bet.fixture!.shouldSettleBet()) {
+            // trzeba zaktualizować fixture
+            betsToSettleWithFixtureUpdate.add(bet);
+          } else {} // nic nie robimy, mecz trwa
+        }
+
+        bets.add(bet);
+      }
     }
+
+    for (final bet in betsToSettle) {
+      if (!bet.settle()) {
+        betsToSettleWithFixtureUpdate.add(bet);
+      }
+    }
+
+    List<Fixture> updatedFixtures = [];
+    for (int i = 0; i < betsToSettleWithFixtureUpdate.length;) {
+      List<int> fixtureIdsToUpdate = [];
+      for (int j = 0;
+          j < min(20, betsToSettleWithFixtureUpdate.length);
+          j++, i++) {
+        fixtureIdsToUpdate
+            .add(betsToSettleWithFixtureUpdate[i].fixture!.fixtureId);
+      }
+      final updated = await getFixtureByIds(fixtureIdsToUpdate);
+      updatedFixtures = [...updatedFixtures, ...updated];
+    }
+
+    if (updatedFixtures.isNotEmpty) {
+      migrateFixtures(updatedFixtures);
+    }
+
+    for (final fixture in updatedFixtures) {
+      final betRef = bets
+          .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
+          .single;
+      betRef.fixture = fixture;
+      betRef.settle();
+    }
+
+    migrateBets(bets);
 
     bets.sort(((a, b) => a.compareTo(b)));
 
     return bets;
+  }
+
+  static void migrateBets(List<Bet> bets) {
+    final batch = FirebaseFirestore.instance.batch();
+    for (var bet in bets) {
+      final docRef = FirebaseFirestore.instance.collection("bets").doc(
+          "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}");
+      batch.update(docRef, {"points": bet.points});
+    }
+    batch.commit();
+  }
+
+  static void migrateFixtures(List<Fixture> fixtures) {
+    final batch = FirebaseFirestore.instance.batch();
+    for (var fixture in fixtures) {
+      final docRef = FirebaseFirestore.instance
+          .collection("fixtures")
+          .doc(fixture.fixtureId.toString());
+      batch.set(docRef, fixture.toFirestore());
+    }
+
+    batch.commit();
+  }
+
+  static Future<List<Fixture>> getFixtureByIds(List<int> ids) async {
+    return await LeagueDataSource.instance.getFixtures(
+      FootballApiEndpoints.getFixturesByIdsUrl(ids),
+    );
   }
 
   static Future<Map<String, dynamic>?> getItem(
