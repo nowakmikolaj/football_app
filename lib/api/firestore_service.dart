@@ -253,7 +253,9 @@ class FirestoreService {
           .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
           .single;
       betRef.fixture = fixture;
-      betRef.settle();
+      if (fixture.isFinished()) {
+        betRef.settle();
+      }
     }
 
     migrateBets(bets);

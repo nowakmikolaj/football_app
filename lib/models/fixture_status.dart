@@ -1,6 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-
 enum FixtureStatus {
   CANC, // Match Cancelled
   AWD, // Technical Loss
@@ -43,4 +42,26 @@ const statusDictionary = <String, FixtureStatus>{
   'AWD': FixtureStatus.AWD,
   'WO': FixtureStatus.WO,
   'LIVE': FixtureStatus.LIVE,
+};
+
+const statusDescriptionDictionary = <String, String>{
+  'TBD': "Time To Be Defined",
+  'NS': "Not Started",
+  '1H': "1st Half",
+  'HT': "Halftime",
+  '2H': "2nd Half",
+  'ET': "Extra Time",
+  'BT': "Break Time",
+  'P': "Penalty In Progress",
+  'SUSP': "Suspended",
+  'INT': "Interrupted",
+  'FT': "Finished",
+  'AET': "After Extra Time",
+  'PEN': "After Penalties",
+  'PST': "Postponed",
+  'CANC': "Cancelled",
+  'ABD': "Abandoned",
+  'AWD': "Technical Loss",
+  'WO': "WalkOver",
+  'LIVE': "LIVE",
 };

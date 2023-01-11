@@ -127,6 +127,8 @@ class Fixture extends TileElement implements Comparable<Fixture> {
 
   FixtureStatus? getStatus() => statusDictionary[status];
 
+  String? getStatusDescription() => statusDescriptionDictionary[status];
+
   bool isLive() {
     final status = getStatus();
     return status!.index > FixtureStatus.FT.index &&
@@ -141,6 +143,10 @@ class Fixture extends TileElement implements Comparable<Fixture> {
 
   bool isFinished() {
     return getStatus()!.index <= FixtureStatus.FT.index;
+  }
+
+  bool canPlaceBet() {
+    return getStatus()! == FixtureStatus.NS;
   }
 
   bool shouldSettleBet() {
@@ -207,7 +213,7 @@ class Fixture extends TileElement implements Comparable<Fixture> {
                   const SizedBox(height: AppSize.s2),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: AppPadding.p15,
+                      horizontal: AppPadding.p10,
                       vertical: AppPadding.p2,
                     ),
                     decoration: BoxDecoration(
@@ -217,7 +223,7 @@ class Fixture extends TileElement implements Comparable<Fixture> {
                       borderRadius: BorderRadius.circular(AppSize.s20),
                     ),
                     child: Text(
-                      status,
+                      getStatusDescription()!,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: FontSize.paragraph,

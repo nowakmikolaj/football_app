@@ -127,63 +127,8 @@ class _FixtureHeaderState extends State<FixtureHeader> {
               ...widget.fixture.buildElements(),
             ],
           ),
-          widget.bet.isEmpty && widget.fixture.isUpcoming()
-              ? Column(
-                  children: [
-                    const SizedBox(
-                      height: AppSize.s20,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey.shade700,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () async {
-                        var result = await showDialog<Map<String, int>>(
-                          context: context,
-                          builder: (context) => Center(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: AlertDialog(
-                                insetPadding: EdgeInsets.zero,
-                                scrollable: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                contentPadding: EdgeInsets.zero,
-                                content: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: AppSize.s20,
-                                  ),
-                                  child: BetDialogContent(
-                                    bet: Bet(
-                                      fixture: widget.fixture,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                        if (result != null) {
-                          final bet = Bet(
-                            fixture: widget.fixture,
-                            goals: Score.fromJson(result),
-                            userId: FirebaseAuth.instance.currentUser!.email,
-                          );
-
-                          bet.placeBet();
-                          setState(() {
-                            widget.bet = [bet];
-                          });
-                        }
-                      },
-                      child: const Text("Place a bet"),
-                    ),
-                  ],
-                )
+          widget.bet.isEmpty && widget.fixture.canPlaceBet()
+              ? getBetButton()
               : widget.bet.isNotEmpty
                   ? BetInfo(
                       bet: widget.bet.first,
@@ -194,6 +139,67 @@ class _FixtureHeaderState extends State<FixtureHeader> {
         ],
       ),
     );
+  }
+
+  Column getBetButton() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: AppSize.s20,
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey.shade700,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          onPressed: showBetDialog,
+          child: const Text("Place a bet"),
+        ),
+      ],
+    );
+  }
+
+  void showBetDialog() async {
+    var result = await showDialog<Map<String, int>>(
+      context: context,
+      builder: (context) => Center(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+            insetPadding: EdgeInsets.zero,
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            contentPadding: EdgeInsets.zero,
+            content: Padding(
+              padding: const EdgeInsets.only(
+                top: AppSize.s20,
+              ),
+              child: BetDialogContent(
+                bet: Bet(
+                  fixture: widget.fixture,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    if (result != null) {
+      final bet = Bet(
+        fixture: widget.fixture,
+        goals: Score.fromJson(result),
+        userId: FirebaseAuth.instance.currentUser!.email,
+      );
+
+      bet.placeBet();
+      setState(() {
+        widget.bet = [bet];
+      });
+    }
   }
 }
 
