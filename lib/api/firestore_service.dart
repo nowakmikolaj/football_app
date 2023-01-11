@@ -246,19 +246,19 @@ class FirestoreService {
 
     if (updatedFixtures.isNotEmpty) {
       migrateFixtures(updatedFixtures);
-    }
 
-    for (final fixture in updatedFixtures) {
-      final betRef = bets
-          .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
-          .single;
-      betRef.fixture = fixture;
-      if (fixture.isFinished()) {
-        betRef.settle();
+      for (final fixture in updatedFixtures) {
+        final betRef = bets
+            .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
+            .single;
+        betRef.fixture = fixture;
+        if (fixture.isFinished()) {
+          betRef.settle();
+        }
       }
-    }
 
-    migrateBets(bets);
+      migrateBets(bets);
+    }
 
     bets.sort(((a, b) => a.compareTo(b)));
 

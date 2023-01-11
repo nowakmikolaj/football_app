@@ -196,7 +196,12 @@ class Fixture extends TileElement implements Comparable<Fixture> {
                     children: [
                       Text(
                         goals.home != null ? goals.home.toString() : '',
-                        style: const TextStyle(fontSize: FontSize.title),
+                        style: TextStyle(
+                          fontSize: FontSize.title,
+                          fontWeight: homeTeam.isWinner()
+                              ? FontWeights.bold
+                              : FontWeights.regular,
+                        ),
                       ),
                       !isUpcoming()
                           ? const Text(
@@ -206,7 +211,12 @@ class Fixture extends TileElement implements Comparable<Fixture> {
                           : Container(),
                       Text(
                         goals.away != null ? goals.away.toString() : '',
-                        style: const TextStyle(fontSize: FontSize.title),
+                        style: TextStyle(
+                          fontSize: FontSize.title,
+                          fontWeight: awayTeam.isWinner()
+                              ? FontWeights.bold
+                              : FontWeights.regular,
+                        ),
                       )
                     ],
                   ),

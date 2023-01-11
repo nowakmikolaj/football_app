@@ -10,6 +10,7 @@ import 'package:football_app/models/score.dart';
 import 'package:football_app/models/standings.dart';
 import 'package:football_app/models/team.dart';
 import 'package:football_app/models/team_rank_data.dart';
+import 'package:football_app/utils/messenger_manager.dart';
 
 class LeagueDataSource {
   static final instance = LeagueDataSource._();
@@ -66,6 +67,7 @@ class LeagueDataSource {
 
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
     print('[fixtures] Remaining requests: $requestsLeft');
+    MessengerManager.showMessageBarWarning('Remaining requests: $requestsLeft');
 
     Map<String, dynamic> res = json.decode(response.body);
     var fixtures = res['response'];

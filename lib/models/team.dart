@@ -31,6 +31,10 @@ class Team implements Comparable<Team> {
     };
   }
 
+  bool isWinner() {
+    return winner != null && winner!;
+  }
+
   @override
   int compareTo(Team other) {
     return name.compareTo(other.name);
