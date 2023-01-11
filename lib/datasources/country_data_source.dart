@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/models/country.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:football_app/api/endpoints.dart';
 import 'package:football_app/api/firestore_service.dart';
@@ -29,6 +31,7 @@ class LeagueDataSource {
     );
     var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
     print('[leagues] Remaining requests: $requestsLeft');
+    MessengerManager.showMessageBarWarning('Remaining requests: $requestsLeft');
 
     Map<String, dynamic> res = json.decode(response.body);
     var leagues = res['response'];
@@ -98,7 +101,7 @@ class LeagueDataSource {
     required int leagueId,
     int season = 2022,
   }) async {
-    return Standings(standings: []);
+    return const Standings(standings: []);
     final response = await FootballService.get(
       url: FootballApiEndpoints.getStandingsUrl(leagueId, season),
       headers: FootballService.headers,

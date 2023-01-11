@@ -4,6 +4,7 @@ import 'package:football_app/models/abstract/tile_fav_element.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/widgets/tiles/tile.dart';
 
+// ignore: must_be_immutable
 class TileFav<T extends TileFavElement> extends Tile<T> {
   TileFav({
     super.key,

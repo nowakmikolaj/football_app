@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:football_app/api/endpoints.dart';
 import 'package:football_app/datasources/league_data_source.dart';
 import 'package:football_app/models/abstract/searchable_tile_element.dart';
-import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/fixture.dart';
@@ -148,7 +149,7 @@ class FirestoreService {
         .collection("teams")
         .doc(team.teamId.toString())
         .set(team.toFirestore())
-        .onError((error, stackTrace) => print("${error.toString()}"));
+        .onError((error, stackTrace) => print(error.toString()));
   }
 
   static Future addFixture(Fixture fixture) async {
@@ -156,7 +157,7 @@ class FirestoreService {
         .collection("fixtures")
         .doc(fixture.fixtureId.toString())
         .set(fixture.toFirestore())
-        .onError((error, stackTrace) => print("${error.toString()}"));
+        .onError((error, stackTrace) => print(error.toString()));
   }
 
   static Future addBet(Bet bet) async {
@@ -165,7 +166,7 @@ class FirestoreService {
         .doc(
             "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}")
         .set(bet.toFirestore())
-        .onError((error, stackTrace) => print("${error.toString()}"));
+        .onError((error, stackTrace) => print(error.toString()));
   }
 
   static Future placeBet(Bet bet) async {

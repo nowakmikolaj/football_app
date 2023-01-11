@@ -26,7 +26,7 @@ class Country extends SearchableTileElement implements Comparable<Country> {
   }
 
   // TODO: wywalić
-  static List<String> topCountries = [
+  static final List<String> _topCountries = [
     'England',
     'Spain',
     'Germany',
@@ -46,14 +46,14 @@ class Country extends SearchableTileElement implements Comparable<Country> {
 
   @override
   int compareTo(Country other) {
-    if (topCountries.contains(name)) {
-      if (topCountries.contains(other.name)) {
+    if (_topCountries.contains(name)) {
+      if (_topCountries.contains(other.name)) {
         return name.compareTo(other.name);
       }
       return -1;
     }
 
-    if (topCountries.contains(other.name)) return 1;
+    if (_topCountries.contains(other.name)) return 1;
 
     return name.compareTo(other.name);
   }

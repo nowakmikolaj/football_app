@@ -66,6 +66,7 @@ class _FixtureDetailsScreenState extends State<FixtureDetailsScreen> {
   }
 }
 
+// ignore: must_be_immutable
 class FixtureHeader extends StatefulWidget {
   FixtureHeader({
     super.key,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/datasources/league_data_source.dart';

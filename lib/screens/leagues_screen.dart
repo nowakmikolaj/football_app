@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/models/country.dart';
 import 'package:football_app/datasources/league_data_source.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/widgets/center_indicator.dart';
