@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:football_app/models/abstract/searchable_tile_element.dart';
 import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/screens/leagues_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 
-class Country extends TileElement implements Comparable<Country> {
-  String name;
+class Country extends SearchableTileElement
+    implements Comparable<Country> {
   String? code;
   String flag;
+  
+  @override
+  String name;
 
   Country(
     this.name,
@@ -92,6 +96,6 @@ class Country extends TileElement implements Comparable<Country> {
 
   @override
   Widget nextScreen() {
-    return LeaguesScreen(country: this);
+    return LeaguesScreen(countryName: name);
   }
 }

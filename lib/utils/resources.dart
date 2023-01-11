@@ -47,4 +47,9 @@ class Resources {
   static const profileSceenTitle = "My account";
   static const betsHistory = "History of your bets";
   static const betsNotFound = "Bets not found";
+
+  static const searchFieldLabel = "Search for countries and leagues";
+  static const searchStart = "Start typing";
+  static const searchResultEmpty = "Nothing found";
+  static const searchError = "Something went wrong.\nContact the administrator";
 }

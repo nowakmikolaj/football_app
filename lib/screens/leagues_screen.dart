@@ -9,10 +9,10 @@ import 'package:football_app/widgets/lists/league_list.dart';
 class LeaguesScreen extends StatefulWidget {
   const LeaguesScreen({
     super.key,
-    required this.country,
+    required this.countryName,
   });
 
-  final Country country;
+  final String countryName;
 
   @override
   State<LeaguesScreen> createState() => _LeaguesScreenState();
@@ -22,8 +22,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   late Future<List<League>> _leagues;
 
   Future<void> _fetchLeagues() async {
-    _leagues = LeagueDataSource.instance
-        .getLeaguesByCountry(widget.country.name);
+    _leagues =
+        LeagueDataSource.instance.getLeaguesByCountry(widget.countryName);
   }
 
   @override

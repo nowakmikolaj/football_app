@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:football_app/api/endpoints.dart';
 import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/models/abstract/searchable_tile_element.dart';
+import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/fixture.dart';
@@ -47,6 +49,24 @@ class FirestoreService {
     }
 
     return result;
+  }
+
+  static Future<List<League>> getLeagues() async {
+    final data = (await FirebaseFirestore.instance.collection("leagues").get())
+        .docs
+        .map((e) => e.data());
+
+    List<League> leagues = [];
+    for (final item in data) {
+      leagues.add(
+          League.fromJson(item, country: Country(item['country'], '', '')));
+    }
+
+    return leagues;
+  }
+
+  static Future<List<SearchableTileElement>> getSearchData() async {
+    return [...(await getLeagues()), ...(await getCountries())];
   }
 
   static Future<List<League>> getLeaguesByCountry(String country) async {

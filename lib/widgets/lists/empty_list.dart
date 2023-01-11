@@ -13,23 +13,25 @@ class EmptyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image(
-          image: AssetImage(assetImage),
-          width: AppSize.s200,
-          height: AppSize.s200,
-        ),
-        const SizedBox(
-          height: AppSize.s20,
-        ),
-        Text(
-          message,
-          style: Theme.of(context).textTheme.titleLarge,
-          textAlign: TextAlign.center,
-        )
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(
+            image: AssetImage(assetImage),
+            width: AppSize.s200,
+            height: AppSize.s200,
+          ),
+          const SizedBox(
+            height: AppSize.s20,
+          ),
+          Text(
+            message,
+            style: Theme.of(context).textTheme.titleLarge,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
     );
   }
 }

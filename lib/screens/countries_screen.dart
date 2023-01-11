@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/country_data_source.dart';
 import 'package:football_app/models/country.dart';
+import 'package:football_app/utils/actions.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
 import 'package:football_app/widgets/lists/country_list.dart';
@@ -30,10 +31,13 @@ class _CountriesScreenState extends State<CountriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         data: 'Countries',
         icon: Icons.map_outlined,
         backOnTap: false,
+        actions: [
+          getActionSearchByName(context),
+        ],
       ),
       body: FutureBuilder(
           future: _countries,

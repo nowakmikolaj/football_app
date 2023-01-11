@@ -46,18 +46,11 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           ),
           elevation: 0.0,
           centerTitle: true,
-          leading: GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_ios),
-          ),
+          leading: const Icon(Icons.star_rounded),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.star_border_rounded),
-              ),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: const Text(

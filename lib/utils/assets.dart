@@ -10,4 +10,5 @@ class Assets {
   static const leaguesNotFound = "$images/leaguesNotFound.png";
   static const noFavourites = "$images/noFavourites.png";
   static const noBets = "$images/noBets.png";
+  static const search = "$images/search.png";
 }

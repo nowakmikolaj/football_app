@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   void onItemSelected(int index) {
     setState(() {

@@ -82,13 +82,16 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
                   image: NetworkImage(widget.league.logo),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.league.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22,
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    widget.league.name,
+                    style: const TextStyle(
+                      overflow: TextOverflow.fade,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 22,
+                    ),
                   ),
                 ),
               ),
