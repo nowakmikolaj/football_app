@@ -18,7 +18,6 @@ class FixtureList extends StatelessWidget {
   final bool descending;
 
   int comparator(String round1, String round2) {
-    // if (_fixtures.isNotEmpty && _fixtures[0].league.type == 'league') {
     final r1 = round1.replaceAll(RegExp(r'[^0-9]'), '');
     final r2 = round2.replaceAll(RegExp(r'[^0-9]'), '');
 

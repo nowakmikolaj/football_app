@@ -35,135 +35,140 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final themechanger = Provider.of<ThemeChanger>(context);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: context.width,
-            height: context.height / 10,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  Assets.supporter,
+      body: Center(
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: context.width,
+                height: context.height / 10,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      Assets.supporter,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-              left: AppSize.s20,
-              right: AppSize.s20,
-            ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: AppSize.s30,
-                  ),
-                  const Text(
-                    Resources.loginScreenTitle,
-                    style: TextStyle(
-                      fontSize: FontSize.mainTitle,
-                      fontWeight: FontWeights.bold,
-                    ),
-                  ),
-                  const Text(
-                    Resources.loginScreenSubTitle,
-                    style: TextStyle(
-                      fontSize: FontSize.title,
-                      fontWeight: FontWeights.semiBold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: AppSize.s50,
-                  ),
-                  LoginTextField(
-                    hint: Resources.loginHint,
-                    icon: Icons.email,
-                    controller: emailController,
-                    validate: Validation.validateEmail,
-                  ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  LoginTextField(
-                    hint: Resources.passwordHint,
-                    icon: Icons.password,
-                    controller: passwordController,
-                    validate: Validation.validatePassword,
-                    isPassword: true,
-                  ),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  Row(
+              Container(
+                margin: const EdgeInsets.only(
+                  left: AppSize.s20,
+                  right: AppSize.s20,
+                ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Container(),
+                      const SizedBox(
+                        height: AppSize.s30,
                       ),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const PasswordResetScreen(),
-                          ),
+                      const Text(
+                        Resources.loginScreenTitle,
+                        style: TextStyle(
+                          fontSize: FontSize.mainTitle,
+                          fontWeight: FontWeights.bold,
                         ),
-                        child: const Text(
-                          Resources.loginScreenForgotPassword,
+                      ),
+                      const Text(
+                        Resources.loginScreenSubTitle,
+                        style: TextStyle(
+                          fontSize: FontSize.title,
+                          fontWeight: FontWeights.semiBold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: AppSize.s50,
+                      ),
+                      LoginTextField(
+                        hint: Resources.loginHint,
+                        icon: Icons.email,
+                        controller: emailController,
+                        validate: Validation.validateEmail,
+                      ),
+                      const SizedBox(
+                        height: AppSize.s20,
+                      ),
+                      LoginTextField(
+                        hint: Resources.passwordHint,
+                        icon: Icons.password,
+                        controller: passwordController,
+                        validate: Validation.validatePassword,
+                        isPassword: true,
+                      ),
+                      const SizedBox(
+                        height: AppSize.s20,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PasswordResetScreen(),
+                              ),
+                            ),
+                            child: const Text(
+                              Resources.loginScreenForgotPassword,
+                              style: TextStyle(
+                                fontSize: FontSize.subTitle,
+                                fontWeight: FontWeights.light,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: AppSize.s50,
+                      ),
+                      Button(
+                        text: Resources.loginScreenSignInButton,
+                        onPressed: signIn,
+                      ),
+                      SizedBox(
+                        height: context.height / 15,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: Resources.loginScreenNoAccount,
                           style: TextStyle(
-                            fontSize: FontSize.subTitle,
-                            fontWeight: FontWeights.light,
+                            fontSize: FontSize.details,
+                            color: Colors.grey[500],
                           ),
+                          children: [
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => const SignUpScreen(),
+                                      ),
+                                    ),
+                              text: Resources.loginScreenCreateAccount,
+                              style: TextStyle(
+                                color: Colors.blue[400],
+                                fontSize: FontSize.details,
+                                fontWeight: FontWeights.bold,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      const SizedBox(height: AppSize.s30),
+                      IconButton(
+                        icon: const Icon(CupertinoIcons.moon_stars),
+                        onPressed: () => themechanger.enableDarkMode(
+                            Theme.of(context).brightness == Brightness.dark),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: AppSize.s50,
-                  ),
-                  Button(
-                    text: Resources.loginScreenSignInButton,
-                    onPressed: signIn,
-                  ),
-                  SizedBox(
-                    height: context.height / 15,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: Resources.loginScreenNoAccount,
-                      style: TextStyle(
-                        fontSize: FontSize.details,
-                        color: Colors.grey[500],
-                      ),
-                      children: [
-                        TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const SignUpScreen(),
-                                  ),
-                                ),
-                          text: Resources.loginScreenCreateAccount,
-                          style: TextStyle(
-                            color: Colors.blue[400],
-                            fontSize: FontSize.details,
-                            fontWeight: FontWeights.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: AppSize.s30),
-                  IconButton(
-                    icon: const Icon(CupertinoIcons.moon_stars),
-                    onPressed: () => themechanger.enableDarkMode(
-                        Theme.of(context).brightness == Brightness.dark),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

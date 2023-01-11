@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/models/abstract/tile_element.dart';
-import 'package:football_app/utils/app_size.dart';
 
 class Tile<T extends TileElement> extends StatefulWidget {
   const Tile({

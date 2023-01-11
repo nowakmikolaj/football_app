@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppSize {
   static const double s2 = 2.0;
   static const double s3 = 3.0;
+  static const double s4 = 4.0;
   static const double s5 = 5.0;
   static const double s8 = 8.0;
   static const double s10 = 10.0;

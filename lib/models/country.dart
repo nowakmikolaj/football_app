@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_app/models/abstract/searchable_tile_element.dart';
-import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/screens/leagues_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 
-class Country extends SearchableTileElement
-    implements Comparable<Country> {
+class Country extends SearchableTileElement implements Comparable<Country> {
   String? code;
   String flag;
-  
+
   @override
   String name;
 
@@ -89,7 +87,7 @@ class Country extends SearchableTileElement
       ),
       const Icon(
         Icons.arrow_forward_ios,
-        size: 15,
+        size: AppSize.s15,
       ),
     ];
   }
