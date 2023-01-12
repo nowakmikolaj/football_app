@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/assets.dart';
@@ -20,7 +20,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
   late Future<List<League>> _favLeagues;
 
   Future<void> _getFavouriteLeagues() async {
-    _favLeagues = FirestoreService.getFavouriteLeagues();
+    _favLeagues = FirestoreDataSource.instance.getFavouriteLeagues();
   }
 
   @override

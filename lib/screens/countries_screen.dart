@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/datasources/country_data_source.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/widgets/center_indicator.dart';
@@ -19,7 +19,7 @@ class _CountriesScreenState extends State<CountriesScreen> {
   late Future<List<Country>> _countries;
 
   Future<void> _fetchCountries() async {
-    _countries = CountryDataSource.instance.getCountries();
+    _countries = FirestoreDataSource.instance.getCountries();
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/league.dart';
-import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/standings.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/app_size.dart';
@@ -27,13 +27,13 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   late Future<Standings> _standings;
 
   Future<void> _getFixtures() async {
-    _fixtures = LeagueDataSource.instance.getFixturesByLeague(
+    _fixtures = FootballDataSource.instance.getFixturesByLeague(
       leagueId: widget.league.leagueId,
     );
   }
 
   Future<void> _getStandings() async {
-    _standings = LeagueDataSource.instance.getStandings(
+    _standings = FootballDataSource.instance.getStandings(
       leagueId: widget.league.leagueId,
     );
   }

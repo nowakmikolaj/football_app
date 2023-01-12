@@ -1,7 +1,7 @@
 import 'package:football_app/models/event_data.dart';
 import 'package:football_app/models/player.dart';
 
-class FixtureEvent implements Comparable<FixtureEvent> {
+class FixtureEvent {
   int elapsed;
   int? extra;
   int teamId;
@@ -82,11 +82,5 @@ class FixtureEvent implements Comparable<FixtureEvent> {
     }
 
     return SecondYellowCard(this);
-  }
-
-  @override
-  int compareTo(FixtureEvent other) {
-    // TODO: implement compareTo
-    throw UnimplementedError();
   }
 }

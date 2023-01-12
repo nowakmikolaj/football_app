@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/fixture_event.dart';
-import 'package:football_app/screens/fixture_details_screen.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/event_data.dart';

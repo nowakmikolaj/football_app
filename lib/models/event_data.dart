@@ -39,7 +39,7 @@ class NormalGoal extends Goal {
   @override
   String getText() {
     if (event.assist.name == null) return super.getText();
-    return super.getText() + "\n(${event.assist.name})";
+    return "${super.getText()}\n(${event.assist.name})";
   }
 }
 

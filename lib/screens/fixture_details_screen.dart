@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/api/firestore_service.dart';
-import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
+import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/fixture_event.dart';
-import 'package:football_app/utils/app_padding.dart';
-import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
 import 'package:football_app/widgets/fixture_header.dart';
@@ -25,11 +23,11 @@ class _FixtureDetailsScreenState extends State<FixtureDetailsScreen> {
   late Future<List<FixtureEvent>?> _events;
 
   Future<void> _getBet() async {
-    _bet = FirestoreService.getBet(widget.fixture.fixtureId);
+    _bet = FirestoreDataSource.instance.getBet(widget.fixture.fixtureId);
   }
 
   Future<void> _getEvents() async {
-    _events = LeagueDataSource.instance.getEvents(widget.fixture);
+    _events = FootballDataSource.instance.getEvents(widget.fixture);
   }
 
   @override

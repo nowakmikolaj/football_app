@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:football_app/api/endpoints.dart';
-import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/abstract/searchable_tile_element.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/country.dart';
@@ -14,13 +14,25 @@ import 'package:football_app/models/league.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/team.dart';
 
-class FirestoreService {
-  final CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
+class FirestoreDataSource {
+  late CollectionReference<Map<String, dynamic>> userCollection;
+  late CollectionReference<Map<String, dynamic>> countriesCollection;
+  late CollectionReference<Map<String, dynamic>> fixturesCollection;
+  late CollectionReference<Map<String, dynamic>> leaguesCollection;
+  
+  static final instance = FirestoreDataSource._();
 
-  static Future<List> getFavouriteLeagueIds() async {
+  FirestoreDataSource._() {
+    userCollection = FirebaseFirestore.instance.collection('users');
+    countriesCollection = FirebaseFirestore.instance.collection('countries');
+    fixturesCollection = FirebaseFirestore.instance.collection('fixtures');
+    leaguesCollection = FirebaseFirestore.instance.collection('leagues');
+  }
+
+
+  Future<List> getFavouriteLeagueIds() async {
     final data = (await FirebaseFirestore.instance
-            .collection("users")
+            .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.email)
             .get())
         .data();
@@ -29,7 +41,7 @@ class FirestoreService {
     return favLeagueIds;
   }
 
-  static Future<List<League>> getFavouriteLeagues() async {
+  Future<List<League>> getFavouriteLeagues() async {
     final favLeagueIds = await getFavouriteLeagueIds();
     if (favLeagueIds.isEmpty) {
       return [];
@@ -52,7 +64,7 @@ class FirestoreService {
     return result;
   }
 
-  static Future<List<League>> getLeagues() async {
+  Future<List<League>> getLeagues() async {
     final data = (await FirebaseFirestore.instance.collection("leagues").get())
         .docs
         .map((e) => e.data());
@@ -66,11 +78,11 @@ class FirestoreService {
     return leagues;
   }
 
-  static Future<List<SearchableTileElement>> getSearchData() async {
+  Future<List<SearchableTileElement>> getSearchData() async {
     return [...(await getLeagues()), ...(await getCountries())];
   }
 
-  static Future<List<League>> getLeaguesByCountry(String country) async {
+  Future<List<League>> getLeaguesByCountry(String country) async {
     final data = (await FirebaseFirestore.instance
             .collection("leagues")
             .where("country", isEqualTo: country)
@@ -87,7 +99,7 @@ class FirestoreService {
     return leagues;
   }
 
-  static Future<List<Country>> getCountries() async {
+  Future<List<Country>> getCountries() async {
     final data =
         (await FirebaseFirestore.instance.collection("countries").get())
             .docs
@@ -100,7 +112,7 @@ class FirestoreService {
     return countries;
   }
 
-  static void migrateLeagues(List<League> leagues) {
+  void migrateLeagues(List<League> leagues) {
     for (int i = 0; i < leagues.length; i++) {
       final item = leagues[i];
 
@@ -112,13 +124,13 @@ class FirestoreService {
     }
   }
 
-  static Future<bool> isFavourite(League league) async {
+  Future<bool> isFavourite(League league) async {
     final fav = await getFavouriteLeagueIds();
 
     return fav.contains(league.leagueId);
   }
 
-  static Future addToFavourites(League league) async {
+  Future addToFavourites(League league) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -127,7 +139,7 @@ class FirestoreService {
     });
   }
 
-  static Future removeFromFavourites(League league) async {
+  Future removeFromFavourites(League league) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.email)
@@ -136,7 +148,7 @@ class FirestoreService {
     });
   }
 
-  static Future addUser(String email) async {
+  Future addUser(String email) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(email)
@@ -144,7 +156,7 @@ class FirestoreService {
             (error, stackTrace) => print("error writing user $error"));
   }
 
-  static Future addTeam(Team team) async {
+  Future addTeam(Team team) async {
     await FirebaseFirestore.instance
         .collection("teams")
         .doc(team.teamId.toString())
@@ -152,7 +164,7 @@ class FirestoreService {
         .onError((error, stackTrace) => print(error.toString()));
   }
 
-  static Future addFixture(Fixture fixture) async {
+  Future addFixture(Fixture fixture) async {
     await FirebaseFirestore.instance
         .collection("fixtures")
         .doc(fixture.fixtureId.toString())
@@ -160,7 +172,7 @@ class FirestoreService {
         .onError((error, stackTrace) => print(error.toString()));
   }
 
-  static Future addBet(Bet bet) async {
+  Future addBet(Bet bet) async {
     await FirebaseFirestore.instance
         .collection("bets")
         .doc(
@@ -169,14 +181,14 @@ class FirestoreService {
         .onError((error, stackTrace) => print(error.toString()));
   }
 
-  static Future placeBet(Bet bet) async {
+  Future placeBet(Bet bet) async {
     // addTeam(bet.fixture!.homeTeam);
     // addTeam(bet.fixture!.awayTeam);
     addFixture(bet.fixture!);
     addBet(bet);
   }
 
-  static Future<List<Bet>?> getBet(int fixtureId) async {
+  Future<List<Bet>?> getBet(int fixtureId) async {
     final data = (await FirebaseFirestore.instance
             .collection("bets")
             .where("userId",
@@ -191,7 +203,7 @@ class FirestoreService {
     return [Bet.fromJson(json: data.first)];
   }
 
-  static Future<List<Map<String, dynamic>>> getFixtures(
+  Future<List<Map<String, dynamic>>> getFixtures(
     List<int> ids,
   ) async {
     final data = (await FirebaseFirestore.instance
@@ -204,7 +216,7 @@ class FirestoreService {
     return data.toList();
   }
 
-  static Future<List<Bet>> getBetsByUser() async {
+  Future<List<Bet>> getBetsByUser() async {
     final data = (await FirebaseFirestore.instance
             .collection("bets")
             .where("userId",
@@ -286,7 +298,7 @@ class FirestoreService {
     return bets;
   }
 
-  static void migrateBets(List<Bet> bets) {
+  void migrateBets(List<Bet> bets) {
     final batch = FirebaseFirestore.instance.batch();
     for (var bet in bets) {
       final docRef = FirebaseFirestore.instance.collection("bets").doc(
@@ -296,7 +308,7 @@ class FirestoreService {
     batch.commit();
   }
 
-  static void migrateFixtures(List<Fixture> fixtures) {
+  void migrateFixtures(List<Fixture> fixtures) {
     final batch = FirebaseFirestore.instance.batch();
     for (var fixture in fixtures) {
       final docRef = FirebaseFirestore.instance
@@ -308,13 +320,24 @@ class FirestoreService {
     batch.commit();
   }
 
-  static Future<List<Fixture>> getFixtureByIds(List<int> ids) async {
-    return await LeagueDataSource.instance.getFixtures(
+  void migrateCountries(List<Country> countries) {
+    for (final country in countries) {
+      FirebaseFirestore.instance
+          .collection("countries")
+          .doc(country.name)
+          .set(country.toFirestore())
+          .onError(
+              (error, stackTrace) => print("error writing country $error"));
+    }
+  }
+
+  Future<List<Fixture>> getFixtureByIds(List<int> ids) async {
+    return await FootballDataSource.instance.getFixtures(
       FootballApiEndpoints.getFixturesByIdsUrl(ids),
     );
   }
 
-  static Future<Map<String, dynamic>?> getItem(
+  Future<Map<String, dynamic>?> getItem(
     String path,
   ) async {
     final data = (await FirebaseFirestore.instance.doc(path).get()).data();

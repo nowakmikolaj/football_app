@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/datasources/league_data_source.dart';
+import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
@@ -22,7 +22,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
 
   Future<void> _fetchLeagues() async {
     _leagues =
-        LeagueDataSource.instance.getLeaguesByCountry(widget.countryName);
+        FootballDataSource.instance.getLeaguesByCountry(widget.countryName);
   }
 
   @override

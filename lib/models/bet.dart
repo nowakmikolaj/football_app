@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/score.dart';
 
@@ -13,7 +13,7 @@ class Bet implements Comparable<Bet> {
   Bet({this.fixture, this.goals, this.userId, this.points, this.timestamp});
 
   void placeBet() {
-    FirestoreService.placeBet(this);
+    FirestoreDataSource.instance.placeBet(this);
   }
 
   factory Bet.fromJson({

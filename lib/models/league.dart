@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/abstract/searchable_tile_element.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/screens/league_details_screen.dart';
@@ -68,12 +68,12 @@ class League extends SearchableFavTileElement implements Comparable<League> {
 
   @override
   Future addToFavourites() async {
-    FirestoreService.addToFavourites(this);
+    FirestoreDataSource.instance.addToFavourites(this);
   }
 
   @override
   Future removeFromFavourites() async {
-    FirestoreService.removeFromFavourites(this);
+    FirestoreDataSource.instance.removeFromFavourites(this);
   }
 
   @override

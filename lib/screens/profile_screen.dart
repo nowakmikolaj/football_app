@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/screens/fixture_details_screen.dart';
 import 'package:football_app/utils/actions.dart';
@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late Future<List<Bet>> _bets;
 
   Future<void> _getBets() async {
-    _bets = FirestoreService.getBetsByUser();
+    _bets = FirestoreDataSource.instance.getBetsByUser();
   }
 
   @override

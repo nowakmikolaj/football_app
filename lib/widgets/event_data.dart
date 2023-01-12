@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:football_app/models/event_data.dart';
 import 'package:football_app/models/fixture_event.dart';

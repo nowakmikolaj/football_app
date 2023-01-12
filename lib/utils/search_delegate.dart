@@ -5,7 +5,7 @@ import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/messenger_manager.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
-import 'package:football_app/api/firestore_service.dart';
+import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/abstract/tile_element.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/league.dart';
@@ -115,7 +115,7 @@ class MySearchDelegate extends SearchDelegate<Future<Widget>?> {
   }
 
   Future<List<TileElement>> _getData() async {
-    searchData = FirestoreService.getSearchData();
+    searchData = FirestoreDataSource.instance.getSearchData();
     return searchData;
   }
 }
