@@ -10,6 +10,7 @@ import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
+import 'package:football_app/widgets/fixture_header.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
 
 class ProfileScreen extends StatefulWidget {

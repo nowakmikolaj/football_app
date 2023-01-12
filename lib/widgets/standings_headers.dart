@@ -46,9 +46,8 @@ class StandingsHeaders extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const SizedBox(
+                children: const [
+                  SizedBox(
                     width: AppSize.s30,
                     child: Text(
                       '#',
@@ -56,7 +55,7 @@ class StandingsHeaders extends StatelessWidget {
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
-                  const SizedBox(
+                   SizedBox(
                     child: Text(
                       'Team',
                       style: TextStyle(fontSize: 16),

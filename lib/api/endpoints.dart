@@ -4,6 +4,7 @@ class FootballApiEndpoints {
   static const fixturesUrl = 'fixtures?';
   static const standings = 'standings';
   static const leagues = 'leagues';
+  static const events = 'fixtures/events?fixture=';
 
   static String getFixturesByCountryUrl(
     int leagueId,

@@ -52,4 +52,9 @@ class Resources {
   static const searchStart = "Start typing";
   static const searchResultEmpty = "Nothing found";
   static const searchError = "Something went wrong.\nContact the administrator";
+
+  static const firstHalf = "1st Half";
+  static const secondHalf = "2nd Half";
+  static const extraTime = "Extra Time";
+  static const penaltyShootout = "Penalties";
 }

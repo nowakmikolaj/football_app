@@ -6,8 +6,10 @@ import 'package:football_app/api/firestore_service.dart';
 import 'package:football_app/api/football_service.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/models/fixture.dart';
+import 'package:football_app/models/fixture_event.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/models/match_result.dart';
+import 'package:football_app/models/player.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/models/standings.dart';
 import 'package:football_app/models/team.dart';
@@ -130,5 +132,36 @@ class LeagueDataSource {
       data.add(fetchedStandings);
     }
     return Standings(standings: data);
+  }
+
+  Future<List<FixtureEvent>> getEvents(Fixture fixture) async {
+    if (fixture.isUpcoming()) {
+      return [];
+    }
+
+    final response = await FootballService.get(
+      url: FootballApiEndpoints.events + fixture.fixtureId.toString(),
+      headers: FootballService.headers,
+    );
+
+    var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
+    print('[fixtures] Remaining requests: $requestsLeft');
+    MessengerManager.showMessageBarWarning('Remaining requests: $requestsLeft');
+
+    Map<String, dynamic> res = json.decode(response.body);
+    var responseData = res['response'];
+
+    List<FixtureEvent> events = [];
+    for (final eventData in responseData) {
+      events.add(FixtureEvent.fromJson(
+        eventData,
+        Player.fromJson(eventData['player']),
+        Player.fromJson(
+          eventData['assist'],
+        ),
+      ));
+    }
+
+    return events;
   }
 }

@@ -84,6 +84,20 @@ flutter:
     - assets/images/noBets.png
     - assets/images/search.png
 
+    - assets/images/goal.png
+    - assets/images/own-goal.png
+    - assets/images/own-goal2.png
+    - assets/images/penalty.png
+    - assets/images/penalty_missed.png
+    - assets/images/yellow-card.png
+    - assets/images/second-yellow.png
+    - assets/images/red-card.png
+    - assets/images/red-card2.png
+    - assets/images/substitution.png
+    - assets/images/substitution2.png
+    - assets/images/substitution3.png
+    - assets/images/var.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

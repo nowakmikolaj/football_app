@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const String images = "assets/images";
 
 class Assets {
@@ -11,4 +13,16 @@ class Assets {
   static const noFavourites = "$images/noFavourites.png";
   static const noBets = "$images/noBets.png";
   static const search = "$images/search.png";
+
+  static const goal = "$images/goal.png";
+  static const ownGoal = "$images/own-goal.png";
+  static const ownGoal2 = "$images/own-goal2.png";
+  static const penalty = "$images/penalty.png";
+  static const penaltyMissed = "$images/penalty_missed.png";
+  static const yellowCard = "$images/yellow-card.png";
+  static const secondYellowCard = "$images/second-yellow.png";
+  static const redCard = "$images/red-card.png";
+  static const redCard2 = "$images/red-card2.png";
+  static const subst = "$images/substitution3.png";
+  static const VAR = "$images/var.png";
 }
