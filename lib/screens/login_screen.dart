@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Container(
                 width: context.width,
-                height: context.height / 10,
+                height: context.height / AppSize.s5,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: signIn,
                       ),
                       SizedBox(
-                        height: context.height / 15,
+                        height: context.height / AppSize.s15,
                       ),
                       RichText(
                         text: TextSpan(

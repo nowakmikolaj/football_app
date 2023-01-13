@@ -84,7 +84,7 @@ class EventList extends StatelessWidget {
           (index) {
             final event = events[index];
             return Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: AppSize.s8),
               child: Column(
                 children: [
                   EventDataWidget(

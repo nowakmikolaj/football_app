@@ -24,7 +24,7 @@ class EventDataWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          flex: 4,
+          flex: AppSize.s4.toInt(),
           child: isHomeTeam
               ? Text(
                   _eventData.getText(),
@@ -33,7 +33,7 @@ class EventDataWidget extends StatelessWidget {
               : Container(),
         ),
         Expanded(
-          flex: 1,
+          flex: AppSize.s1.toInt(),
           child: SizedBox(
             height: AppSize.s20,
             child: isHomeTeam
@@ -46,7 +46,7 @@ class EventDataWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 1,
+          flex: AppSize.s1.toInt(),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.black38,
@@ -61,7 +61,7 @@ class EventDataWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 1,
+          flex: AppSize.s1.toInt(),
           child: SizedBox(
             height: AppSize.s20,
             child: !isHomeTeam
@@ -74,7 +74,7 @@ class EventDataWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 4,
+          flex: AppSize.s4.toInt(),
           child: !isHomeTeam
               ? Text(
                   _eventData.getText(),

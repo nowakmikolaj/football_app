@@ -33,7 +33,7 @@ class TeamRank extends StatelessWidget {
               child: Text(
                 '${teamRankData.rank.toString()}.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: FontSize.bodyText),
               ),
             ),
             Image(
@@ -46,7 +46,7 @@ class TeamRank extends StatelessWidget {
             ),
             Text(
               teamRankData.team.name,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: FontSize.bodyText),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -60,7 +60,7 @@ class TeamRank extends StatelessWidget {
                   child: Text(
                     teamData[index],
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: FontSize.bodyText),
                   ),
                 ),
               ),

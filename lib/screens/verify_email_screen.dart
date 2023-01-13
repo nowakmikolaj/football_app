@@ -35,7 +35,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               children: [
                 SizedBox(
                   width: context.width,
-                  height: context.height / 10,
+                  height: context.height / AppSize.s10,
                   child: const Expanded(
                       child: Icon(
                     Icons.email_outlined,
@@ -85,7 +85,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         onPressed: () => FirebaseAuth.instance.signOut(),
                       ),
                       SizedBox(
-                        height: context.height / 15,
+                        height: context.height / AppSize.s15,
                       ),
                     ],
                   ),

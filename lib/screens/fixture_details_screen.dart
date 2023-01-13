@@ -4,6 +4,7 @@ import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/fixture_event.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
 import 'package:football_app/widgets/fixture_header.dart';
@@ -42,7 +43,7 @@ class _FixtureDetailsScreenState extends State<FixtureDetailsScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         data:
-            "${widget.fixture.homeTeam.name} vs ${widget.fixture.awayTeam.name}",
+            "${widget.fixture.homeTeam.name} ${Resources.versus} ${widget.fixture.awayTeam.name}",
         icon: Icons.arrow_back_ios,
         backOnTap: true,
       ),

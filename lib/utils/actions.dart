@@ -22,7 +22,6 @@ IconButton getActionSignOut() {
 
 IconButton getActionSearchByName(
   BuildContext context,
-  // List<TileElement> items,
 ) {
   return IconButton(
     onPressed: () {

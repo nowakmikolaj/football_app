@@ -5,6 +5,7 @@ import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/standings.dart';
 import 'package:football_app/utils/actions.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_tabbar.dart';
 import 'package:football_app/widgets/lists/fixture_list.dart';
@@ -25,6 +26,13 @@ class LeagueDetailsScreen extends StatefulWidget {
 class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   late Future<List<Fixture>> _fixtures;
   late Future<Standings> _standings;
+
+  static const List<Widget> _tabs = [
+    CustomTabBar(name: Resources.tabBarStandings),
+    CustomTabBar(name: Resources.tabBarFinished),
+    CustomTabBar(name: Resources.tabBarLive),
+    CustomTabBar(name: Resources.tabBarUpcoming),
+  ];
 
   Future<void> _getFixtures() async {
     _fixtures = FootballDataSource.instance.getFixturesByLeague(
@@ -48,16 +56,11 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: _tabs.length,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            tabs: const [
-              CustomTabBar(name: "Standings"),
-              CustomTabBar(name: "Finished"),
-              CustomTabBar(name: "Live"),
-              CustomTabBar(name: "Upcoming"),
-            ],
+            tabs: _tabs,
             indicatorColor: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
                 : Colors.black,
@@ -83,7 +86,7 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
               ),
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(AppSize.s8),
                   child: Text(
                     widget.league.name,
                     style: const TextStyle(

@@ -41,7 +41,7 @@ class _PasswordResetState extends State<PasswordResetScreen> {
             radius: AppSize.s70,
             child: Container(
               width: context.width,
-              height: context.height / 10,
+              height: context.height / AppSize.s10,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(

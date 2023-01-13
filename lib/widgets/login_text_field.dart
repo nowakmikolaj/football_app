@@ -38,9 +38,9 @@ class _LoginTextFieldState extends State<LoginTextField> {
         borderRadius: BorderRadius.circular(AppSize.s30),
         boxShadow: [
           BoxShadow(
-            blurRadius: 20,
-            spreadRadius: 5,
-            offset: const Offset(1, 1),
+            blurRadius: AppSize.s20,
+            spreadRadius: AppSize.s5,
+            offset: const Offset(AppSize.s1, AppSize.s1),
             color: Colors.grey.withOpacity(
                 Theme.of(context).brightness == Brightness.dark ? 0.1 : 0.3),
           ),
@@ -59,7 +59,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
             ),
             suffixIcon: widget.isPassword
                 ? IconButton(
-                    splashRadius: 20,
+                    splashRadius: AppSize.s20,
                     icon: Icon(
                       _passwordVisible
                           ? Icons.visibility
@@ -73,7 +73,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
                   )
                 : const Icon(Icons.abc),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(AppSize.s30),
               borderSide: BorderSide(
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white
@@ -81,10 +81,10 @@ class _LoginTextFieldState extends State<LoginTextField> {
               ),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(AppSize.s30),
               borderSide: const BorderSide(
                 color: Colors.grey,
-                width: 1.0,
+                width: AppSize.s1,
               ),
             ),
             border: OutlineInputBorder(

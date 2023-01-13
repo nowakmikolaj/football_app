@@ -120,12 +120,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               child: Card(
-                                elevation: 3.0,
+                                elevation: AppSize.s3,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
+                                  borderRadius: BorderRadius.circular(
+                                    AppSize.s25,
+                                  ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.all(5.0),
+                                  padding: const EdgeInsetsDirectional.all(
+                                    AppSize.s5,
+                                  ),
                                   child: FixtureHeader(
                                     fixture: bets[index].fixture!,
                                     bet: [bets[index]],

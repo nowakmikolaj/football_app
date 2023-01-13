@@ -1,7 +1,26 @@
 class Resources {
+  static const navBarHome = "Home";
+  static const navBarFavourites = "Favourites";
+  static const navBarProfile = "Profile";
+
+  static const tabBarStandings = "Standings";
+  static const tabBarFinished = "Finished";
+  static const tabBarLive = "Live";
+  static const tabBarUpcoming = "Upcoming";
+
+  static const countriesScreenTitle = "Countries";
+  static const leaguesScreenTitle = "Leagues";
+
+  static const favLeaguesTabBarText = "Leagues";
+  static const favTeamsTabBarText = "Teams";
+  static const favouritesScreenTitle = "Favourites";
+
   static const fixturesNotFound = 'Fixtures not found';
   static const standingsNotFound =
       'Standings are not available for this league';
+  static const versus = "vs";
+  static const standingsHeadersTeam = "Team";
+
   static const loginScreenTitle = "Welcome back in FluttScore!";
   static const signUpScreenTitle = "Welcome to FluttScore!";
   static const loginScreenSubTitle = "Sign into your account";
@@ -43,6 +62,13 @@ class Resources {
       "When you add leagues to favourites, they will appear here.";
 
   static const betValidationError = "Fields cannot be empty";
+  static const betDialogButtonCancel = "Cancel";
+  static const betDialogButtonConfirm = "Confirm";
+
+  static const errorDialogButtonClose = "Close";
+
+  static const earnedPoints = "Points earned:\t";
+  static const placedBet = "Your bet:\t";
 
   static const profileSceenTitle = "My account";
   static const betsHistory = "History of your bets";
@@ -57,4 +83,6 @@ class Resources {
   static const secondHalf = "2nd Half";
   static const extraTime = "Extra Time";
   static const penaltyShootout = "Penalties";
+
+  static const comingSoon = "Coming soon...";
 }

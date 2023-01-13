@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/utils/validation.dart';
 import 'package:football_app/widgets/team_info.dart';
 
@@ -24,7 +25,7 @@ class _BetDialogContentState extends State<BetDialogContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      padding: const EdgeInsets.symmetric(vertical: AppSize.s5),
       child: Form(
         key: formKey,
         child: Column(
@@ -43,7 +44,9 @@ class _BetDialogContentState extends State<BetDialogContent> {
                         children: [
                           BetTextField(controller: homeTeamController),
                           const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSize.s6,
+                            ),
                             child: Text(
                               ":",
                               style: TextStyle(fontSize: FontSize.title),
@@ -71,7 +74,7 @@ class _BetDialogContentState extends State<BetDialogContent> {
                   getButton(
                     context,
                     () => Navigator.pop(context),
-                    "Cancel",
+                    Resources.betDialogButtonCancel,
                   ),
                   const SizedBox(width: AppSize.s5),
                   getButton(
@@ -87,7 +90,7 @@ class _BetDialogContentState extends State<BetDialogContent> {
                         },
                       );
                     },
-                    "Confirm",
+                    Resources.betDialogButtonConfirm,
                   ),
                 ],
               ),

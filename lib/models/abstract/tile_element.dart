@@ -15,10 +15,10 @@ abstract class TileElement {
       child: Card(
         elevation: 3.0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(AppSize.s25),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.all(5.0),
+          padding: const EdgeInsetsDirectional.all(AppSize.s5),
           child: Padding(
             padding:
                 const EdgeInsets.only(left: AppSize.s25, right: AppSize.s15),

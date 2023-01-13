@@ -32,8 +32,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         data,
         style: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          fontSize: FontSize.appBarTitle,
         ),
       ),
     );

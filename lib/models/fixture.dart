@@ -12,6 +12,8 @@ import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/widgets/team_info.dart';
 
 class Fixture extends TileElement implements Comparable<Fixture> {
+  static const betSettlingTime = 2;
+  
   int fixtureId;
   String? referee;
   DateTime date;
@@ -151,7 +153,7 @@ class Fixture extends TileElement implements Comparable<Fixture> {
 
   bool shouldSettleBet() {
     final now = DateTime.now();
-    return now.isAfter(date.add(const Duration(hours: 2))) &&
+    return now.isAfter(date.add(const Duration(hours: betSettlingTime))) &&
         getStatus()! != FixtureStatus.PST;
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/league.dart';
+import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/tiles/tile_fav.dart';
 
@@ -46,7 +47,7 @@ class _LeagueListState extends State<LeagueList> {
                 (index) {
                   final league = widget._leagues[index];
                   return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: AppSize.s8),
                     child: TileFav<League>(
                       tileData: league,
                       isFav: favIds.contains(league.leagueId),

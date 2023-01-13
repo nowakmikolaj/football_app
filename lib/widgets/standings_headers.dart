@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/utils/resources.dart';
 
 class StandingsHeaders extends StatelessWidget {
   const StandingsHeaders({
@@ -30,7 +31,7 @@ class StandingsHeaders extends StatelessWidget {
                   child: Text(
                     displayGroupName!,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 17),
+                    style: const TextStyle(fontSize: FontSize.subTitle),
                   ),
                 ),
               ],
@@ -52,13 +53,13 @@ class StandingsHeaders extends StatelessWidget {
                     child: Text(
                       '#',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: AppSize.s16),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     child: Text(
-                      'Team',
-                      style: TextStyle(fontSize: 16),
+                      Resources.standingsHeadersTeam,
+                      style: TextStyle(fontSize: AppSize.s16),
                     ),
                   ),
                 ],
@@ -73,7 +74,7 @@ class StandingsHeaders extends StatelessWidget {
                       child: Text(
                         _headers[index],
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: AppSize.s16),
                       ),
                     ),
                   )

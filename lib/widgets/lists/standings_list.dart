@@ -37,7 +37,7 @@ class StandingsList extends StatelessWidget {
                       (teamIndex) {
                         final teamRank = standings.standings[index][teamIndex];
                         return Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
+                          padding: const EdgeInsets.only(top: AppSize.s8),
                           child: TeamRank(
                             teamRankData: teamRank,
                             key: ValueKey(teamRank.team.teamId),

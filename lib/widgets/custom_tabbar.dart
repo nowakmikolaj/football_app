@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/utils/app_size.dart';
 
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
@@ -15,6 +16,7 @@ class CustomTabBar extends StatelessWidget {
         name,
         style: const TextStyle(
           color: Colors.white,
+          fontSize: FontSize.bodyText,
         ),
       ),
     );

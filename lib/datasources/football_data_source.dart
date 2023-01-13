@@ -15,6 +15,7 @@ import 'package:football_app/models/standings.dart';
 import 'package:football_app/models/team.dart';
 import 'package:football_app/models/team_rank_data.dart';
 import 'package:football_app/utils/messenger_manager.dart';
+import 'package:http/http.dart';
 
 class FootballDataSource {
   static final instance = FootballDataSource._();
@@ -37,10 +38,8 @@ class FootballDataSource {
         url: FootballApiEndpoints.leagues,
         headers: FootballService.headers,
       );
-      var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-      print('[leagues] Remaining requests: $requestsLeft');
-      MessengerManager.showMessageBarWarning(
-          'Remaining requests: $requestsLeft');
+
+      showRemaingRequests(response);
 
       Map<String, dynamic> res = json.decode(response.body);
       var leagues = res['response'];
@@ -87,10 +86,7 @@ class FootballDataSource {
         headers: FootballService.headers,
       );
 
-      var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-      print('[fixtures] Remaining requests: $requestsLeft');
-      MessengerManager.showMessageBarWarning(
-          'Remaining requests: $requestsLeft');
+      showRemaingRequests(response);
 
       Map<String, dynamic> res = json.decode(response.body);
       var fixtures = res['response'];
@@ -119,6 +115,12 @@ class FootballDataSource {
     return fetchedFixtures;
   }
 
+  void showRemaingRequests(Response response) {
+    var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
+    print('Remaining requests: $requestsLeft');
+    MessengerManager.showMessageBarWarning('Remaining requests: $requestsLeft');
+  }
+
   Future<Standings> getStandings({
     required int leagueId,
     int season = 2022,
@@ -131,8 +133,8 @@ class FootballDataSource {
         url: FootballApiEndpoints.getStandingsUrl(leagueId, season),
         headers: FootballService.headers,
       );
-      var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-      print('[standings] Remaining requests: $requestsLeft');
+
+      showRemaingRequests(response);
 
       Map<String, dynamic> res = json.decode(response.body);
       if (res['response'].length == 0) return const Standings(standings: []);
@@ -171,10 +173,7 @@ class FootballDataSource {
         headers: FootballService.headers,
       );
 
-      var requestsLeft = response.headers['x-ratelimit-requests-remaining'];
-      print('[fixtures] Remaining requests: $requestsLeft');
-      MessengerManager.showMessageBarWarning(
-          'Remaining requests: $requestsLeft');
+      showRemaingRequests(response);
 
       Map<String, dynamic> res = json.decode(response.body);
       var responseData = res['response'];

@@ -3,6 +3,7 @@ import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/abstract/searchable_tile_element.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/screens/league_details_screen.dart';
+import 'package:football_app/utils/app_size.dart';
 
 class League extends SearchableFavTileElement implements Comparable<League> {
   int leagueId;
@@ -80,13 +81,13 @@ class League extends SearchableFavTileElement implements Comparable<League> {
   List<Widget> buildElements() {
     return [
       Image(
-        width: 32,
-        height: 32,
+        width: AppSize.s32,
+        height: AppSize.s32,
         image: NetworkImage(logo),
       ),
       Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: const EdgeInsets.only(left: AppSize.s20, right: AppSize.s20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -95,7 +96,7 @@ class League extends SearchableFavTileElement implements Comparable<League> {
                 style: const TextStyle(
                   overflow: TextOverflow.fade,
                   color: Colors.grey,
-                  fontSize: 15,
+                  fontSize: FontSize.details,
                 ),
               ),
               Text(
@@ -103,8 +104,8 @@ class League extends SearchableFavTileElement implements Comparable<League> {
                 softWrap: false,
                 style: const TextStyle(
                   overflow: TextOverflow.fade,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  fontWeight: FontWeights.bold,
+                  fontSize: FontSize.big,
                 ),
               ),
             ],

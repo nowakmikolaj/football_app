@@ -95,7 +95,7 @@ class _FixtureHeaderState extends State<FixtureHeader> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.grey.shade700,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(AppSize.s10),
             ),
           ),
           onPressed: showBetDialog,
@@ -110,12 +110,12 @@ class _FixtureHeaderState extends State<FixtureHeader> {
       context: context,
       builder: (context) => Center(
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: AppSize.s10, sigmaY: AppSize.s10),
           child: AlertDialog(
             insetPadding: EdgeInsets.zero,
             scrollable: true,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
+              borderRadius: BorderRadius.circular(AppSize.s25),
             ),
             contentPadding: EdgeInsets.zero,
             content: Padding(

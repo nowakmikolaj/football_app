@@ -17,8 +17,8 @@ class Button extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         padding: const EdgeInsets.symmetric(
-          horizontal: 32,
-          vertical: 12,
+          horizontal: AppSize.s32,
+          vertical: AppSize.s12,
         ),
       ),
       onPressed: onPressed,

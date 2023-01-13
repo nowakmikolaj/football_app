@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/fixture.dart';
+import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/lists/empty_list.dart';
@@ -40,7 +41,7 @@ class FixtureList extends StatelessWidget {
             itemComparator: (element1, element2) =>
                 element1.compareTo(element2),
             groupSeparatorBuilder: (round) => Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(AppSize.s8),
               child: Text(
                 round,
                 textAlign: TextAlign.center,

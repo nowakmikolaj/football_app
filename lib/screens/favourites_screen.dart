@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/league.dart';
 import 'package:football_app/utils/actions.dart';
+import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
@@ -37,8 +38,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         appBar: AppBar(
           bottom: TabBar(
             tabs: const [
-              CustomTabBar(name: "Leagues"),
-              CustomTabBar(name: "Teams"),
+              CustomTabBar(name: Resources.favLeaguesTabBarText),
+              CustomTabBar(name: Resources.favTeamsTabBarText),
             ],
             indicatorColor: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
@@ -52,12 +53,12 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(AppSize.s8),
                 child: const Text(
-                  "Favourites",
+                  Resources.favouritesScreenTitle,
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    fontSize: FontSize.appBarTitle,
                   ),
                 ),
               ),
@@ -83,7 +84,9 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                           message: Resources.noFavouritesLeaguesMessage)
                       : LeagueList(leagues: favouriteLeagues),
                   const EmptyList(
-                      assetImage: Assets.supporter, message: "Coming soon..."),
+                    assetImage: Assets.supporter,
+                    message: Resources.comingSoon,
+                  ),
                 ],
               );
             } else {

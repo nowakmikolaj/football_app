@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_app/utils/resources.dart';
 
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({
@@ -24,7 +25,7 @@ class ErrorDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text("Close"),
+          child: const Text(Resources.errorDialogButtonClose),
         ),
       ],
     );

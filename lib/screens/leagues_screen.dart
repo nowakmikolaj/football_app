@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/football_data_source.dart';
 import 'package:football_app/models/league.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
 import 'package:football_app/widgets/custom_appbar.dart';
 import 'package:football_app/widgets/lists/league_list.dart';
@@ -35,7 +36,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        data: 'Leagues',
+        data: Resources.leaguesScreenTitle,
         icon: Icons.arrow_back_ios,
         backOnTap: true,
       ),

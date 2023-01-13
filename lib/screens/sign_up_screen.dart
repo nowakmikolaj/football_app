@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               Container(
                 width: context.width,
-                height: context.height / 10,
+                height: context.height / AppSize.s10,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onPressed: signUp,
                       ),
                       SizedBox(
-                        height: context.height / 15,
+                        height: context.height / AppSize.s15,
                       ),
                       RichText(
                         text: TextSpan(
