@@ -71,7 +71,7 @@ class Resources {
   static const placedBet = "Your bet:\t";
 
   static const profileSceenTitle = "My account";
-  static const betsHistory = "History of your bets";
+  static const betsHistory = "History of your bets:";
   static const betsNotFound = "Bets not found";
 
   static const searchFieldLabel = "Search for countries and leagues";

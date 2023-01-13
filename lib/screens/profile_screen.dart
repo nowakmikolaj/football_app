@@ -109,6 +109,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.black12,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppPadding.p10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  Resources.betsHistory,
+                                  style: TextStyle(fontSize: FontSize.subTitle),
+                                ),
+                              ],
+                            ),
+                          ),
                           ...List.generate(
                             bets.length,
                             (index) => GestureDetector(
