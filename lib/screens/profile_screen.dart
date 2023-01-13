@@ -50,7 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: FutureBuilder(
             future: _bets,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
                 final bets = snapshot.data ?? [];
                 return bets.isNotEmpty
                     ? ListView(

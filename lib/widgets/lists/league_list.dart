@@ -35,7 +35,8 @@ class _LeagueListState extends State<LeagueList> {
     return FutureBuilder(
       future: _favIds,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
           final favIds = snapshot.data ?? [];
           return ListView(
             physics: const BouncingScrollPhysics(),

@@ -103,7 +103,8 @@ class _LeagueDetailsScreenState extends State<LeagueDetailsScreen> {
         body: FutureBuilder(
           future: Future.wait([_fixtures, _standings]),
           builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
               final data = List<Fixture>.from(snapshot.data![0] ?? []);
               data.sort(((a, b) => b.date.compareTo(a.date)));
 

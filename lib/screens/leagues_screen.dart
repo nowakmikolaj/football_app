@@ -42,7 +42,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
       body: FutureBuilder(
         future: _leagues,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
             final data = snapshot.data ?? [];
             data.sort(((a, b) => a.compareTo(b)));
             return LeagueList(leagues: snapshot.data ?? []);

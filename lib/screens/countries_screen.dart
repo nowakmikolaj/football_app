@@ -42,7 +42,8 @@ class _CountriesScreenState extends State<CountriesScreen> {
       body: FutureBuilder(
           future: _countries,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
               final data = snapshot.data ?? [];
               data.sort(((a, b) => a.compareTo(b)));
               return CountryList(countries: data);

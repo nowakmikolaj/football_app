@@ -70,7 +70,8 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         body: FutureBuilder(
           future: _favLeagues,
           builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
               List<League> favouriteLeagues = snapshot.data as List<League>;
               favouriteLeagues.sort((a, b) => a.compareTo(b));
 
