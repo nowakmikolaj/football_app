@@ -73,14 +73,6 @@ class FixtureEvent {
       return Substitution(this);
     }
 
-    if (detail.toLowerCase().contains(EventTypes.penaltyConfirmed)) {
-      return VarConfirmed(this);
-    }
-
-    if (detail.toLowerCase().contains(EventTypes.goalCancelled)) {
-      return VarCancelled(this);
-    }
-
-    return SecondYellowCard(this);
+    return Var(this);
   }
 }

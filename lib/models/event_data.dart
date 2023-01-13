@@ -102,23 +102,12 @@ class Substitution extends EventData {
   String getText() => "${event.player.name}\n(${event.assist.name})";
 }
 
-abstract class Var extends EventData {
+class Var extends EventData {
   Var(FixtureEvent event) : super(event: event);
 
   @override
   String getText() => "VAR - ${event.detail}";
-}
-
-class VarCancelled extends Var {
-  VarCancelled(FixtureEvent event) : super(event);
-
-  @override
-  String getIconAsset() => Assets.VAR;
-}
-
-class VarConfirmed extends Var {
-  VarConfirmed(FixtureEvent event) : super(event);
-
+  
   @override
   String getIconAsset() => Assets.VAR;
 }

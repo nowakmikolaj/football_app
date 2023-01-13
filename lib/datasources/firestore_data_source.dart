@@ -15,29 +15,36 @@ import 'package:football_app/models/score.dart';
 import 'package:football_app/models/team.dart';
 
 class FirestoreDataSource {
-  late CollectionReference<Map<String, dynamic>> userCollection;
+  late CollectionReference<Map<String, dynamic>> usersCollection;
   late CollectionReference<Map<String, dynamic>> countriesCollection;
   late CollectionReference<Map<String, dynamic>> fixturesCollection;
   late CollectionReference<Map<String, dynamic>> leaguesCollection;
-  
+  late CollectionReference<Map<String, dynamic>> betsCollection;
+
   static final instance = FirestoreDataSource._();
 
   FirestoreDataSource._() {
-    userCollection = FirebaseFirestore.instance.collection('users');
+    usersCollection = FirebaseFirestore.instance.collection('users');
     countriesCollection = FirebaseFirestore.instance.collection('countries');
     fixturesCollection = FirebaseFirestore.instance.collection('fixtures');
     leaguesCollection = FirebaseFirestore.instance.collection('leagues');
+    betsCollection = FirebaseFirestore.instance.collection('bets');
   }
 
-
   Future<List> getFavouriteLeagueIds() async {
-    final data = (await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.email)
-            .get())
-        .data();
+    List favLeagueIds = [];
 
-    List favLeagueIds = data?['favourite_leagues'];
+    try {
+      final data = (await usersCollection
+              .doc(FirebaseAuth.instance.currentUser!.email)
+              .get())
+          .data();
+
+      favLeagueIds = data?['favourite_leagues'];
+    } catch (e) {
+      print(e.toString());
+    }
+
     return favLeagueIds;
   }
 
@@ -47,32 +54,46 @@ class FirestoreDataSource {
       return [];
     }
 
-    final leagues = (await FirebaseFirestore.instance
-            .collection("leagues")
-            .where("id", whereIn: favLeagueIds)
-            .get())
-        .docs
-        .map((e) => e.data())
-        .toList();
-
     List<League> result = [];
-    for (final league in leagues) {
-      result.add(
-          League.fromJson(league, country: Country(league['country'], '', '')));
+    List<Map<String, dynamic>> leagues = [];
+    try {
+      for (int i = 0; i < favLeagueIds.length; i += 10) {
+        leagues = [
+          ...leagues,
+          ...(await leaguesCollection
+                  .where("id",
+                      whereIn: favLeagueIds
+                          .getRange(i, min(i + 10, favLeagueIds.length))
+                          .toList())
+                  .get())
+              .docs
+              .map((e) => e.data())
+              .toList()
+        ];
+      }
+
+      for (final league in leagues) {
+        result.add(League.fromJson(league,
+            country: Country(league['country'], '', '')));
+      }
+    } catch (e) {
+      print(e.toString());
     }
 
     return result;
   }
 
   Future<List<League>> getLeagues() async {
-    final data = (await FirebaseFirestore.instance.collection("leagues").get())
-        .docs
-        .map((e) => e.data());
-
     List<League> leagues = [];
-    for (final item in data) {
-      leagues.add(
-          League.fromJson(item, country: Country(item['country'], '', '')));
+    try {
+      final data = (await leaguesCollection.get()).docs.map((e) => e.data());
+
+      for (final item in data) {
+        leagues.add(
+            League.fromJson(item, country: Country(item['country'], '', '')));
+      }
+    } catch (e) {
+      print(e.toString());
     }
 
     return leagues;
@@ -83,44 +104,52 @@ class FirestoreDataSource {
   }
 
   Future<List<League>> getLeaguesByCountry(String country) async {
-    final data = (await FirebaseFirestore.instance
-            .collection("leagues")
-            .where("country", isEqualTo: country)
-            .get())
-        .docs
-        .map((e) => e.data());
-
     List<League> leagues = [];
-    for (final item in data) {
-      leagues.add(
-          League.fromJson(item, country: Country(item['country'], '', '')));
+    try {
+      final data =
+          (await leaguesCollection.where("country", isEqualTo: country).get())
+              .docs
+              .map((e) => e.data());
+
+      for (final item in data) {
+        leagues.add(
+            League.fromJson(item, country: Country(item['country'], '', '')));
+      }
+    } catch (e) {
+      print(e.toString());
     }
 
     return leagues;
   }
 
   Future<List<Country>> getCountries() async {
-    final data =
-        (await FirebaseFirestore.instance.collection("countries").get())
-            .docs
-            .map((item) => item.data());
-
     List<Country> countries = [];
-    for (final item in data) {
-      countries.add(Country.fromJson(item));
+    try {
+      final data =
+          (await countriesCollection.get()).docs.map((item) => item.data());
+
+      for (final item in data) {
+        countries.add(Country.fromJson(item));
+      }
+    } catch (e) {
+      print(e.toString());
     }
     return countries;
   }
 
   void migrateLeagues(List<League> leagues) {
-    for (int i = 0; i < leagues.length; i++) {
-      final item = leagues[i];
+    try {
+      for (int i = 0; i < leagues.length; i++) {
+        final item = leagues[i];
 
-      FirebaseFirestore.instance
-          .collection("leagues")
-          .doc(leagues[i].leagueId.toString())
-          .set(item.toFirestore())
-          .onError((error, stackTrace) => print("error writing league $error"));
+        leaguesCollection
+            .doc(leagues[i].leagueId.toString())
+            .set(item.toFirestore())
+            .onError(
+                (error, stackTrace) => print("error writing league $error"));
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -131,203 +160,224 @@ class FirestoreDataSource {
   }
 
   Future addToFavourites(League league) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .update({
-      "favourite_leagues": FieldValue.arrayUnion([league.leagueId]),
-    });
+    try {
+      await usersCollection
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .update({
+        "favourite_leagues": FieldValue.arrayUnion([league.leagueId]),
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future removeFromFavourites(League league) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .update({
-      "favourite_leagues": FieldValue.arrayRemove([league.leagueId]),
-    });
+    try {
+      await usersCollection
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .update({
+        "favourite_leagues": FieldValue.arrayRemove([league.leagueId]),
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future addUser(String email) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(email)
-        .set({"favourite_leagues": []}).onError(
-            (error, stackTrace) => print("error writing user $error"));
-  }
-
-  Future addTeam(Team team) async {
-    await FirebaseFirestore.instance
-        .collection("teams")
-        .doc(team.teamId.toString())
-        .set(team.toFirestore())
-        .onError((error, stackTrace) => print(error.toString()));
+    try {
+      await usersCollection.doc(email).set({"favourite_leagues": []}).onError(
+          (error, stackTrace) => print("error writing user $error"));
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future addFixture(Fixture fixture) async {
-    await FirebaseFirestore.instance
-        .collection("fixtures")
-        .doc(fixture.fixtureId.toString())
-        .set(fixture.toFirestore())
-        .onError((error, stackTrace) => print(error.toString()));
+    try {
+      await fixturesCollection
+          .doc(fixture.fixtureId.toString())
+          .set(fixture.toFirestore())
+          .onError((error, stackTrace) => print(error.toString()));
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future addBet(Bet bet) async {
-    await FirebaseFirestore.instance
-        .collection("bets")
-        .doc(
-            "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}")
-        .set(bet.toFirestore())
-        .onError((error, stackTrace) => print(error.toString()));
+    try {
+      await betsCollection
+          .doc(
+              "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}")
+          .set(bet.toFirestore())
+          .onError((error, stackTrace) => print(error.toString()));
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future placeBet(Bet bet) async {
-    // addTeam(bet.fixture!.homeTeam);
-    // addTeam(bet.fixture!.awayTeam);
     addFixture(bet.fixture!);
     addBet(bet);
   }
 
   Future<List<Bet>?> getBet(int fixtureId) async {
-    final data = (await FirebaseFirestore.instance
-            .collection("bets")
-            .where("userId",
-                isEqualTo: FirebaseAuth.instance.currentUser!.email)
-            .where("id", isEqualTo: fixtureId)
-            .get())
-        .docs
-        .map((e) => e.data());
+    Iterable<Map<String, dynamic>> data = [];
+    try {
+      data = (await betsCollection
+              .where("userId",
+                  isEqualTo: FirebaseAuth.instance.currentUser!.email)
+              .where("id", isEqualTo: fixtureId)
+              .get())
+          .docs
+          .map((e) => e.data());
 
-    if (data.isEmpty) return [];
-
+      if (data.isEmpty) return [];
+    } catch (e) {
+      print(e.toString());
+    }
     return [Bet.fromJson(json: data.first)];
   }
 
   Future<List<Map<String, dynamic>>> getFixtures(
     List<int> ids,
   ) async {
-    final data = (await FirebaseFirestore.instance
-            .collection("fixtures")
-            .where("id", whereIn: ids)
-            .get())
-        .docs
-        .map((e) => e.data());
-
+    Iterable<Map<String, dynamic>> data = [];
+    try {
+      data = (await fixturesCollection.where("id", whereIn: ids).get())
+          .docs
+          .map((e) => e.data());
+    } catch (e) {
+      print(e.toString());
+    }
     return data.toList();
   }
 
   Future<List<Bet>> getBetsByUser() async {
-    final data = (await FirebaseFirestore.instance
-            .collection("bets")
-            .where("userId",
-                isEqualTo: FirebaseAuth.instance.currentUser!.email)
-            .get())
-        .docs
-        .map((e) => e.data());
+    try {
+      final data = (await betsCollection
+              .where("userId",
+                  isEqualTo: FirebaseAuth.instance.currentUser!.email)
+              .get())
+          .docs
+          .map((e) => e.data());
 
-    List<Bet> bets = [];
-    List<Bet> betsToSettle = [];
-    List<Bet> betsToSettleWithFixtureUpdate = [];
-    if (data.isNotEmpty) {
-      for (final item in data) {
-        final fixtureDoc = await getItem(item['fixture'].path);
-        final leagueDoc = await getItem(fixtureDoc!['league'].path);
-        final goals = Score.fromJson(fixtureDoc);
+      List<Bet> bets = [];
+      List<Bet> betsToSettle = [];
+      List<Bet> betsToSettleWithFixtureUpdate = [];
+      if (data.isNotEmpty) {
+        for (final item in data) {
+          final fixtureDoc = await getItem(item['fixture'].path);
+          final leagueDoc = await getItem(fixtureDoc!['league'].path);
+          final goals = Score.fromJson(fixtureDoc);
 
-        final fixture = Fixture.fromFirestore(
-          json: fixtureDoc,
-          league: League.fromJson(leagueDoc!),
-          homeTeam: Team.fromJson(fixtureDoc['homeTeam']),
-          awayTeam: Team.fromJson(fixtureDoc['awayTeam']),
-          goals: goals,
-        );
+          final fixture = Fixture.fromFirestore(
+            json: fixtureDoc,
+            league: League.fromJson(leagueDoc!),
+            homeTeam: Team.fromJson(fixtureDoc['homeTeam']),
+            awayTeam: Team.fromJson(fixtureDoc['awayTeam']),
+            goals: goals,
+          );
 
-        final bet = Bet.fromJson(json: item, fixture: fixture);
+          final bet = Bet.fromJson(json: item, fixture: fixture);
 
-        if (bet.points == null) {
-          if (bet.fixture!.isFinished()) {
-            // zwykłe naliczenie punktów
-            betsToSettle.add(bet);
-          } else if (bet.fixture!.shouldSettleBet()) {
-            // trzeba zaktualizować fixture
-            betsToSettleWithFixtureUpdate.add(bet);
-          } else {} // nic nie robimy, mecz trwa
-        }
+          if (bet.points == null) {
+            if (bet.fixture!.isFinished()) {
+              // zwykłe naliczenie punktów
+              betsToSettle.add(bet);
+            } else if (bet.fixture!.shouldSettleBet()) {
+              // trzeba zaktualizować fixture
+              betsToSettleWithFixtureUpdate.add(bet);
+            } else {} // nic nie robimy, mecz trwa
+          }
 
-        bets.add(bet);
-      }
-    }
-
-    for (final bet in betsToSettle) {
-      if (!bet.settle()) {
-        betsToSettleWithFixtureUpdate.add(bet);
-      }
-    }
-
-    List<Fixture> updatedFixtures = [];
-    for (int i = 0; i < betsToSettleWithFixtureUpdate.length;) {
-      List<int> fixtureIdsToUpdate = [];
-      for (int j = 0;
-          j < min(20, betsToSettleWithFixtureUpdate.length);
-          j++, i++) {
-        fixtureIdsToUpdate
-            .add(betsToSettleWithFixtureUpdate[i].fixture!.fixtureId);
-      }
-      final updated = await getFixtureByIds(fixtureIdsToUpdate);
-      updatedFixtures = [...updatedFixtures, ...updated];
-    }
-
-    if (updatedFixtures.isNotEmpty) {
-      migrateFixtures(updatedFixtures);
-
-      for (final fixture in updatedFixtures) {
-        final betRef = bets
-            .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
-            .single;
-        betRef.fixture = fixture;
-        if (fixture.isFinished()) {
-          betRef.settle();
+          bets.add(bet);
         }
       }
 
-      migrateBets(bets);
+      for (final bet in betsToSettle) {
+        if (!bet.settle()) {
+          betsToSettleWithFixtureUpdate.add(bet);
+        }
+      }
+
+      List<Fixture> updatedFixtures = [];
+      for (int i = 0; i < betsToSettleWithFixtureUpdate.length;) {
+        List<int> fixtureIdsToUpdate = [];
+        for (int j = 0;
+            j < min(20, betsToSettleWithFixtureUpdate.length);
+            j++, i++) {
+          fixtureIdsToUpdate
+              .add(betsToSettleWithFixtureUpdate[i].fixture!.fixtureId);
+        }
+        final updated = await getFixtureByIds(fixtureIdsToUpdate);
+        updatedFixtures = [...updatedFixtures, ...updated];
+      }
+
+      if (updatedFixtures.isNotEmpty) {
+        migrateFixtures(updatedFixtures);
+
+        for (final fixture in updatedFixtures) {
+          final betRef = bets
+              .where((bet) => bet.fixture!.fixtureId == fixture.fixtureId)
+              .single;
+          betRef.fixture = fixture;
+          if (fixture.isFinished()) {
+            betRef.settle();
+          }
+        }
+
+        migrateBets(bets);
+      }
+
+      bets.sort(((a, b) => a.compareTo(b)));
+
+      return bets;
+    } catch (e) {
+      print(e.toString());
+      return [];
     }
-
-    bets.sort(((a, b) => a.compareTo(b)));
-
-    return bets;
   }
 
   void migrateBets(List<Bet> bets) {
     final batch = FirebaseFirestore.instance.batch();
-    for (var bet in bets) {
-      final docRef = FirebaseFirestore.instance.collection("bets").doc(
-          "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}");
-      batch.update(docRef, {"points": bet.points});
+
+    try {
+      for (var bet in bets) {
+        final docRef = betsCollection.doc(
+            "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}");
+        batch.update(docRef, {"points": bet.points});
+      }
+      batch.commit();
+    } catch (e) {
+      print(e.toString());
     }
-    batch.commit();
   }
 
   void migrateFixtures(List<Fixture> fixtures) {
-    final batch = FirebaseFirestore.instance.batch();
-    for (var fixture in fixtures) {
-      final docRef = FirebaseFirestore.instance
-          .collection("fixtures")
-          .doc(fixture.fixtureId.toString());
-      batch.set(docRef, fixture.toFirestore());
-    }
+    try {
+      final batch = FirebaseFirestore.instance.batch();
+      for (var fixture in fixtures) {
+        final docRef = fixturesCollection.doc(fixture.fixtureId.toString());
+        batch.set(docRef, fixture.toFirestore());
+      }
 
-    batch.commit();
+      batch.commit();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void migrateCountries(List<Country> countries) {
-    for (final country in countries) {
-      FirebaseFirestore.instance
-          .collection("countries")
-          .doc(country.name)
-          .set(country.toFirestore())
-          .onError(
-              (error, stackTrace) => print("error writing country $error"));
+    try {
+      for (final country in countries) {
+        countriesCollection
+            .doc(country.name)
+            .set(country.toFirestore())
+            .onError(
+                (error, stackTrace) => print("error writing country $error"));
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -340,8 +390,12 @@ class FirestoreDataSource {
   Future<Map<String, dynamic>?> getItem(
     String path,
   ) async {
-    final data = (await FirebaseFirestore.instance.doc(path).get()).data();
-
-    return data;
+    try {
+      final data = (await FirebaseFirestore.instance.doc(path).get()).data();
+      return data;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 }
