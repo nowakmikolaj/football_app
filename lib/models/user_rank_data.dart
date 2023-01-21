@@ -21,6 +21,6 @@ class UserRankData implements Comparable<UserRankData> {
 
   @override
   int compareTo(UserRankData other) {
-    return average.compareTo(other.average);
+    return other.average.compareTo(average);
   }
 }

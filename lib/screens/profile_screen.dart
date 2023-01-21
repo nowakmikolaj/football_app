@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late Future<List<Bet>> _bets;
 
   Future<void> _getBets() async {
-    _bets = FirestoreDataSource.instance.getBetsByUser();
+    _bets = FirestoreDataSource.instance.getBets();
   }
 
   static const List<Widget> _tabs = [
@@ -73,7 +73,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   final bets = snapshot.data ?? [];
                   return TabBarView(
                     children: [
-                      BetsList(bets: bets),
+                      BetsList(
+                          bets: bets
+                              .where((element) =>
+                                  element.userId!.toLowerCase() ==
+                                  FirebaseAuth.instance.currentUser!.email!
+                                      .toLowerCase())
+                              .toList()),
                       RankingList(bets: bets),
                     ],
                   );

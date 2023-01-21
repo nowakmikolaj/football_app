@@ -252,11 +252,9 @@ class FirestoreDataSource {
     return data.toList();
   }
 
-  Future<List<Bet>> getBetsByUser() async {
+  Future<List<Bet>> getBets() async {
     try {
       final data = (await betsCollection
-              .where("userId",
-                  isEqualTo: FirebaseAuth.instance.currentUser!.email)
               .get())
           .docs
           .map((e) => e.data());

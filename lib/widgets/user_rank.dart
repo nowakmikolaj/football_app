@@ -19,7 +19,7 @@ class UserRank extends StatelessWidget {
       '${userRankData.placedBets}',
       '${userRankData.settledBets}',
       '${userRankData.totalPoints}',
-      '${userRankData.average}',
+      (userRankData.average.toStringAsFixed(2)),
     ];
 
     return Padding(
