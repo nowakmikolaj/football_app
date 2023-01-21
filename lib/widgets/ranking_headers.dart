@@ -15,7 +15,7 @@ class RankingHeaders extends StatelessWidget {
     "Placed",
     "Settled",
     "Total",
-    "Avg",
+    "Average",
   ];
 
   @override

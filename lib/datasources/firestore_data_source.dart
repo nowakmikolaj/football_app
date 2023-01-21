@@ -83,6 +83,16 @@ class FirestoreDataSource {
     return result;
   }
 
+  Future<List<Map<String, dynamic>>> getLeaguesDocs() async {
+    try {
+      final data = (await leaguesCollection.get()).docs.map((e) => e.data());
+      return data.toList();
+    } catch (e) {
+      print(e.toString());
+      return [];
+    }
+  }
+
   Future<List<League>> getLeagues() async {
     List<League> leagues = [];
     try {
@@ -238,14 +248,10 @@ class FirestoreDataSource {
     return [Bet.fromJson(json: data.first)];
   }
 
-  Future<List<Map<String, dynamic>>> getFixtures(
-    List<int> ids,
-  ) async {
+  Future<List<Map<String, dynamic>>> getFixturesDocs() async {
     Iterable<Map<String, dynamic>> data = [];
     try {
-      data = (await fixturesCollection.where("id", whereIn: ids).get())
-          .docs
-          .map((e) => e.data());
+      data = (await fixturesCollection.get()).docs.map((e) => e.data());
     } catch (e) {
       print(e.toString());
     }
@@ -254,23 +260,31 @@ class FirestoreDataSource {
 
   Future<List<Bet>> getBets() async {
     try {
-      final data = (await betsCollection
-              .get())
-          .docs
-          .map((e) => e.data());
+      final allBets = (await betsCollection.get()).docs.map((e) => e.data());
+
+      final leaguesDocs = await getLeaguesDocs();
+      final fixturesDocs = await getFixturesDocs();
 
       List<Bet> bets = [];
       List<Bet> betsToSettle = [];
       List<Bet> betsToSettleWithFixtureUpdate = [];
-      if (data.isNotEmpty) {
-        for (final item in data) {
-          final fixtureDoc = await getItem(item['fixture'].path);
-          final leagueDoc = await getItem(fixtureDoc!['league'].path);
+      if (allBets.isNotEmpty) {
+        for (final item in allBets) {
+          final fixtureDoc = fixturesDocs
+              .where((element) => element['id'] == item['id'])
+              .single;
+
+          final leagueId = fixtureDoc['league'].path.toString().split('/').last;
+
+          final leagueDoc = leaguesDocs
+              .where((element) => element['id'].toString() == leagueId)
+              .single;
+              
           final goals = Score.fromJson(fixtureDoc);
 
           final fixture = Fixture.fromFirestore(
             json: fixtureDoc,
-            league: League.fromJson(leagueDoc!),
+            league: League.fromJson(leagueDoc),
             homeTeam: Team.fromJson(fixtureDoc['homeTeam']),
             awayTeam: Team.fromJson(fixtureDoc['awayTeam']),
             goals: goals,
