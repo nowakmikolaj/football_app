@@ -19,8 +19,8 @@ class UserRank extends StatelessWidget {
     List<String> teamData = [
       '${userRankData.placedBets}',
       '${userRankData.settledBets}',
-      '${userRankData.totalPoints}',
       (userRankData.average.toStringAsFixed(2)),
+      '${userRankData.totalPoints}',
     ];
 
     return Container(

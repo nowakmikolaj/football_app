@@ -12,10 +12,10 @@ class RankingHeaders extends StatelessWidget {
   final String? displayGroupName;
 
   static const List<String> _headers = [
-    "Placed",
+    "Bets",
     "Settled",
-    "Total",
-    "Average",
+    "Avg",
+    "Pts",
   ];
 
   @override
