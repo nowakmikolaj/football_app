@@ -2,16 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/bet.dart';
-import 'package:football_app/screens/fixture_details_screen.dart';
 import 'package:football_app/utils/actions.dart';
-import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
-import 'package:football_app/utils/assets.dart';
 import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/center_indicator.dart';
-import 'package:football_app/widgets/custom_appbar.dart';
-import 'package:football_app/widgets/fixture_header.dart';
-import 'package:football_app/widgets/lists/empty_list.dart';
+import 'package:football_app/widgets/custom_tabbar.dart';
+import 'package:football_app/widgets/lists/bets_list.dart';
+import 'package:football_app/widgets/lists/ranking_list.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,6 +24,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _bets = FirestoreDataSource.instance.getBetsByUser();
   }
 
+  static const List<Widget> _tabs = [
+    CustomTabBar(name: Resources.tabBarBets),
+    CustomTabBar(name: Resources.ranking),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -37,140 +39,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        data: Resources.profileSceenTitle,
-        icon: Icons.account_circle_outlined,
-        backOnTap: false,
-        actions: [
-          getActionSignOut(),
-        ],
-      ),
-      body: Center(
-        child: FutureBuilder(
-            future: _bets,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                final bets = snapshot.data ?? [];
-                return bets.isNotEmpty
-                    ? ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.black.withOpacity(0.3)
-                                  : Colors.grey[400],
-                            ),
-                            padding: const EdgeInsets.only(
-                              top: AppPadding.p20,
-                              bottom: AppPadding.p20,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.grey[600]
-                                          : Colors.grey[400],
-                                  radius: AppSize.s30,
-                                  child: const SizedBox(
-                                    child: Image(
-                                      image: AssetImage(Assets.loginUser),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: AppSize.s15,
-                                ),
-                                Text(
-                                  user.email!,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: FontSize.subTitle,
-                                    fontWeight: FontWeights.semiBold,
-                                  ),
-                                ),
-                                const SizedBox(height: AppSize.s10),
-                                Text(
-                                  "Bets placed: ${bets.length}",
-                                  style: const TextStyle(
-                                      fontSize: FontSize.subTitle),
-                                ),
-                                Text(
-                                  "Total points: ${getPoints(bets)}",
-                                  style: const TextStyle(
-                                      fontSize: FontSize.subTitle),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.black12,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppPadding.p10,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  Resources.betsHistory,
-                                  style: TextStyle(fontSize: FontSize.subTitle),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ...List.generate(
-                            bets.length,
-                            (index) => GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => FixtureDetailsScreen(
-                                    fixture: bets[index].fixture!,
-                                  ),
-                                ),
-                              ),
-                              child: Card(
-                                elevation: AppSize.s3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppSize.s25,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.all(
-                                    AppSize.s5,
-                                  ),
-                                  child: FixtureHeader(
-                                    fixture: bets[index].fixture!,
-                                    bet: [bets[index]],
-                                    isHeader: false,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    : const EmptyList(
-                        assetImage: Assets.noBets,
-                        message: Resources.betsNotFound,
-                      );
-              } else {
-                return const CenterIndicator();
-              }
-            }),
+    return DefaultTabController(
+      length: _tabs.length,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: _tabs,
+            indicatorColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+          ),
+          elevation: 0.0,
+          centerTitle: true,
+          leading: const Icon(Icons.account_box_rounded),
+          title: Text(
+            user.email!,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: FontSize.appBarTitle,
+            ),
+          ),
+          actions: [
+            getThemeModeAction(context),
+            getActionSignOut(),
+          ],
+        ),
+        body: Center(
+          child: FutureBuilder(
+              future: _bets,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  final bets = snapshot.data ?? [];
+                  return TabBarView(
+                    children: [
+                      BetsList(bets: bets),
+                      RankingList(bets: bets),
+                    ],
+                  );
+                } else {
+                  return const CenterIndicator();
+                }
+              }),
+        ),
       ),
     );
   }
-
-  int getPoints(List<Bet> bets) => bets
-      .map((e) => e.points ?? 0)
-      .reduce((value, element) => value + element);
 }

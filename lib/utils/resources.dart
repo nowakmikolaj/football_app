@@ -71,6 +71,11 @@ class Resources {
   static const placedBet = "Your bet:\t";
 
   static const profileSceenTitle = "My account";
+
+  static const tabBarBets = "My bets";
+  static const ranking = "Ranking";
+  static const rankingHeadersUser = "User";
+
   static const betsHistory = "History of your bets:";
   static const betsNotFound = "Bets not found";
 
