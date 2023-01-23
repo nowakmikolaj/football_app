@@ -4,6 +4,7 @@ import 'package:football_app/models/abstract/searchable_tile_element.dart';
 import 'package:football_app/models/country.dart';
 import 'package:football_app/screens/league_details_screen.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class League extends SearchableFavTileElement implements Comparable<League> {
   int leagueId;
@@ -80,10 +81,12 @@ class League extends SearchableFavTileElement implements Comparable<League> {
   @override
   List<Widget> buildElements() {
     return [
-      Image(
+      FadeInImage.memoryNetwork(
+        placeholder: kTransparentImage,
+        image: logo,
         width: AppSize.s32,
         height: AppSize.s32,
-        image: NetworkImage(logo),
+        fadeInDuration: const Duration(milliseconds: 400),
       ),
       Expanded(
         child: Padding(

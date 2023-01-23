@@ -58,8 +58,7 @@ class Resources {
   static const emailSent = "Email sent";
   static const emailCannotBeSent = "Email has already been sent";
 
-  static const noFavouritesLeaguesMessage =
-      "When you add leagues to favourites, they will appear here.";
+  static const noFavouritesLeaguesMessage = "No favourite leagues yet";
 
   static const betValidationError = "Fields cannot be empty";
   static const betDialogButtonCancel = "Cancel";
@@ -77,7 +76,7 @@ class Resources {
   static const rankingHeadersUser = "User";
 
   static const betsHistory = "History of your bets:";
-  static const betsNotFound = "Bets not found";
+  static const betsNotFound = "No bets yet";
 
   static const searchFieldLabel = "Search for countries and leagues";
   static const searchStart = "Start typing";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_app/models/team.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class TeamInfo extends StatelessWidget {
   const TeamInfo({
@@ -15,11 +16,13 @@ class TeamInfo extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          Image(
+          FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
             fit: BoxFit.cover,
-            height: AppSize.s35,
+            image: team.logo,
             width: AppSize.s35,
-            image: NetworkImage(team.logo),
+            height: AppSize.s35,
+            fadeInDuration: const Duration(milliseconds: 400),
           ),
           const SizedBox(height: AppSize.s10),
           Text(

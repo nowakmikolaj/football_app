@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/team_rank_data.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class TeamRank extends StatelessWidget {
   final TeamRankData teamRankData;
@@ -36,10 +37,12 @@ class TeamRank extends StatelessWidget {
                 style: const TextStyle(fontSize: FontSize.bodyText),
               ),
             ),
-            Image(
+            FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: teamRankData.team.logo,
               width: AppSize.s20,
               height: AppSize.s20,
-              image: NetworkImage(teamRankData.team.logo),
+              fadeInDuration: const Duration(milliseconds: 400),
             ),
             const SizedBox(
               width: AppSize.s10,
