@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football_app/datasources/firestore_data_source.dart';
 import 'package:football_app/models/country.dart';
@@ -34,7 +35,7 @@ class _CountriesScreenState extends State<CountriesScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         data: Resources.countriesScreenTitle,
-        icon: Icons.map_outlined,
+        icon: CupertinoIcons.flag,
         backOnTap: false,
         actions: [
           getActionSearchByName(context),

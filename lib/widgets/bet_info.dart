@@ -23,7 +23,7 @@ class BetInfo extends StatelessWidget {
       children: [
         const SizedBox(height: AppSize.s20),
         Container(
-          width: AppSize.s150,
+          width: AppSize.s180,
           padding: const EdgeInsets.symmetric(
             horizontal: AppPadding.p15,
             vertical: AppPadding.p2,

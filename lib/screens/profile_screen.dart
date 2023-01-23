@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           elevation: 0.0,
           centerTitle: true,
-          leading: const Icon(Icons.account_box_rounded),
+          leading: const Icon(Icons.account_circle_rounded),
           title: Text(
             user.email!,
             style: const TextStyle(

@@ -279,7 +279,7 @@ class FirestoreDataSource {
           final leagueDoc = leaguesDocs
               .where((element) => element['id'].toString() == leagueId)
               .single;
-              
+
           final goals = Score.fromJson(fixtureDoc);
 
           final fixture = Fixture.fromFirestore(
@@ -306,9 +306,11 @@ class FirestoreDataSource {
         }
       }
 
+      List<Bet> betsToMigrate = [];
       for (final bet in betsToSettle) {
         if (!bet.settle()) {
           betsToSettleWithFixtureUpdate.add(bet);
+          betsToMigrate.add(bet);
         }
       }
 
@@ -335,12 +337,12 @@ class FirestoreDataSource {
           betRef.fixture = fixture;
           if (fixture.isFinished()) {
             betRef.settle();
+            betsToMigrate.add(betRef);
           }
         }
-
-        migrateBets(bets);
       }
 
+      migrateBets(betsToMigrate);
       bets.sort(((a, b) => a.compareTo(b)));
 
       return bets;
@@ -355,8 +357,8 @@ class FirestoreDataSource {
 
     try {
       for (var bet in bets) {
-        final docRef = betsCollection.doc(
-            "${FirebaseAuth.instance.currentUser!.email}-${bet.fixture!.fixtureId}");
+        final docRef =
+            betsCollection.doc("${bet.userId}-${bet.fixture!.fixtureId}");
         batch.update(docRef, {"points": bet.points});
       }
       batch.commit();
