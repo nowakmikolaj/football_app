@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:football_app/firebase_options.dart';
 import 'my_app.dart';
 
 void main() async {
@@ -19,6 +20,10 @@ void main() async {
     );
   } else if (Platform.isAndroid) {
     await Firebase.initializeApp();
+  } else if (Platform.isIOS) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   runApp(const MyApp());
