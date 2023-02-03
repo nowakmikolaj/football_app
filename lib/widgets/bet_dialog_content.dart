@@ -75,6 +75,7 @@ class _BetDialogContentState extends State<BetDialogContent> {
                     context,
                     () => Navigator.pop(context),
                     Resources.betDialogButtonCancel,
+                    Colors.grey.shade600,
                   ),
                   const SizedBox(width: AppSize.s5),
                   getButton(
@@ -91,6 +92,7 @@ class _BetDialogContentState extends State<BetDialogContent> {
                       );
                     },
                     Resources.betDialogButtonConfirm,
+                    Colors.green[800]!,
                   ),
                 ],
               ),
@@ -105,10 +107,11 @@ class _BetDialogContentState extends State<BetDialogContent> {
     BuildContext context,
     Function()? onPressed,
     String text,
+    Color bckColor,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade700,
+        backgroundColor: bckColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

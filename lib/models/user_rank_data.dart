@@ -16,7 +16,7 @@ class UserRankData implements Comparable<UserRankData> {
     totalPoints = bets
         .map((e) => e.points ?? 0)
         .reduce((value, element) => value + element);
-    average = totalPoints / settledBets;
+    average = settledBets == 0 ? 0 : totalPoints / settledBets;
   }
 
   @override

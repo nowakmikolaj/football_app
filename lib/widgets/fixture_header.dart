@@ -7,6 +7,7 @@ import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/score.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
+import 'package:football_app/utils/resources.dart';
 import 'package:football_app/widgets/bet_dialog_content.dart';
 import 'package:football_app/widgets/bet_info.dart';
 
@@ -73,7 +74,9 @@ class _FixtureHeaderState extends State<FixtureHeader> {
           ),
           widget.bet.isEmpty && widget.fixture.canPlaceBet()
               ? getBetButton()
-              : widget.bet.isNotEmpty
+              : widget.bet.isNotEmpty &&
+                      widget.bet.first.userId ==
+                          FirebaseAuth.instance.currentUser!.email
                   ? BetInfo(
                       bet: widget.bet.first,
                       fixture: widget.fixture,
@@ -99,7 +102,7 @@ class _FixtureHeaderState extends State<FixtureHeader> {
             ),
           ),
           onPressed: showBetDialog,
-          child: const Text("Place a bet"),
+          child: const Text(Resources.placeBet),
         ),
       ],
     );

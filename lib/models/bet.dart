@@ -64,4 +64,13 @@ class Bet implements Comparable<Bet> {
     }
     return other.fixture!.date.compareTo(fixture!.date);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Bet && hashCode == other.hashCode;
+  }
+  
+  @override
+  int get hashCode => fixture!.fixtureId;
+  
 }

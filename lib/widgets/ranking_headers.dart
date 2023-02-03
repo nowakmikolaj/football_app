@@ -71,7 +71,7 @@ class RankingHeaders extends StatelessWidget {
                   ...List.generate(
                     _headers.length,
                     (index) => SizedBox(
-                      width: AppSize.s46,
+                      width: AppSize.s50,
                       child: Text(
                         _headers[index],
                         textAlign: TextAlign.center,

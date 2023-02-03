@@ -13,7 +13,7 @@ import 'package:football_app/widgets/team_info.dart';
 
 class Fixture extends TileElement implements Comparable<Fixture> {
   static const betSettlingTime = 2;
-  
+
   int fixtureId;
   String? referee;
   DateTime date;
@@ -256,4 +256,12 @@ class Fixture extends TileElement implements Comparable<Fixture> {
   Widget nextScreen() {
     return FixtureDetailsScreen(fixture: this);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Fixture && hashCode == other.hashCode;
+  }
+
+  @override
+  int get hashCode => fixtureId;
 }

@@ -62,7 +62,7 @@ class UserRank extends StatelessWidget {
                 ...List.generate(
                   teamData.length,
                   (index) => SizedBox(
-                    width: AppSize.s46,
+                    width: AppSize.s50,
                     child: Text(
                       teamData[index],
                       textAlign: TextAlign.center,

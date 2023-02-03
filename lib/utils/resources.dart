@@ -68,15 +68,18 @@ class Resources {
 
   static const earnedPoints = "Points earned:\t";
   static const placedBet = "Your bet:\t";
+  static const placeBet = "Place a bet";
 
   static const profileSceenTitle = "My account";
 
   static const tabBarBets = "My bets";
   static const ranking = "Ranking";
   static const rankingHeadersUser = "User";
+  static const challenge = "Bet challenge";
 
   static const betsHistory = "History of your bets:";
   static const betsNotFound = "No bets yet";
+  static const betsChallengeHeader = "Other players have challenged you";
 
   static const searchFieldLabel = "Search for countries and leagues";
   static const searchStart = "Start typing";

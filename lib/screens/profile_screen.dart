@@ -27,6 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   static const List<Widget> _tabs = [
     CustomTabBar(name: Resources.tabBarBets),
     CustomTabBar(name: Resources.ranking),
+    CustomTabBar(name: Resources.challenge),
   ];
 
   @override
@@ -71,16 +72,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   final bets = snapshot.data ?? [];
+
+                  final userBets = bets
+                      .where((element) =>
+                          element.userId!.toLowerCase() ==
+                          FirebaseAuth.instance.currentUser!.email!
+                              .toLowerCase())
+                      .toList();
+
+                  var challengeBets = [...bets];
+
+                  final userFixtures = userBets.map((e) => e.fixture).toList();
+
+                  challengeBets.removeWhere(
+                      (element) => userFixtures.contains(element.fixture));
+                  challengeBets.removeWhere(
+                    (element) => !element.fixture!.isUpcoming(),
+                  );
+                  challengeBets = challengeBets.toSet().toList();
+
                   return TabBarView(
                     children: [
                       BetsList(
-                          bets: bets
-                              .where((element) =>
-                                  element.userId!.toLowerCase() ==
-                                  FirebaseAuth.instance.currentUser!.email!
-                                      .toLowerCase())
-                              .toList()),
+                        headerText: Resources.betsHistory,
+                        bets: userBets,
+                      ),
                       RankingList(bets: bets),
+                      BetsList(
+                        headerText: Resources.betsChallengeHeader,
+                        bets: challengeBets,
+                      ),
                     ],
                   );
                 } else {
