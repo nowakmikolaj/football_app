@@ -17,13 +17,8 @@ class Score {
   }
 
   int compareTo(Score other) {
-    if (home! == other.home!) {
-      if (away! == other.away!) {
-        return BetResult.correct;
-      }
-      return BetResult.oneTeamGoalsCorrect;
-    } else if (away! == other.away!) {
-      return BetResult.oneTeamGoalsCorrect;
+    if (home! == other.home! && away! == other.away!) {
+      return BetResult.correct;
     } else if (home! - away! == other.home! - other.away!) {
       return BetResult.goalDifferenceCorrect;
     } else if (home! > away! && other.home! > other.away! ||
@@ -32,6 +27,11 @@ class Score {
     } else if (home! + away! + other.home! + other.away! == 0 ||
         home! > 0 && away! > 0 && other.home! > 0 && other.away! > 0) {
       return BetResult.bothTeamToScoreCorrect;
+    } else if (home! == other.home! && away! != other.away! ||
+        away! == other.away! && home! != other.home!) {
+      return BetResult.oneTeamGoalsCorrect;
+    } else if (away! == other.away!) {
+      return BetResult.oneTeamGoalsCorrect;
     }
 
     return BetResult.incorrect;
@@ -40,9 +40,9 @@ class Score {
 
 class BetResult {
   static const correct = 5;
-  static const goalDifferenceCorrect = 4;
-  static const winnerCorrect = 3;
-  static const oneTeamGoalsCorrect = 2;
+  static const goalDifferenceCorrect = 3;
+  static const winnerCorrect = 2;
   static const bothTeamToScoreCorrect = 1;
-  static const incorrect = -1;
+  static const oneTeamGoalsCorrect = 0;
+  static const incorrect = -2;
 }

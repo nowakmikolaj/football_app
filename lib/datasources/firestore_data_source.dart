@@ -310,6 +310,8 @@ class FirestoreDataSource {
       for (final bet in betsToSettle) {
         if (!bet.settle()) {
           betsToSettleWithFixtureUpdate.add(bet);
+
+          // TODO: tutaj migracja idzie nie tak
           betsToMigrate.add(bet);
         }
       }

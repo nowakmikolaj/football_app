@@ -59,9 +59,9 @@ class Bet implements Comparable<Bet> {
 
   @override
   int compareTo(Bet other) {
-    if (timestamp == null || other.timestamp == null) {
-      return -1;
+    if (fixture == null || other.fixture == null) {
+      return other.timestamp!.compareTo(timestamp!);
     }
-    return other.timestamp!.compareTo(timestamp!);
+    return other.fixture!.date.compareTo(fixture!.date);
   }
 }
