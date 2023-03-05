@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:football_app/models/bet.dart';
 import 'package:football_app/models/fixture.dart';
 import 'package:football_app/models/score.dart';
+import 'package:football_app/screens/league_details_screen.dart';
 import 'package:football_app/utils/app_padding.dart';
 import 'package:football_app/utils/app_size.dart';
 import 'package:football_app/utils/resources.dart';
@@ -46,23 +47,30 @@ class _FixtureHeaderState extends State<FixtureHeader> {
           : const EdgeInsets.all(0.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                fit: BoxFit.cover,
-                width: AppSize.s20,
-                height: AppSize.s20,
-                image: NetworkImage(widget.fixture.league.logo),
-              ),
-              const SizedBox(
-                width: AppSize.s5,
-              ),
-              Text(
-                widget.fixture.league.name,
-                textAlign: TextAlign.center,
-              ),
-            ],
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (_) =>
+                      LeagueDetailsScreen(league: widget.fixture.league)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  fit: BoxFit.cover,
+                  width: AppSize.s20,
+                  height: AppSize.s20,
+                  image: NetworkImage(widget.fixture.league.logo),
+                ),
+                const SizedBox(
+                  width: AppSize.s5,
+                ),
+                Text(
+                  widget.fixture.league.name,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
           const SizedBox(
             height: AppSize.s10,
